@@ -204,7 +204,6 @@
         success:^(NSString *userId) {
           [AFHttpTool loginWithPhone:userName
               password:password
-              region:@"86"
               success:^(id response) {
                 if ([response[@"code"] intValue] == 200) {
                   [RCDHTTPTOOL
@@ -240,7 +239,6 @@
         tokenIncorrect:^{
           [AFHttpTool loginWithPhone:userName
                             password:password
-                              region:@"86"
                              success:^(id response) {
                                if ([response[@"code"] intValue] == 200) {
                                  NSString *newToken = response[@"result"][@"token"];

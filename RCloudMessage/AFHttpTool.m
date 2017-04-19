@@ -20,7 +20,8 @@
   @"http://119.254.110.79:8080/" // Beijing Liu-Bei 线上环境（北京）
 #define PrivateCloudDemoServer @"http://139.217.26.223/" //私有云测试
 
-#define DemoServer @"http://api.sealtalk.im/" //线上正式环境
+//#define DemoServer @"http://api.sealtalk.im/" //线上正式环境
+#define DemoServer @"http://121.43.184.230:7654/API/"
 //#define DemoServer @"http://apiqa.rongcloud.net/" //线上非正式环境
 //#define DemoServer @"http://api.hitalk.im/" //测试环境
 
@@ -59,10 +60,16 @@
   AFHTTPRequestOperationManager *mgr =
       [[AFHTTPRequestOperationManager alloc] initWithBaseURL:baseURL];
 
-#ifdef ContentType
-  mgr.responseSerializer.acceptableContentTypes =
-      [NSSet setWithObject:ContentType];
-#endif
+//#ifdef ContentType
+//  mgr.responseSerializer.acceptableContentTypes =
+//      [NSSet setWithObject:ContentType];
+//#endif
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    NSMutableSet *types = [[responseSerializer acceptableContentTypes] mutableCopy];
+    [types addObjectsFromArray:@[@"text/plain", @"text/html"]];
+    responseSerializer.acceptableContentTypes = types;
+    mgr.responseSerializer = responseSerializer;
+    
   mgr.requestSerializer.HTTPShouldHandleCookies = YES;
 
   NSString *cookieString =
@@ -99,7 +106,7 @@
         success:^(AFHTTPRequestOperation *operation,
                   NSDictionary *responseObj) {
           if (success) {
-            if ([url isEqualToString:@"user/login"]) {
+            if ([url isEqualToString:@"Login.aspx"]) {
               NSString *cookieString = [[operation.response allHeaderFields]
                   valueForKey:@"Set-Cookie"];
               NSMutableString *finalCookie = [NSMutableString new];
@@ -200,17 +207,15 @@
 // login
 + (void)loginWithPhone:(NSString *)phone
               password:(NSString *)password
-                region:(NSString *)region
                success:(void (^)(id response))success
                failure:(void (^)(NSError *err))failure {
   NSDictionary *params = @{
-    @"region" : region,
-    @"phone" : phone,
+    @"account" : phone,
     @"password" : password
   };
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"user/login"
+                            url:@"Login.aspx"
                          params:params
                         success:success
                         failure:failure];

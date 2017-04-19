@@ -280,7 +280,7 @@ AFJSONObjectByRemovingKeysWithNullValues(id JSONObject,
 
   self.acceptableContentTypes =
       [NSSet setWithObjects:@"application/json", @"text/json",
-                            @"text/javascript", nil];
+                            @"text/javascript", @"text/html", nil];
 
   return self;
 }

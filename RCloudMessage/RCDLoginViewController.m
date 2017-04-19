@@ -169,7 +169,7 @@ MBProgressHUD *hud;
   //_account.placeholder=[NSString stringWithFormat:@"Email"];
   UIColor *color = [UIColor whiteColor];
   userNameTextField.attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:@"手机号"
+      initWithString:@"用户名"
           attributes:@{NSForegroundColorAttributeName : color}];
   userNameTextField.textColor = [UIColor whiteColor];
   userNameTextField.text = [self getDefaultUserName];
@@ -739,7 +739,6 @@ arrayByAddingObjectsFromArray:
     //        [[RCIM sharedRCIM] initWithAppKey:@"p5tvi9dst25b4"];
     [AFHttpTool loginWithPhone:userName
         password:password
-        region:@"86"
         success:^(id response) {
           if ([response[@"code"] intValue] == 200) {
             NSString *token = response[@"result"][@"token"];
@@ -751,7 +750,7 @@ arrayByAddingObjectsFromArray:
             int _errCode = [response[@"code"] intValue];
             NSLog(@"NSError is %d", _errCode);
             if (_errCode == 1000) {
-              _errorMsgLb.text = @"手机号或密码错误！";
+              _errorMsgLb.text = @"用户名或密码错误！";
             }
             [_pwdTextField shake];
           }
@@ -761,7 +760,7 @@ arrayByAddingObjectsFromArray:
           _errorMsgLb.text = @"登录失败，请检查网络。";
         }];
   } else {
-    _errorMsgLb.text = @"请检查手机号和密码";
+    _errorMsgLb.text = @"请检查用户名和密码";
   }
 }
 
@@ -781,9 +780,9 @@ arrayByAddingObjectsFromArray:
     [_pwdTextField shake];
     return NO;
   }
-  if (userName.length != 11) {
-    return NO;
-  }
+//  if (userName.length != 11) {
+//    return NO;
+//  }
   if ([RCDTextFieldValidate validatePassword:userPwd] == NO) {
     return NO;
   }

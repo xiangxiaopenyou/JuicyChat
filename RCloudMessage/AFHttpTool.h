@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 // login
 + (void)loginWithPhone:(NSString *)phone
               password:(NSString *)password
-                region:(NSString *)region
                success:(void (^)(id response))success
                failure:(void (^)(NSError *err))failure;
 
