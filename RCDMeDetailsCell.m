@@ -25,7 +25,7 @@
   self = [super init];
   if (self) {
     NSString *portraitUrl = [DEFAULTS stringForKey:@"userPortraitUri"];
-    if ([portraitUrl isEqualToString:@""]) {
+    if (!portraitUrl || [portraitUrl isEqualToString:@""]) {
       portraitUrl = [RCDUtilities defaultUserPortrait:[RCIM sharedRCIM].currentUserInfo];
     }
     self = [[RCDMeDetailsCell alloc]

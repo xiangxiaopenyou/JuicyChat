@@ -1746,7 +1746,7 @@
 					};
 					E4D40F271A031F460045097C = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 9CVMN4UZK4;
+						DevelopmentTeam = 5S3XMSZAL3;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
@@ -2230,7 +2230,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				DEVELOPMENT_TEAM = 5S3XMSZAL3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/framework",
@@ -2257,7 +2257,7 @@
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.GuoGuo.JuicyChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoguo.JuicyChat;
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = $APP_PROFILE;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2376,7 +2376,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				DEVELOPMENT_TEAM = 5S3XMSZAL3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/framework",
@@ -2403,7 +2403,7 @@
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.GuoGuo.JuicyChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoguo.JuicyChat;
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = $APP_PROFILE;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2681,7 +2681,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				DEVELOPMENT_TEAM = 5S3XMSZAL3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/framework",
@@ -2707,7 +2707,7 @@
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.GuoGuo.JuicyChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoguo.JuicyChat;
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -2722,7 +2722,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 9CVMN4UZK4;
+				DEVELOPMENT_TEAM = 5S3XMSZAL3;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/framework",
@@ -2748,7 +2748,7 @@
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.GuoGuo.JuicyChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.guoguo.JuicyChat;
 				PRODUCT_NAME = SealTalk;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";

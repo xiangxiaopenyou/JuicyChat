@@ -29,7 +29,7 @@
 #import "RCDSettingUserDefaults.h"
 #import "RCDSettingServerUrlViewController.h"
 
-#define RONGCLOUD_IM_APPKEY @"n19jmcy59f1q9" //online key
+#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //online key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
 //#define RONGCLOUD_IM_APPKEY @"e0x9wycfx7flq" // offline key
 

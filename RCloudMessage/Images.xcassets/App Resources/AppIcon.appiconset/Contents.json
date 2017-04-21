@@ -42,32 +42,6 @@
       "idiom" : "iphone",
       "filename" : "app_180x180.png",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "car",
-      "size" : "120x120",
-      "scale" : "1x"
-    },
-    {
-      "size" : "29x29",
-      "idiom" : "iphone",
-      "filename" : "app_29x29.png",
-      "unassigned" : true,
-      "scale" : "1x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "app_57x57.png",
-      "unassigned" : true,
-      "scale" : "1x"
-    },
-    {
-      "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "app_114x114.png",
-      "unassigned" : true,
-      "scale" : "2x"
     }
   ],
   "info" : {

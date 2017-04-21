@@ -64,6 +64,7 @@
 //  mgr.responseSerializer.acceptableContentTypes =
 //      [NSSet setWithObject:ContentType];
 //#endif
+    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     NSMutableSet *types = [[responseSerializer acceptableContentTypes] mutableCopy];
     [types addObjectsFromArray:@[@"text/plain", @"text/html"]];

@@ -141,15 +141,19 @@ NSMutableDictionary *userInputStatus;
   [self notifyUpdateUnreadMessageCount];
 
   //加号区域增加发送文件功能，Kit中已经默认实现了该功能，但是为了SDK向后兼容性，目前SDK默认不开启该入口，可以参考以下代码在加号区域中增加发送文件功能。
-  UIImage *imageFile = [RCKitUtility imageNamed:@"actionbar_file_icon"
-                                       ofBundle:@"RongCloud.bundle"];
-
-  
-  [self.pluginBoardView insertItemWithImage:imageFile
-                                      title:NSLocalizedStringFromTable(
-                                                @"File", @"RongCloudKit", nil)
-                                    atIndex:3
-                                        tag:PLUGIN_BOARD_ITEM_FILE_TAG];
+//  UIImage *imageFile = [RCKitUtility imageNamed:@"actionbar_file_icon"
+//                                       ofBundle:@"RongCloud.bundle"];
+//
+//  
+//  [self.pluginBoardView insertItemWithImage:imageFile
+//                                      title:NSLocalizedStringFromTable(
+//                                                @"File", @"RongCloudKit", nil)
+//                                    atIndex:3
+//                                        tag:PLUGIN_BOARD_ITEM_FILE_TAG];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
+    
+    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" atIndex:2 tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
 
   //    self.chatSessionInputBarControl.hidden = YES;
   //    CGRect intputTextRect = self.conversationMessageCollectionView.frame;

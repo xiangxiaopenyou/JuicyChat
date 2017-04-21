@@ -77,7 +77,7 @@ MBProgressHUD *hud;
 
   [self.navigationController setNavigationBarHidden:YES animated:YES];
 
-  //    self.view.translatesAutoresizingMaskIntoConstraints = YES;
+      //self.view.translatesAutoresizingMaskIntoConstraints = YES;
   //添加动态图
   self.animatedImagesView = [[RCAnimatedImagesView alloc]
       initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width,
@@ -111,17 +111,17 @@ MBProgressHUD *hud;
   [_headBackground addSubview:registerHeadButton];
 
   //添加图标
-  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
-  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
-      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
-                               40)];
-  [rongLogoSmallImageView setImage:rongLogoSmallImage];
-
-  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
-  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
-  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-  rongLogoSmallImageView.clipsToBounds = YES;
-  [_headBackground addSubview:rongLogoSmallImageView];
+//  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
+//  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
+//      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
+//                               40)];
+//  [rongLogoSmallImageView setImage:rongLogoSmallImage];
+//
+//  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
+//  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
+//  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//  rongLogoSmallImageView.clipsToBounds = YES;
+//  [_headBackground addSubview:rongLogoSmallImageView];
 
   //顶部按钮
   UIButton *forgetPswHeadButton = [[UIButton alloc]
@@ -174,8 +174,8 @@ MBProgressHUD *hud;
   userNameTextField.textColor = [UIColor whiteColor];
   userNameTextField.text = [self getDefaultUserName];
   userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
   userNameTextField.adjustsFontSizeToFitWidth = YES;
-  userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
 
   [_inputBackground addSubview:userNameTextField];
 
@@ -276,7 +276,7 @@ MBProgressHUD *hud;
   UILabel *footerLabel = [[UILabel alloc] init];
   footerLabel.textAlignment = NSTextAlignmentCenter;
   footerLabel.frame = CGRectMake(screenBounds.size.width / 2 - 100, -2, 200, 21);
-  footerLabel.text = @"Powered by RongCloud";
+  footerLabel.text = @"Powered by guoguo";
   [footerLabel setFont:[UIFont systemFontOfSize:12.f]];
   [footerLabel setTextColor:[UIColor colorWithHexString:@"484848" alpha:1.0]];
   [bottomBackground addSubview:footerLabel];
@@ -741,8 +741,8 @@ arrayByAddingObjectsFromArray:
         password:password
         success:^(id response) {
           if ([response[@"code"] intValue] == 200) {
-            NSString *token = response[@"result"][@"token"];
-            NSString *userId = response[@"result"][@"id"];
+            NSString *token = response[@"data"][@"token"];
+            NSString *userId = response[@"data"][@"userId"];
             [self loginRongCloud:userName userId:userId token:token password:password];
           } else {
             //关闭HUD

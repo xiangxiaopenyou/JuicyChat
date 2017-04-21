@@ -60,8 +60,7 @@
   _headBackground = [[UIView alloc]
       initWithFrame:CGRectMake(0, -100, self.view.bounds.size.width, 50)];
   _headBackground.userInteractionEnabled = YES;
-  _headBackground.backgroundColor =
-      [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _headBackground.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_headBackground];
 
   UIButton *registerHeadButton = [[UIButton alloc]
@@ -79,18 +78,18 @@
                forControlEvents:UIControlEventTouchUpInside];
 
   [_headBackground addSubview:registerHeadButton];
-  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
-
-  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
-      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
-                               40)];
-  [rongLogoSmallImageView setImage:rongLogoSmallImage];
-
-  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
-  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
-  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-  rongLogoSmallImageView.clipsToBounds = YES;
-  [_headBackground addSubview:rongLogoSmallImageView];
+//  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
+//
+//  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
+//      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
+//                               40)];
+//  [rongLogoSmallImageView setImage:rongLogoSmallImage];
+//
+//  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
+//  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
+//  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//  rongLogoSmallImageView.clipsToBounds = YES;
+//  [_headBackground addSubview:rongLogoSmallImageView];
   UIButton *forgetPswHeadButton =
       [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 50)];
 
@@ -141,24 +140,24 @@
   //_account.placeholder=[NSString stringWithFormat:@"Email"];
   UIColor *color = [UIColor whiteColor];
   userNameTextField.attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:@"手机号"
+      initWithString:@"手机号或邮箱"
           attributes:@{NSForegroundColorAttributeName : color}];
   userNameTextField.textColor = [UIColor whiteColor];
   self.view.translatesAutoresizingMaskIntoConstraints = YES;
   userNameTextField.translatesAutoresizingMaskIntoConstraints = NO;
   userNameTextField.adjustsFontSizeToFitWidth = YES;
   userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
   [_inputBackground addSubview:userNameTextField];
-  userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
   if (userNameTextField.text.length > 0) {
-    [userNameTextField setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
+    [userNameTextField setFont:[UIFont fontWithName:@"Heiti SC" size:18.0]];
   }
 
   [userNameTextField addTarget:self
                         action:@selector(textFieldDidChange:)
               forControlEvents:UIControlEventEditingChanged];
   UILabel *userNameMsgLb = [[UILabel alloc] initWithFrame:CGRectZero];
-  userNameMsgLb.text = @"手机号码";
+  userNameMsgLb.text = @"手机号或邮箱";
 
   userNameMsgLb.font = [UIFont fontWithName:@"Heiti SC" size:10.0];
   userNameMsgLb.translatesAutoresizingMaskIntoConstraints = NO;
@@ -184,7 +183,7 @@
   verificationCodeField.keyboardType = UIKeyboardTypeNumberPad;
   [_inputBackground addSubview:verificationCodeField];
   if (verificationCodeField.text.length > 0) {
-    [verificationCodeField setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
+    [verificationCodeField setFont:[UIFont fontWithName:@"Heiti SC" size:18.0]];
   }
 
   [verificationCodeField addTarget:self
@@ -275,9 +274,10 @@
   [rePasswordTextField addTarget:self
                           action:@selector(textFieldDidChange:)
                 forControlEvents:UIControlEventEditingChanged];
+    rePasswordTextField.hidden = YES;
   [_inputBackground addSubview:rePasswordTextField];
   if (rePasswordTextField.text.length > 0) {
-    [rePasswordTextField setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
+    [rePasswordTextField setFont:[UIFont fontWithName:@"Heiti SC" size:18.0]];
   }
 
   // UIEdgeInsets buttonEdgeInsets = UIEdgeInsetsMake(0, 7.f, 0, 7.f);
@@ -571,7 +571,7 @@
       arrayByAddingObjectsFromArray:
           [NSLayoutConstraint
               constraintsWithVisualFormat:@"V:|["
-                                          @"rePasswordTextField(50)]-["
+                                          @"rePasswordTextField(20)]-["
                                           @"userNameTextField(60)]-["
                                           @"verificationCodeField(60)]-["
                                           @"passwordTextField(60)]-["
@@ -608,8 +608,7 @@
            object:self.view.window];
   _statusBarView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 20)];
-  _statusBarView.backgroundColor =
-      [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
+    _statusBarView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_statusBarView];
   [self.view setNeedsLayout];
   [self.view setNeedsUpdateConstraints];
@@ -645,7 +644,7 @@
     if (textField.tag == UserTextFieldTag) {
       _PhoneNumber = textField.text;
     }
-    [textField setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
+    [textField setFont:[UIFont fontWithName:@"Heiti SC" size:18.0]];
   }
 }
 
@@ -662,11 +661,11 @@
                          CGRectMake(0.f, -150, self.view.frame.size.width,
                                     self.view.frame.size.height);
                      _headBackground.frame =
-                         CGRectMake(0, 70, self.view.bounds.size.width, 50);
+                         CGRectMake(0, 170, self.view.bounds.size.width, 50);
                      _rongLogo.hidden = YES;
                      _licenseLb.hidden = YES;
                      _statusBarView.frame =
-                         CGRectMake(0.f, 50, self.view.frame.size.width, 20);
+                         CGRectMake(0.f, 150, self.view.frame.size.width, 20);
                    }
                    completion:nil];
 }
@@ -724,44 +723,24 @@
   hud.color = [UIColor colorWithHexString:@"343637" alpha:0.8];
   [hud show:YES];
   _errorMsgLb.text = @"";
-  if (_PhoneNumber.length == 11) {
+  if (_PhoneNumber.length == 11 || [self isValidateEmail:_PhoneNumber]) {
     NSString *phone = [NSString stringWithFormat:@"%@", _PhoneNumber];
-    [AFHttpTool checkPhoneNumberAvailable:@"86"
-        phoneNumber:phone
-        success:^(id response) {
-          if ([response[@"code"] intValue] == 200) {
-            //                                              if ([[NSString
-            //                                              stringWithFormat:@"%@",response[@"message"]]
-            //                                              isEqualToString:@"Phone
-            //                                              number has already
-            //                                              existed."]) {
-            if ([response[@"result"] integerValue] == 0) {
-              [hud hide:YES];
-              _errorMsgLb.text = @"手机号已被注册";
-              return;
-            } else {
-              [AFHttpTool getVerificationCode:@"86"
-                  phoneNumber:phone
-                  success:^(id response) {
-                    [hud hide:YES];
-                    _getVerificationCodeBt.hidden = YES;
-                    _countDownLable.hidden = NO;
-                    [self CountDown:60];
-                    NSLog(@"Get verification code successfully");
+      [AFHttpTool getVerificationCode:@"86"
+          phoneNumber:phone
+          success:^(id response) {
+            [hud hide:YES];
+            _getVerificationCodeBt.hidden = YES;
+            _countDownLable.hidden = NO;
+            [self CountDown:60];
+            NSLog(@"Get verification code successfully");
 
-                  }
-                  failure:^(NSError *err) {
-                    NSLog(@"%@", err);
-                  }];
-            }
           }
-
-        }
-        failure:^(NSError *err){
-        }];
+          failure:^(NSError *err) {
+            NSLog(@"%@", err);
+          }];
   } else {
     [hud hide:YES];
-    _errorMsgLb.text = @"手机号输入有误";
+    _errorMsgLb.text = @"手机号或邮箱输入有误";
   }
 }
 
@@ -947,5 +926,10 @@ preparation before navigation
     // Pass the selected object to the new view controller.
 }
 */
+- (BOOL)isValidateEmail:(NSString *)email{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
 
 @end

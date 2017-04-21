@@ -76,18 +76,18 @@
                forControlEvents:UIControlEventTouchUpInside];
 
   [_headBackground addSubview:registerHeadButton];
-  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
-
-  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
-      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
-                               40)];
-  [rongLogoSmallImageView setImage:rongLogoSmallImage];
-
-  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
-  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
-  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-  rongLogoSmallImageView.clipsToBounds = YES;
-  [_headBackground addSubview:rongLogoSmallImageView];
+//  UIImage *rongLogoSmallImage = [UIImage imageNamed:@"title_logo_small"];
+//
+//  UIImageView *rongLogoSmallImageView = [[UIImageView alloc]
+//      initWithFrame:CGRectMake(self.view.bounds.size.width / 2 - 60, 5, 100,
+//                               40)];
+//  [rongLogoSmallImageView setImage:rongLogoSmallImage];
+//
+//  [rongLogoSmallImageView setContentScaleFactor:[[UIScreen mainScreen] scale]];
+//  rongLogoSmallImageView.contentMode = UIViewContentModeScaleAspectFit;
+//  rongLogoSmallImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//  rongLogoSmallImageView.clipsToBounds = YES;
+//  [_headBackground addSubview:rongLogoSmallImageView];
   UIButton *forgetPswHeadButton =
       [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 50)];
 
@@ -138,13 +138,13 @@
   //_account.placeholder=[NSString stringWithFormat:@"Email"];
   UIColor *color = [UIColor whiteColor];
   userNameTextField.attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:@"手机号"
+      initWithString:@"手机号或邮箱"
           attributes:@{NSForegroundColorAttributeName : color}];
   userNameTextField.textColor = [UIColor whiteColor];
   self.view.translatesAutoresizingMaskIntoConstraints = YES;
   userNameTextField.translatesAutoresizingMaskIntoConstraints = NO;
   userNameTextField.delegate = self;
-  userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+  userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
   [_inputBackground addSubview:userNameTextField];
   if (userNameTextField.text.length > 0) {
     [userNameTextField setFont:[UIFont fontWithName:@"Heiti SC" size:25.0]];
@@ -630,7 +630,7 @@
   _errorMsgLb.text = @"";
   NSString *phoneNumber =
       [(UITextField *)[self.view viewWithTag:UserTextFieldTag] text];
-  if (phoneNumber.length == 11) {
+  if (phoneNumber.length == 11 || [self isValidateEmail:phoneNumber]) {
     [AFHttpTool checkPhoneNumberAvailable:@"86"
         phoneNumber:phoneNumber
         success:^(id response) {
@@ -658,7 +658,7 @@
 
             } else {
               [hud hide:YES];
-              _errorMsgLb.text = @"手机号未注册";
+              _errorMsgLb.text = @"未注册";
             }
           }
         }
@@ -667,7 +667,7 @@
 
   } else {
     [hud hide:YES];
-    _errorMsgLb.text = @"手机号输入有误";
+    _errorMsgLb.text = @"手机号或邮箱输入有误";
   }
 }
 - (void)registerEvent {
@@ -824,5 +824,10 @@
  // Pass the selected object to the new view controller.
  }
  */
+- (BOOL)isValidateEmail:(NSString *)email{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:email];
+}
 
 @end
