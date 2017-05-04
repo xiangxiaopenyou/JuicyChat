@@ -238,7 +238,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
   self.resultArray = nil;
-  NSInteger type;
+  NSInteger type = 0;
   if ([self.type isEqualToString:@"联系人"]) {
     type = RCDSearchFriend;
   }else if([self.type isEqualToString:@"群组"]){

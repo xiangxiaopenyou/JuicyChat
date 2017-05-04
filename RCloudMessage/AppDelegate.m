@@ -28,6 +28,7 @@
 #import "RCDMainTabBarViewController.h"
 #import "RCDSettingUserDefaults.h"
 #import "RCDSettingServerUrlViewController.h"
+#import "FetchInformationsRequest.h"
 
 #define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //online key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
@@ -839,29 +840,25 @@
     [DEFAULTS synchronize];
   }];
   
-  [AFHttpTool getUserInfo:userId
-                  success:^(id response) {
-                    if ([response[@"code"] intValue] == 200) {
-                      NSDictionary *result = response[@"result"];
-                      NSString *nickname = result[@"nickname"];
-                      NSString *portraitUri = result[@"portraitUri"];
-                      RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId
-                                                                       name:nickname
-                                                                   portrait:portraitUri];
-                      if (!user.portraitUri || user.portraitUri.length <= 0) {
-                        user.portraitUri = [RCDUtilities defaultUserPortrait:user];
-                      }
-                      [[RCDataBaseManager shareInstance] insertUserToDB:user];
-                      [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
-                      [RCIM sharedRCIM].currentUserInfo = user;
-                      [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
-                      [DEFAULTS setObject:user.name forKey:@"userNickName"];
-                      [DEFAULTS synchronize];
-                    }
-                  }
-                  failure:^(NSError *err){
-                    
-                  }];
+    [[FetchInformationsRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            NSDictionary *result = (NSDictionary *)object;
+            NSString *nickname = result[@"nickname"];
+            NSString *portraitUri = result[@"headico"];
+            RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId name:nickname portrait:portraitUri];
+            if (!user.portraitUri || user.portraitUri.length <= 0) {
+                user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+            }
+            [[RCDataBaseManager shareInstance] insertUserToDB:user];
+            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+            [RCIM sharedRCIM].currentUserInfo = user;
+            [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+            [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            [DEFAULTS synchronize];
+        }
+    }];
   //同步群组
   [RCDDataSource syncGroups];
   [RCDDataSource syncFriendList:userId

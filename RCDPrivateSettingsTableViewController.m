@@ -101,7 +101,7 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-  NSInteger rows;
+  NSInteger rows = 0;
   switch (section) {
   case 0:
     rows = 1;
@@ -130,7 +130,7 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 - (CGFloat)tableView:(UITableView *)tableView
     heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  CGFloat heigh;
+  CGFloat heigh = 0;
   switch (indexPath.section) {
   case 0:
     heigh = 86.f;

@@ -364,7 +364,7 @@ NSMutableDictionary *userInputStatus;
 - (void)rightBarButtonItemClicked:(id)sender {
   if (self.conversationType == ConversationType_PRIVATE) {
     RCDUserInfo *friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.targetId];
-    if (![friendInfo.status isEqualToString:@"20"]) {
+    if (![friendInfo.status isEqualToString:@"1"]) {
       RCDAddFriendViewController *vc = [[RCDAddFriendViewController alloc] init];
       vc.targetUserInfo = friendInfo;
       [self.navigationController pushViewController:vc animated:YES];
@@ -941,12 +941,12 @@ NSMutableDictionary *userInputStatus;
     __weak typeof(self) weakSelf = self;
     [RCDHTTPTOOL getGroupByID:self.targetId
             successCompletion:^(RCDGroupInfo *group) {
-              RCGroup *Group =
-                  [[RCGroup alloc] initWithGroupId:weakSelf.targetId
+                NSString *targetIdString = [NSString stringWithFormat:@"%@", weakSelf.targetId];
+              RCGroup *Group = [[RCGroup alloc] initWithGroupId:targetIdString
                                          groupName:group.groupName
                                        portraitUri:group.portraitUri];
-              [[RCIM sharedRCIM] refreshGroupInfoCache:Group
-                                           withGroupId:weakSelf.targetId];
+                
+            [[RCIM sharedRCIM] refreshGroupInfoCache:Group withGroupId:targetIdString];
               dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf refreshTitle];
               });

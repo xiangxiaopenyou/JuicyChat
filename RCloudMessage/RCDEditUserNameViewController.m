@@ -17,6 +17,7 @@
 #import "UIColor+RCColor.h"
 #import <RongIMLib/RongIMLib.h>
 #import "RCDUIBarButtonItem.h"
+#import "ModifyInformationsRequest.h"
 
 @interface RCDEditUserNameViewController ()
 
@@ -59,9 +60,9 @@
   __weak __typeof(&*self) weakSelf = self;
   NSString *errorMsg = @"";
   if (self.userName.text.length == 0) {
-    errorMsg = @"用户名不能为空!";
-  } else if (self.userName.text.length > 32) {
-    errorMsg = @"用户名不能大于32位!";
+    errorMsg = @"昵称不能为空!";
+  } else if (self.userName.text.length > 16) {
+    errorMsg = @"昵称不能大于16位!";
   }
   if ([errorMsg length] > 0) {
     [hud hide:YES];
@@ -72,32 +73,53 @@
                                           otherButtonTitles:nil, nil];
     [alert show];
   } else {
-    NSString *userId = [DEFAULTS objectForKey:@"userId"];
-    [AFHttpTool modifyNickname:userId
-        nickname:weakSelf.userName.text
-        success:^(id response) {
-          if ([response[@"code"] intValue] == 200) {
-            RCUserInfo *userInfo =
-                [RCIMClient sharedRCIMClient].currentUserInfo;
-            userInfo.name = weakSelf.userName.text;
-            [[RCDataBaseManager shareInstance] insertUserToDB:userInfo];
-            [[RCIM sharedRCIM] refreshUserInfoCache:userInfo
-                                         withUserId:userInfo.userId];
-            [DEFAULTS setObject:weakSelf.userName.text forKey:@"userNickName"];
-            [DEFAULTS synchronize];
-            [weakSelf.navigationController popViewControllerAnimated:YES];
+      [[ModifyInformationsRequest new] request:^BOOL(ModifyInformationsRequest *request) {
+          request.nickname = self.userName.text;
+          return YES;
+      } result:^(id object, NSString *msg) {
+          if (object) {
+              RCUserInfo *userInfo = [RCIMClient sharedRCIMClient].currentUserInfo;
+              userInfo.name = weakSelf.userName.text;
+              [[RCDataBaseManager shareInstance] insertUserToDB:userInfo];
+              [[RCIM sharedRCIM] refreshUserInfoCache:userInfo
+                                           withUserId:userInfo.userId];
+              [DEFAULTS setObject:weakSelf.userName.text forKey:@"userNickName"];
+              [DEFAULTS synchronize];
+              [hud hide:YES];
+              [weakSelf.navigationController popViewControllerAnimated:YES];
+          } else {
+            [hud hide:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"修改失败，请检查输入的昵称" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
           }
-        }
-        failure:^(NSError *err) {
-          [hud hide:YES];
-          UIAlertView *alert = [[UIAlertView alloc]
-                  initWithTitle:nil
-                        message:@"修改失败，请检查输入的名称"
-                       delegate:self
-              cancelButtonTitle:@"确定"
-              otherButtonTitles:nil, nil];
-          [alert show];
-        }];
+      }];
+
+//    NSString *userId = [DEFAULTS objectForKey:@"userId"];
+//    [AFHttpTool modifyNickname:userId
+//        nickname:weakSelf.userName.text
+//        success:^(id response) {
+//          if ([response[@"code"] intValue] == 200) {
+//            RCUserInfo *userInfo =
+//                [RCIMClient sharedRCIMClient].currentUserInfo;
+//            userInfo.name = weakSelf.userName.text;
+//            [[RCDataBaseManager shareInstance] insertUserToDB:userInfo];
+//            [[RCIM sharedRCIM] refreshUserInfoCache:userInfo
+//                                         withUserId:userInfo.userId];
+//            [DEFAULTS setObject:weakSelf.userName.text forKey:@"userNickName"];
+//            [DEFAULTS synchronize];
+//            [weakSelf.navigationController popViewControllerAnimated:YES];
+//          }
+//        }
+//        failure:^(NSError *err) {
+//          [hud hide:YES];
+//          UIAlertView *alert = [[UIAlertView alloc]
+//                  initWithTitle:nil
+//                        message:@"修改失败，请检查输入的名称"
+//                       delegate:self
+//              cancelButtonTitle:@"确定"
+//              otherButtonTitles:nil, nil];
+//          [alert show];
+//        }];
   }
 }
 - (void)didReceiveMemoryWarning {

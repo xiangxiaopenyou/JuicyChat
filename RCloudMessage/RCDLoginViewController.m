@@ -28,6 +28,11 @@
 #import "RCDSettingServerUrlViewController.h"
 #import "RCDSettingUserDefaults.h"
 
+#import "FetchInformationsRequest.h"
+
+#define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
+#define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
+
 @interface RCDLoginViewController () <UITextFieldDelegate, RCIMConnectionStatusDelegate,UIAlertViewDelegate>
 
 @property(retain, nonatomic) IBOutlet RCAnimatedImagesView *animatedImagesView;
@@ -139,7 +144,7 @@ MBProgressHUD *hud;
                 forControlEvents:UIControlEventTouchUpInside];
   [_headBackground addSubview:forgetPswHeadButton];
 
-  UIImage *rongLogoImage = [UIImage imageNamed:@"login_logo"];
+  UIImage *rongLogoImage = [UIImage imageNamed:@"logo"];
   _rongLogo = [[UIImageView alloc] initWithImage:rongLogoImage];
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
@@ -412,6 +417,28 @@ arrayByAddingObjectsFromArray:
   _statusBarView.backgroundColor =
       [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.2];
   [self.view addSubview:_statusBarView];
+    
+    UILabel *otherLoginLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 - 50, SCREEN_HEIGHT - 165, 100, 25)];
+    otherLoginLabel.font = [UIFont systemFontOfSize:12];
+    otherLoginLabel.textColor = [UIColor colorWithRed:153 green:153 blue:153 alpha:0.5];
+    otherLoginLabel.textAlignment = NSTextAlignmentCenter;
+    otherLoginLabel.text = @"其他方式登录";
+    [self.view addSubview:otherLoginLabel];
+    
+    UILabel *line1 = [[UILabel alloc] initWithFrame:CGRectMake(40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
+    line1.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
+    [self.view addSubview:line1];
+    
+    UILabel *line2 = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_WIDTH / 2.0 + 40, SCREEN_HEIGHT - 153, SCREEN_WIDTH / 2.0 - 80, 0.5)];
+    line2.backgroundColor = [UIColor colorWithRed:161 green:163 blue:168 alpha:0.2f];
+    [self.view addSubview:line2];
+    
+    UIButton *wechatLoginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    wechatLoginButton.frame = CGRectMake(SCREEN_WIDTH / 2.0 - 35, SCREEN_HEIGHT - 125, 70, 70);
+    [wechatLoginButton setImage:[UIImage imageNamed:@"wechat_login"] forState:UIControlStateNormal];
+    [wechatLoginButton addTarget:self action:@selector(wechatAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:wechatLoginButton];
+    
   [[UIApplication sharedApplication]
       setStatusBarStyle:UIStatusBarStyleLightContent
                animated:NO];
@@ -583,6 +610,11 @@ arrayByAddingObjectsFromArray:
   [self login:userName password:userPwd];
 }
 
+//微信登录
+- (void)wechatAction {
+    
+}
+
 - (void)retryConnectionFailed {
     [[RCIM sharedRCIM] disconnect];
     [self invalidateRetryTime];
@@ -611,29 +643,48 @@ arrayByAddingObjectsFromArray:
     [DEFAULTS synchronize];
   }];
 
-  [AFHttpTool getUserInfo:userId
-      success:^(id response) {
-        if ([response[@"code"] intValue] == 200) {
-          NSDictionary *result = response[@"result"];
-          NSString *nickname = result[@"nickname"];
-          NSString *portraitUri = result[@"portraitUri"];
-          RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId
-                                                           name:nickname
-                                                       portrait:portraitUri];
-          if (!user.portraitUri || user.portraitUri.length <= 0) {
-            user.portraitUri = [RCDUtilities defaultUserPortrait:user];
-          }
-          [[RCDataBaseManager shareInstance] insertUserToDB:user];
-          [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
-          [RCIM sharedRCIM].currentUserInfo = user;
-          [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
-          [DEFAULTS setObject:user.name forKey:@"userNickName"];
-          [DEFAULTS synchronize];
+//  [AFHttpTool getUserInfo:userId
+//      success:^(id response) {
+//        if ([response[@"code"] intValue] == 200) {
+//          NSDictionary *result = response[@"result"];
+//          NSString *nickname = result[@"nickname"];
+//          NSString *portraitUri = result[@"portraitUri"];
+//          RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId
+//                                                           name:nickname
+//                                                       portrait:portraitUri];
+//          if (!user.portraitUri || user.portraitUri.length <= 0) {
+//            user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+//          }
+//          [[RCDataBaseManager shareInstance] insertUserToDB:user];
+//          [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+//          [RCIM sharedRCIM].currentUserInfo = user;
+//          [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+//          [DEFAULTS setObject:user.name forKey:@"userNickName"];
+//          [DEFAULTS synchronize];
+//        }
+//      }
+//      failure:^(NSError *err){
+//
+//      }];
+    [[FetchInformationsRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            NSDictionary *result = (NSDictionary *)object;
+            NSString *nickname = result[@"nickname"];
+            NSString *portraitUri = result[@"headico"];
+            RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId name:nickname portrait:portraitUri];
+            if (!user.portraitUri || user.portraitUri.length <= 0) {
+                user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+            }
+            [[RCDataBaseManager shareInstance] insertUserToDB:user];
+            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+            [RCIM sharedRCIM].currentUserInfo = user;
+            [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+            [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            [DEFAULTS synchronize];
         }
-      }
-      failure:^(NSError *err){
-
-      }];
+    }];
   //同步群组
   [RCDDataSource syncGroups];
   [RCDDataSource syncFriendList:userId

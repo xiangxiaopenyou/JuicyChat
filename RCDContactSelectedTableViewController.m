@@ -755,7 +755,7 @@ titleForHeaderInSection:(NSInteger)section {
 -(void)dealWithFriendList{
   for (int i = 0; i < _friends.count; i++) {
     RCDUserInfo *user = _friends[i];
-    if ([user.status isEqualToString:@"20"]) {
+    if ([user.status integerValue] == 1) {
       RCUserInfo *friend = [[RCDUserInfoManager shareInstance] getFriendInfoFromDB:user.userId];
       if (friend == nil) {
         friend = [[RCDUserInfoManager shareInstance] generateDefaultUserInfo:user.userId];

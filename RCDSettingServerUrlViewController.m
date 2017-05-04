@@ -22,7 +22,7 @@
 
 #import "RCDLoginViewController.h"
 
-@interface RCDSettingServerUrlViewController ()
+@interface RCDSettingServerUrlViewController ()<UITextFieldDelegate>
 @property(nonatomic, strong) UIView *headBackground;
 @property(nonatomic, strong) UIImageView *rongLogo;
 @property(nonatomic, strong) UIView *inputBackground;

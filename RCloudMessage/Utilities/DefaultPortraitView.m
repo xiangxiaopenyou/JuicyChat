@@ -28,14 +28,13 @@
 
 - (void)setColorAndLabel:(NSString *)userId Nickname:(NSString *)nickname {
   //设置背景色
-
-  userId = [userId uppercaseString]; //设置为大写
-  int asciiCode = [userId characterAtIndex:0];
-  int colorIndex = asciiCode % 5;
+//  userId = [userId uppercaseString]; //设置为大写
+//  int asciiCode = [userId characterAtIndex:0];
+//  int colorIndex = asciiCode % 5;
   NSArray *colorList =
       [[NSArray alloc] initWithObjects:@"#e97ffb", @"#00b8d4", @"#82b2ff",
                                        @"#f3db73", @"#f0857c", nil];
-  NSString *backgroundColorStr = colorList[colorIndex];
+  NSString *backgroundColorStr = colorList[rand() % 5];
   self.backgroundColor = [self hexStringToColor:backgroundColorStr];
 
   //设置字母Label

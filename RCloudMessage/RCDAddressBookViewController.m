@@ -22,6 +22,7 @@
 #import "UIColor+RCColor.h"
 #import "RCDNoFriendView.h"
 #import "RCDCommonDefine.h"
+#import "ModifyFriendInformationsRequest.h"
 
 @interface RCDAddressBookViewController ()
 
@@ -144,7 +145,7 @@ MBProgressHUD *hud;
   [_friendsDic setObject:user
                   forKey:[NSString stringWithFormat:@"%ld", (long)cell.tag]];
   [cell setModel:user];
-  if ([user.status intValue] == 11) {
+  if ([user.status intValue] == 2) {
       cell.selected = NO;
       cell.acceptBtn.hidden = NO;
       [cell.acceptBtn addTarget:self action:@selector(doAccept:) forControlEvents:UIControlEventTouchUpInside];
@@ -180,7 +181,7 @@ MBProgressHUD *hud;
   chatViewController.targetId = userInfo.userId;
   chatViewController.title = userInfo.name;
   chatViewController.displayUserNameInCell = NO;
-  chatViewController.needPopToRootView = YES;
+  //chatViewController.needPopToRootView = YES;
   [self.navigationController pushViewController:chatViewController
                                        animated:YES];
 }
@@ -198,38 +199,72 @@ MBProgressHUD *hud;
   RCDUserInfo *friend = [_friendsDic
       objectForKey:[NSString stringWithFormat:@"%ld", (long)tempTag]];
 
-  [RCDHTTPTOOL
-      processInviteFriendRequest:friend.userId
-                        complete:^(BOOL request) {
-                          if (request) {
-                            [RCDHTTPTOOL
-                                getFriendscomplete:^(NSMutableArray *result) {
-
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                      cell.acceptBtn.hidden = YES;
-                                      cell.arrow.hidden = NO;
-                                      cell.rightLabel.hidden = NO;
-                                      cell.rightLabel.text = @"已接受";
-                                      cell.selected = YES;
-                                      [hud hide:YES];
-                                    });
-                                  }];
-                            [RCDHTTPTOOL getFriendscomplete:^(NSMutableArray *result){
-
-                                           }];
-                          } else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                              [hud hide:YES];
-                              UIAlertView *failAlert = [[UIAlertView alloc]
-                                      initWithTitle:@"添加失败"
-                                            message:nil
-                                           delegate:nil
-                                  cancelButtonTitle:@"确定"
-                                  otherButtonTitles:nil, nil];
-                              [failAlert show];
-                            });
-                          }
-                        }];
+    [[ModifyFriendInformationsRequest new] request:^BOOL(ModifyFriendInformationsRequest *request) {
+        request.friendId = friend.userId;
+        request.state = @(1);
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            [RCDHTTPTOOL
+             getFriendscomplete:^(NSMutableArray *result) {
+                 
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     cell.acceptBtn.hidden = YES;
+                     cell.arrow.hidden = NO;
+                     cell.rightLabel.hidden = NO;
+                     cell.rightLabel.text = @"已添加";
+                     cell.selected = YES;
+                     [hud hide:YES];
+                 });
+             }];
+            [RCDHTTPTOOL getFriendscomplete:^(NSMutableArray *result){
+                
+            }];
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [hud hide:YES];
+                UIAlertView *failAlert = [[UIAlertView alloc]
+                                          initWithTitle:@"添加失败"
+                                          message:nil
+                                          delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil, nil];
+                [failAlert show];
+            });
+        }
+    }];
+//  [RCDHTTPTOOL
+//      processInviteFriendRequest:friend.userId
+//                        complete:^(BOOL request) {
+//                          if (request) {
+//                            [RCDHTTPTOOL
+//                                getFriendscomplete:^(NSMutableArray *result) {
+//
+//                                    dispatch_async(dispatch_get_main_queue(), ^{
+//                                      cell.acceptBtn.hidden = YES;
+//                                      cell.arrow.hidden = NO;
+//                                      cell.rightLabel.hidden = NO;
+//                                      cell.rightLabel.text = @"已接受";
+//                                      cell.selected = YES;
+//                                      [hud hide:YES];
+//                                    });
+//                                  }];
+//                            [RCDHTTPTOOL getFriendscomplete:^(NSMutableArray *result){
+//
+//                                           }];
+//                          } else {
+//                            dispatch_async(dispatch_get_main_queue(), ^{
+//                              [hud hide:YES];
+//                              UIAlertView *failAlert = [[UIAlertView alloc]
+//                                      initWithTitle:@"添加失败"
+//                                            message:nil
+//                                           delegate:nil
+//                                  cancelButtonTitle:@"确定"
+//                                  otherButtonTitles:nil, nil];
+//                              [failAlert show];
+//                            });
+//                          }
+//                        }];
 }
 
 - (NSMutableArray *)sortForFreindList:(NSMutableArray *)friendList {

@@ -22,6 +22,7 @@
 #import "RCDUIBarButtonItem.h"
 #import "RCDBaseSettingTableViewCell.h"
 #import "RCDUtilities.h"
+#import "ModifyInformationsRequest.h"
 
 @interface RCDMeInfoTableViewController ()
 
@@ -118,7 +119,7 @@
           
         case 2: {
           [cell setCellStyle:DefaultStyle_RightLabel_WithoutRightArrow];
-          cell.leftLabel.text = @"手机号";
+          cell.leftLabel.text = @"账号";
           cell.rightLabel.text = [DEFAULTS stringForKey:@"userName"];
           cell.selectionStyle = UITableViewCellSelectionStyleNone;
           return cell;
@@ -138,7 +139,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  CGFloat height;
+  CGFloat height = 0;
   switch (indexPath.section) {
     case 0:{
       switch (indexPath.row) {
@@ -254,43 +255,68 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   [RCDHTTPTOOL uploadImageToQiNiu:[RCIM sharedRCIM].currentUserInfo.userId
       ImageData:data
       success:^(NSString *url) {
-        [RCDHTTPTOOL
-            setUserPortraitUri:url
-                      complete:^(BOOL result) {
-                        if (result == YES) {
-                          [RCIM sharedRCIM].currentUserInfo.portraitUri = url;
-                          RCUserInfo *userInfo =
-                              [RCIM sharedRCIM].currentUserInfo;
-                          userInfo.portraitUri = url;
-                          [DEFAULTS setObject:url forKey:@"userPortraitUri"];
-                          [DEFAULTS synchronize];
-                          [[RCIM sharedRCIM]
-                              refreshUserInfoCache:userInfo
-                                        withUserId:[RCIM sharedRCIM]
-                                                       .currentUserInfo.userId];
-                          [[RCDataBaseManager shareInstance]
-                              insertUserToDB:userInfo];
-                          [[NSNotificationCenter defaultCenter]
-                              postNotificationName:@"setCurrentUserPortrait"
-                                            object:image];
-                          dispatch_async(dispatch_get_main_queue(), ^{
-                            [self.tableView reloadData];
-                            //关闭HUD
-                            [hud hide:YES];
-                          });
-                        }
-                        if (result == NO) {
-                          //关闭HUD
-                          [hud hide:YES];
-                          UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:nil
-                                        message:@"上传头像失败"
-                                       delegate:self
-                              cancelButtonTitle:@"确定"
-                              otherButtonTitles:nil];
-                          [alert show];
-                        }
-                      }];
+          [[ModifyInformationsRequest new] request:^BOOL(ModifyInformationsRequest *request) {
+              request.avatar = url;
+              return YES;
+          } result:^(id object, NSString *msg) {
+              if (object) {
+                    [RCIM sharedRCIM].currentUserInfo.portraitUri = url;
+                    RCUserInfo *userInfo = [RCIM sharedRCIM].currentUserInfo;
+                    userInfo.portraitUri = url;
+                    [DEFAULTS setObject:url forKey:@"userPortraitUri"];
+                    [DEFAULTS synchronize];
+                    [[RCIM sharedRCIM] refreshUserInfoCache:userInfo withUserId:[RCIM sharedRCIM].currentUserInfo.userId];
+                    [[RCDataBaseManager shareInstance] insertUserToDB:userInfo];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"setCurrentUserPortrait"
+                                      object:image];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                      [self.tableView reloadData];
+                      //关闭HUD
+                      [hud hide:YES];
+                    });
+              } else {
+                    [hud hide:YES];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"上传头像失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+              }
+          }];
+//        [RCDHTTPTOOL
+//            setUserPortraitUri:url
+//                      complete:^(BOOL result) {
+//                        if (result == YES) {
+//                          [RCIM sharedRCIM].currentUserInfo.portraitUri = url;
+//                          RCUserInfo *userInfo =
+//                              [RCIM sharedRCIM].currentUserInfo;
+//                          userInfo.portraitUri = url;
+//                          [DEFAULTS setObject:url forKey:@"userPortraitUri"];
+//                          [DEFAULTS synchronize];
+//                          [[RCIM sharedRCIM]
+//                              refreshUserInfoCache:userInfo
+//                                        withUserId:[RCIM sharedRCIM]
+//                                                       .currentUserInfo.userId];
+//                          [[RCDataBaseManager shareInstance]
+//                              insertUserToDB:userInfo];
+//                          [[NSNotificationCenter defaultCenter]
+//                              postNotificationName:@"setCurrentUserPortrait"
+//                                            object:image];
+//                          dispatch_async(dispatch_get_main_queue(), ^{
+//                            [self.tableView reloadData];
+//                            //关闭HUD
+//                            [hud hide:YES];
+//                          });
+//                        }
+//                        if (result == NO) {
+//                          //关闭HUD
+//                          [hud hide:YES];
+//                          UIAlertView *alert = [[UIAlertView alloc]
+//                                  initWithTitle:nil
+//                                        message:@"上传头像失败"
+//                                       delegate:self
+//                              cancelButtonTitle:@"确定"
+//                              otherButtonTitles:nil];
+//                          [alert show];
+//                        }
+//                      }];
 
       }
       failure:^(NSError *err) {

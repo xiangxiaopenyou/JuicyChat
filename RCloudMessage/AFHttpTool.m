@@ -154,14 +154,13 @@
 }
 
 // get verification code
-+ (void)getVerificationCode:(NSString *)region
-                phoneNumber:(NSString *)phoneNumber
++ (void)getVerificationCode:(NSString *)phoneNumber
                     success:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure {
-  NSDictionary *params = @{ @"region" : region, @"phone" : phoneNumber };
+  NSDictionary *params = @{ @"account" : phoneNumber };
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"user/send_code"
+                            url:@"VerificationCode.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -193,13 +192,13 @@
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure {
   NSDictionary *params = @{
-    @"nickname" : nickname,
+    @"account" : nickname,
     @"password" : password,
-    @"verification_token" : verficationToken
+    @"code" : verficationToken
   };
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"user/register"
+                            url:@"Register.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -297,11 +296,12 @@
 + (void)inviteUser:(NSString *)userId
            success:(void (^)(id response))success
            failure:(void (^)(NSError *err))failure {
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
   NSDictionary *params = @{
     @"friendId" : userId,
-    @"message" : [NSString stringWithFormat:@"我是%@",[RCIM sharedRCIM].currentUserInfo.name]};
+    @"token" : token};
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"friendship/invite"
+                            url:@"AddFriend.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -311,10 +311,13 @@
 + (void)findUserByPhone:(NSString *)Phone
                 success:(void (^)(id response))success
                 failure:(void (^)(NSError *err))failure {
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"search" : Phone,
+                              @"token" : token};
   [AFHttpTool
-      requestWihtMethod:RequestMethodTypeGet
-                    url:[NSString stringWithFormat:@"user/find/86/%@", Phone]
-                 params:nil
+      requestWihtMethod:RequestMethodTypePost
+                    url:@"Search.aspx"
+                 params:params
                 success:success
                 failure:failure];
 }
@@ -343,9 +346,11 @@
 // get upload image token
 + (void)getUploadImageTokensuccess:(void (^)(id response))success
                            failure:(void (^)(NSError *err))failure {
-  [AFHttpTool requestWihtMethod:RequestMethodTypeGet
-                            url:@"user/get_image_token"
-                         params:nil
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *param = @{@"token" : token};
+  [AFHttpTool requestWihtMethod:RequestMethodTypePost
+                            url:@"GetQiNiuToken.aspx"
+                         params:param
                         success:success
                         failure:failure];
 }
@@ -357,13 +362,13 @@
            failure:(void (^)(NSError *err))failure {
   [AFHttpTool getUploadImageTokensuccess:^(id response) {
     if ([response[@"code"] integerValue] == 200) {
-      NSDictionary *result = response[@"result"];
-      NSString *defaultDomain = result[@"domain"];
+      NSDictionary *result = response[@"data"];
+      NSString *defaultDomain = @"ooc6bq687.bkt.clouddn.com";
       [DEFAULTS setObject:defaultDomain forKey:@"QiNiuDomain"];
       [DEFAULTS synchronize];
 
       //设置七牛的Token
-      NSString *token = result[@"token"];
+      NSString *token = result[@"qiniutoken"];
       NSMutableDictionary *params = [NSMutableDictionary new];
       [params setValue:token forKey:@"token"];
 
@@ -430,12 +435,14 @@
                  groupMemberList:(NSArray *)groupMemberList
                          success:(void (^)(id response))success
                          failure:(void (^)(NSError *err))failure {
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
   NSDictionary *params = @{
-    @"name" : groupName,
-    @"memberIds" : groupMemberList
+                           @"token" : token,
+                           @"groupName" : groupName,
+                           @"userList" : groupMemberList
   };
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"group/create"
+                            url:@"CreateGroup.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -454,9 +461,12 @@
 + (void)getGroupByID:(NSString *)groupID
              success:(void (^)(id response))success
              failure:(void (^)(NSError *err))failure {
-  [AFHttpTool requestWihtMethod:RequestMethodTypeGet
-                            url:[NSString stringWithFormat:@"group/%@", groupID]
-                         params:nil
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{@"token" : token,
+                             @"groupId" : groupID};
+  [AFHttpTool requestWihtMethod:RequestMethodTypePost
+                            url:@"GetGroupinfo.aspx"
+                         params:params
                         success:success
                         failure:failure];
 }
@@ -481,10 +491,13 @@
 + (void)getGroupMembersByID:(NSString *)groupID
                     success:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure {
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"token" : token,
+                              @"groupId" : groupID };
   [AFHttpTool
-      requestWihtMethod:RequestMethodTypeGet
-                    url:[NSString stringWithFormat:@"group/%@/members", groupID]
-                 params:nil
+      requestWihtMethod:RequestMethodTypePost
+                    url:@"getGroupUserList.aspx"
+                 params:params
                 success:success
                 failure:failure];
 }
@@ -567,10 +580,12 @@
 + (void)getFriendListFromServerSuccess:(void (^)(id))success
                         failure:(void (^)(NSError *))failure {
   //获取除自己之外的好友信息
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"token" : token };
   [AFHttpTool
-      requestWihtMethod:RequestMethodTypeGet
-                    url:[NSString stringWithFormat:@"friendship/all"]
-                 params:nil
+      requestWihtMethod:RequestMethodTypePost
+                    url:[NSString stringWithFormat:@"GetFriends.aspx"]
+                 params:params
                 success:success
                 failure:failure];
 }

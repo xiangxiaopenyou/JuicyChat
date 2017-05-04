@@ -210,8 +210,8 @@
           [alertView show];
       } else {
           [RCDHTTPTOOL requestFriend:_targetUserInfo.userId
-                            complete:^(BOOL result) {
-                                if (result) {
+                            complete:^(id result) {
+                                if ([result boolValue]) {
                                     UIAlertView *alertView = [[UIAlertView alloc]
                                                               initWithTitle:nil
                                                               message:@"请求已发送"
@@ -224,7 +224,7 @@
                                 } else {
                                     UIAlertView *alertView = [[UIAlertView alloc]
                                                               initWithTitle:nil
-                                                              message:@"请求失败，请重试"
+                                                              message:(NSString *)result
                                                               delegate:nil
                                                               cancelButtonTitle:@"确定"
                                                               otherButtonTitles:nil, nil];

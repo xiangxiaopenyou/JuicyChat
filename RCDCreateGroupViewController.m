@@ -267,17 +267,17 @@ preparation before navigation
     [self Alert:@"群组名称不能超过10个字"];
     self.navigationItem.rightBarButtonItem.enabled = YES;
   } else {
-    BOOL isAddedcurrentUserID = false;
-    for (NSString *userId in _GroupMemberIdList) {
-      if ([userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-        isAddedcurrentUserID = YES;
-      } else {
-        isAddedcurrentUserID = NO;
-      }
-    }
-    if (isAddedcurrentUserID == NO) {
-      [_GroupMemberIdList addObject:[RCIM sharedRCIM].currentUserInfo.userId];
-    }
+//    BOOL isAddedcurrentUserID = false;
+//    for (NSString *userId in _GroupMemberIdList) {
+//      if ([userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+//        isAddedcurrentUserID = YES;
+//      } else {
+//        isAddedcurrentUserID = NO;
+//      }
+//    }
+//    if (isAddedcurrentUserID == NO) {
+//      [_GroupMemberIdList addObject:[RCIM sharedRCIM].currentUserInfo.userId];
+//    }
 
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
@@ -294,7 +294,7 @@ preparation before navigation
                                            Block:^(NSMutableArray *result) {
                                              //更新本地数据库中群组成员的信息
                                            }];
-         if (image != nil) {
+         if (image) {
            [RCDHTTPTOOL
             uploadImageToQiNiu:[RCIM sharedRCIM]
             .currentUserInfo.userId
@@ -343,15 +343,15 @@ preparation before navigation
               [self Alert:@"创建群组失败，请检查你的网络设置。"];
             }];
          } else {
-           
            RCGroup *groupInfo = [RCGroup new];
            groupInfo.portraitUri =
            [self createDefaultPortrait:groupId
                              GroupName:nameStr];
-           groupInfo.groupId = groupId;
+             NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
+           groupInfo.groupId = groupIdString;
            groupInfo.groupName = nameStr;
            [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
-                                        withGroupId:groupId];
+                                        withGroupId:groupIdString];
            [RCDHTTPTOOL getGroupByID:groupInfo.groupId
                    successCompletion:^(RCDGroupInfo *group) {
                      [[RCDataBaseManager shareInstance] insertGroupToDB:group];

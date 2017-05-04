@@ -11,6 +11,7 @@
 #import "RCDHttpTool.h"
 #import "MBProgressHUD.h"
 #import "RCDataBaseManager.h"
+#import "ModifyFriendInformationsRequest.h"
 
 #define MAX_STARWORDS_LENGTH 16
 
@@ -44,6 +45,10 @@
   
   [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(textFieldEditChanged:)
                                               name:@"UITextFieldTextDidChangeNotification" object:self.remarks];
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.remarks becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,29 +104,54 @@ if ([remarksStr isEqualToString:self.friendInfo.displayName]) {
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     self.hud.labelText = @"设置中...";
     [self.hud show:YES];
-    [RCDHTTPTOOL setFriendDisplayName:self.friendInfo.userId
-                          displayName:remarksStr
-                             complete:^(BOOL result) {
-                               if (result == YES) {
-                                 self.rightBtn.userInteractionEnabled = YES;
-                                 [self.hud hide: YES];
-                                 self.friendInfo.displayName = remarksStr;
-                                 [[RCDataBaseManager shareInstance] insertFriendToDB:self.friendInfo];
-                                 RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:self.friendInfo.userId
-                                                                                  name:remarksStr
-                                                                              portrait:self.friendInfo.portraitUri];
-                                 if ([remarksStr isEqualToString:@""]) {
-                                   user.name = self.friendInfo.name;
-                                 }
-                                 [[RCIM sharedRCIM] refreshUserInfoCache:user
-                                                              withUserId:user.userId];
-                                 [self.navigationController popViewControllerAnimated:YES];
-                               } else {
-                                 self.rightBtn.userInteractionEnabled = YES;
-                                 [self.hud hide: YES];
-                                 [self aletrInfo:@"设置失败"];
-                               }
-                             }];
+      [[ModifyFriendInformationsRequest new] request:^BOOL(ModifyFriendInformationsRequest *request) {
+          request.friendId = self.friendInfo.userId;
+          request.remark = remarksStr;
+          return YES;
+      } result:^(id object, NSString *msg) {
+          if (object) {
+              self.rightBtn.userInteractionEnabled = YES;
+               [self.hud hide:YES];
+               self.friendInfo.displayName = remarksStr;
+               [[RCDataBaseManager shareInstance] insertFriendToDB:self.friendInfo];
+               RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:self.friendInfo.userId
+                                                                name:remarksStr
+                                                            portrait:self.friendInfo.portraitUri];
+               if ([remarksStr isEqualToString:@""]) {
+                 user.name = self.friendInfo.name;
+               }
+               [[RCIM sharedRCIM] refreshUserInfoCache:user
+                                            withUserId:user.userId];
+               [self.navigationController popViewControllerAnimated:YES];
+          } else {
+              self.rightBtn.userInteractionEnabled = YES;
+               [self.hud hide: YES];
+               [self aletrInfo:@"设置失败"];
+          }
+      }];
+//    [RCDHTTPTOOL setFriendDisplayName:self.friendInfo.userId
+//                          displayName:remarksStr
+//                             complete:^(BOOL result) {
+//                               if (result == YES) {
+//                                 self.rightBtn.userInteractionEnabled = YES;
+//                                 [self.hud hide: YES];
+//                                 self.friendInfo.displayName = remarksStr;
+//                                 [[RCDataBaseManager shareInstance] insertFriendToDB:self.friendInfo];
+//                                 RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:self.friendInfo.userId
+//                                                                                  name:remarksStr
+//                                                                              portrait:self.friendInfo.portraitUri];
+//                                 if ([remarksStr isEqualToString:@""]) {
+//                                   user.name = self.friendInfo.name;
+//                                 }
+//                                 [[RCIM sharedRCIM] refreshUserInfoCache:user
+//                                                              withUserId:user.userId];
+//                                 [self.navigationController popViewControllerAnimated:YES];
+//                               } else {
+//                                 self.rightBtn.userInteractionEnabled = YES;
+//                                 [self.hud hide: YES];
+//                                 [self aletrInfo:@"设置失败"];
+//                               }
+//                             }];
   }
 }
 

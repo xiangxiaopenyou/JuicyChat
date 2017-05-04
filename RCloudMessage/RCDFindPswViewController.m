@@ -640,8 +640,7 @@
             //                isEqualToString:@"Phone number has already
             //                existed."]) {
             if ([response[@"result"] integerValue] == 0) {
-              [AFHttpTool getVerificationCode:@"86"
-                  phoneNumber:phoneNumber
+              [AFHttpTool getVerificationCode:phoneNumber
                   success:^(id response) {
                     [hud hide:YES];
                     if ([response[@"code"] intValue] == 200) {

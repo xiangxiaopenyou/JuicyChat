@@ -44,8 +44,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
                           failure:(void (^)(NSError *err))failure;
 
 // get verification code
-+ (void)getVerificationCode:(NSString *)region
-                phoneNumber:(NSString *)phoneNumber
++ (void)getVerificationCode:(NSString *)phoneNumber
                     success:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure;
 

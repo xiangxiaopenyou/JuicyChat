@@ -725,8 +725,7 @@
   _errorMsgLb.text = @"";
   if (_PhoneNumber.length == 11 || [self isValidateEmail:_PhoneNumber]) {
     NSString *phone = [NSString stringWithFormat:@"%@", _PhoneNumber];
-      [AFHttpTool getVerificationCode:@"86"
-          phoneNumber:phone
+      [AFHttpTool getVerificationCode:phone
           success:^(id response) {
             [hud hide:YES];
             _getVerificationCodeBt.hidden = YES;
@@ -791,57 +790,59 @@
       [(UITextField *)[self.view viewWithTag:VerificationCodeFieldTag] text];
   NSString *userPwd =
       [(UITextField *)[self.view viewWithTag:PassWordFieldTag] text];
-  NSString *nickName =
-      [(UITextField *)[self.view viewWithTag:RePassWordFieldTag] text];
+//  NSString *nickName =
+//      [(UITextField *)[self.view viewWithTag:RePassWordFieldTag] text];
   //验证验证码是否有效
-  [AFHttpTool verifyVerificationCode:@"86"
-      phoneNumber:userName
-      verificationCode:verificationCode
-      success:^(id response) {
-        NSDictionary *results = response;
-        NSString *code =
-            [NSString stringWithFormat:@"%@", [results objectForKey:@"code"]];
+//  [AFHttpTool verifyVerificationCode:@"86"
+//      phoneNumber:userName
+//      verificationCode:verificationCode
+//      success:^(id response) {
+//        NSDictionary *results = response;
+//        NSString *code =
+//            [NSString stringWithFormat:@"%@", [results objectForKey:@"code"]];
+//
+//        if (code.intValue == 200) {
+//          NSDictionary *result = [results objectForKey:@"result"];
+//          NSString *verificationToken =
+//              [result objectForKey:@"verification_token"];
+      //注册用户
+      [AFHttpTool registerWithNickname:userName
+          password:userPwd
+          verficationToken:verificationCode
+          success:^(id response) {
+            NSDictionary *regResults = response;
+            NSString *code = [NSString
+                stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
 
-        if (code.intValue == 200) {
-          NSDictionary *result = [results objectForKey:@"result"];
-          NSString *verificationToken =
-              [result objectForKey:@"verification_token"];
-          //注册用户
-          [AFHttpTool registerWithNickname:nickName
-              password:userPwd
-              verficationToken:verificationToken
-              success:^(id response) {
-                NSDictionary *regResults = response;
-                NSString *code = [NSString
-                    stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
+            if (code.intValue == 200) {
+              _errorMsgLb.text = @"注册成功";
+              dispatch_after(
+                  dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
+                  dispatch_get_main_queue(), ^{
+                    [self.navigationController
+                        popViewControllerAnimated:YES];
+                  });
+            } else {
+                _errorMsgLb.text = regResults[@"message"];
+            }
 
-                if (code.intValue == 200) {
-                  _errorMsgLb.text = @"注册成功";
-                  dispatch_after(
-                      dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
-                      dispatch_get_main_queue(), ^{
-                        [self.navigationController
-                            popViewControllerAnimated:YES];
-                      });
-                }
+          }
+          failure:^(NSError *err) {
+            NSLog(@"");
+            _errorMsgLb.text = @"注册失败";
 
-              }
-              failure:^(NSError *err) {
-                NSLog(@"");
-                _errorMsgLb.text = @"注册失败";
-
-              }];
-        }
-        if (code.intValue == 1000) {
-          _errorMsgLb.text = @"验证码错误";
-        }
-        if (code.intValue == 2000) {
-          _errorMsgLb.text = @"验证码过期";
-        }
-      }
-      failure:^(NSError *err) {
-        _errorMsgLb.text = @"验证码无效";
-      }];
+          }];
+//        }
+//        if (code.intValue == 1000) {
+//          _errorMsgLb.text = @"验证码错误";
+//        }
+//        if (code.intValue == 2000) {
+//          _errorMsgLb.text = @"验证码过期";
+//        }
+//      }
+//      failure:^(NSError *err) {
+//        _errorMsgLb.text = @"验证码无效";
+//      }];
 }
 
 /**
@@ -854,12 +855,11 @@
       [(UITextField *)[self.view viewWithTag:UserTextFieldTag] text];
   NSString *userPwd =
       [(UITextField *)[self.view viewWithTag:PassWordFieldTag] text];
-  NSString *reUserPwd =
-      [(UITextField *)[self.view viewWithTag:RePassWordFieldTag] text];
+//  NSString *reUserPwd =
+//      [(UITextField *)[self.view viewWithTag:RePassWordFieldTag] text];
 
   if (userName.length == 0) {
-
-    _errorMsgLb.text = @"手机号不能为空!";
+    _errorMsgLb.text = @"手机号或邮箱不能为空!";
     return NO;
   }
   if (userPwd.length > 20) {
@@ -870,19 +870,19 @@
     _errorMsgLb.text = @"密码不能为空!";
     return NO;
   }
-  if (reUserPwd.length == 0) {
-    _errorMsgLb.text = @"昵称不能为空!";
-    return NO;
-  }
-  if (reUserPwd.length > 32) {
-    _errorMsgLb.text = @"昵称不能大于32位!";
-    return NO;
-  }
-  NSRange _range = [reUserPwd rangeOfString:@" "];
-  if (_range.location != NSNotFound) {
-    _errorMsgLb.text = @"昵称中不能有空格!";
-    return NO;
-  }
+//  if (reUserPwd.length == 0) {
+//    _errorMsgLb.text = @"昵称不能为空!";
+//    return NO;
+//  }
+//  if (reUserPwd.length > 32) {
+//    _errorMsgLb.text = @"昵称不能大于32位!";
+//    return NO;
+//  }
+//  NSRange _range = [reUserPwd rangeOfString:@" "];
+//  if (_range.location != NSNotFound) {
+//    _errorMsgLb.text = @"昵称中不能有空格!";
+//    return NO;
+//  }
   return YES;
 }
 

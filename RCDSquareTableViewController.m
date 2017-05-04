@@ -95,7 +95,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-  NSInteger rows;
+  NSInteger rows = 0;
   if (chatRoomNames.count == 0) {
     rows = 0;
   } else {

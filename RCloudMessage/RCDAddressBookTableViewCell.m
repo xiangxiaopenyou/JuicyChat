@@ -39,7 +39,7 @@
     self.portraitImageView = [[UIImageView alloc]initWithFrame:CGRectMake(portraitImageViewX, portraitImageViewY, 36, 36)];
     
     //昵称
-    CGFloat nameLabelWidth = 100;
+    CGFloat nameLabelWidth = 200;
     CGFloat nameLabelHeight = 21;
     CGFloat nameLabelX = CGRectGetMaxX(self.portraitImageView.frame)+8;
     CGFloat nameLabelY = cellHeight/2.0-nameLabelHeight/2.0;
@@ -58,10 +58,11 @@
     //右侧label
     CGFloat rightLabelWidth = 53;
     CGFloat rightLabelHeight = cellHeight -16.5-16;
-    CGFloat rightLabelX = CGRectGetMaxX(self.arrow.frame)-20-rightLabelWidth;
+    CGFloat rightLabelX = CGRectGetWidth(UIScreen.mainScreen.bounds)-15-rightLabelWidth;
     CGFloat rightLabelY = 16.5;
     self.rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(rightLabelX, rightLabelY, rightLabelWidth, rightLabelHeight)];
     self.rightLabel.font = [UIFont systemFontOfSize:14];
+    self.rightLabel.textColor = [UIColor grayColor];
     
     //“接受”按钮
     CGFloat acceptBtnWidth = rightLabelWidth-15;
@@ -82,7 +83,7 @@
     [self.contentView addSubview:self.portraitImageView];
     [self.contentView addSubview:self.nameLabel];
     [self.contentView addSubview:self.rightLabel];
-    [self.contentView addSubview:self.arrow];
+    //[self.contentView addSubview:self.arrow];
     [self.contentView addSubview:_acceptBtn];
 }
 
@@ -100,12 +101,12 @@
                             placeholderImage:[UIImage imageNamed:@"contact"]];
         }
     }
-    if ([user.status intValue] == 20) {
-        self.rightLabel.text = @"已接受";
+    if ([user.status intValue] == 1) {
+        self.rightLabel.text = @"已添加";
         self.acceptBtn.hidden = YES;
         self.arrow.hidden = NO;
     }
-    if ([user.status intValue] == 10) {
+    if ([user.status intValue] == 3) {
         self.rightLabel.text = @"已邀请";
         self.selected = NO;
         self.arrow.hidden = YES;

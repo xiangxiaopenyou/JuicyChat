@@ -264,6 +264,8 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
             
           }];
          for (RCDUserInfo *user in result) {
+             NSString *userIdString = [NSString stringWithFormat:@"%@", user.userId];
+             user.userId = userIdString;
            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:user.userId];
          }
        }
@@ -672,7 +674,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section {
-  NSInteger rows;
+  NSInteger rows = 0;
   switch (section) {
   case 0:
     rows = 1;

@@ -130,25 +130,21 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 #pragma mark - searchResultDelegate
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     RCDUserInfo *user = _searchResult[indexPath.row];
     RCUserInfo *userInfo = [RCUserInfo new];
     userInfo.userId = user.userId;
     userInfo.name = user.name;
     userInfo.portraitUri = user.portraitUri;
-    
-    if ([userInfo.userId
-         isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-        UIAlertView *alert =
-        [[UIAlertView alloc] initWithTitle:nil
-                                   message:@"你不能添加自己到通讯录"
-                                  delegate:nil
-                         cancelButtonTitle:@"确定"
-                         otherButtonTitles:nil];
+    NSString *currentUserId = [RCIM sharedRCIM].currentUserInfo.userId;
+    if ([userInfo.userId integerValue] == [currentUserId integerValue]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                        message:@"你不能添加自己到通讯录"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"确定"
+                                              otherButtonTitles:nil];
         [alert show];
-    } else if (user &&
-               tableView == self.searchDisplayController.searchResultsTableView) {
+    } else if (user && tableView == self.searchDisplayController.searchResultsTableView) {
       NSMutableArray *cacheList = [[NSMutableArray alloc]
                                    initWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
       BOOL isFriend = NO;
@@ -183,36 +179,39 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)searchBar:(UISearchBar *)searchBar
     textDidChange:(NSString *)searchText {
     [_searchResult removeAllObjects];
-    if ([searchText length] == 11) {
-        [RCDHTTPTOOL searchUserByPhone:searchText
-                              complete:^(NSMutableArray *result) {
-                                  if (result) {
-                                      for (RCDUserInfo *user in result) {
-                                          if ([user.userId
-                                               isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-                                              [[RCDUserInfoManager shareInstance] getUserInfo:user.userId
-                                                                                   completion:^(RCUserInfo *user) {
-                                                                                       [_searchResult addObject:user];
-                                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                           [self.searchDisplayController
-                                                                                            .searchResultsTableView reloadData];
-                                                                                       });
-                                                                                   }];
-                                          } else {
-                                              [[RCDUserInfoManager shareInstance] getFriendInfo:user.userId
-                                                                                     completion:^(RCUserInfo *user) {
-                                                                                         [_searchResult addObject:user];
-                                                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                             [self.searchDisplayController
-                                                                                              .searchResultsTableView reloadData];
-                                                                                         });
-                                                                                     }];
-                                          }
-                                          
-                                      }
-                                  }
-                              }];
-    }
+    [RCDHTTPTOOL searchUserByPhone:searchText
+                          complete:^(NSMutableArray *result) {
+                              if (result) {
+                                  _searchResult = [result mutableCopy];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [self.searchDisplayController.searchResultsTableView reloadData];
+                                  });
+//                                  for (RCDUserInfo *user in result) {
+//                                      if ([user.userId
+//                                           isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+//                                          [[RCDUserInfoManager shareInstance] getUserInfo:user.userId
+//                                                                               completion:^(RCUserInfo *user) {
+//                                                                                   [_searchResult addObject:user];
+//                                                                                   dispatch_async(dispatch_get_main_queue(), ^{
+//                                                                                       [self.searchDisplayController
+//                                                                                        .searchResultsTableView reloadData];
+//                                                                                   });
+//                                                                               }];
+//                                      } else {
+//                                          [[RCDUserInfoManager shareInstance] getFriendInfo:user.userId
+//                                                                                 completion:^(RCUserInfo *user) {
+//                                                                                     [_searchResult addObject:user];
+//                                                                                     dispatch_async(dispatch_get_main_queue(), ^{
+//                                                                                         [self.searchDisplayController
+//                                                                                          .searchResultsTableView reloadData];
+//                                                                                     });
+//                                                                                 }];
+//                                      }
+
+//                                  }
+                              }
+                          }];
+    
 }
 
 //每次searchDisplayController消失的时候都会调用searchDisplayControllerDidEndSearch两次

@@ -122,9 +122,9 @@
   self.searchFriendsBar.placeholder = @"搜索";
 
   self.defaultCellsTitle = [NSArray
-      arrayWithObjects:@"新朋友", @"群组", @"公众号", nil];
+      arrayWithObjects:@"新朋友", @"群组", nil];
   self.defaultCellsPortrait = [NSArray
-      arrayWithObjects:@"newFriend", @"defaultGroup", @"publicNumber", nil];
+      arrayWithObjects:@"newFriend", @"defaultGroup", nil];
   
   self.isBeginSearch = NO;
 }
@@ -179,7 +179,7 @@
     }
     else
     {
-      rows = 4;
+      rows = 3;
     }
   } else {
     NSString *letter = self.resultDic[@"allKeys"][section -1];
@@ -238,7 +238,7 @@
       cell = [[RCDContactTableViewCell alloc] init];
   }
 
-  if (indexPath.section == 0 && indexPath.row < 3) {
+  if (indexPath.section == 0 && indexPath.row < 2) {
     cell.nicknameLabel.text = [_defaultCellsTitle objectAtIndex:indexPath.row];
       [cell.portraitView
           setImage:[UIImage
@@ -248,7 +248,7 @@
                                           [_defaultCellsPortrait
                                               objectAtIndex:indexPath.row]]]];
   }
-  if (indexPath.section == 0 && indexPath.row == 3) {
+  if (indexPath.section == 0 && indexPath.row == 2) {
       if ([isDisplayID isEqualToString:@"YES"]) {
         cell.userIdLabel.text = [RCIM sharedRCIM].currentUserInfo.userId;
       }
@@ -320,16 +320,16 @@
 
     } break;
 
+//    case 2: {
+//      RCDPublicServiceListViewController *publicServiceVC =
+//          [[RCDPublicServiceListViewController alloc] init];
+//      [self.navigationController pushViewController:publicServiceVC
+//                                           animated:YES];
+//      return;
+//
+//    } break;
+
     case 2: {
-      RCDPublicServiceListViewController *publicServiceVC =
-          [[RCDPublicServiceListViewController alloc] init];
-      [self.navigationController pushViewController:publicServiceVC
-                                           animated:YES];
-      return;
-
-    } break;
-
-    case 3: {
         RCDPersonDetailViewController *detailViewController =
         [[RCDPersonDetailViewController alloc]init];
       [self.navigationController pushViewController:detailViewController
@@ -416,7 +416,7 @@
   NSMutableArray *friendList = [[NSMutableArray alloc] init];
   NSMutableArray *userInfoList = [NSMutableArray arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
   for (RCDUserInfo *user in userInfoList) {
-    if ([user.status isEqualToString:@"20"]) {
+    if ([user.status integerValue] == 1) {
       [friendList addObject:user];
     }
   }

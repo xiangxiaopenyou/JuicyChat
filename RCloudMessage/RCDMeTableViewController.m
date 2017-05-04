@@ -41,6 +41,9 @@
 @property(nonatomic, strong) NSURLConnection *connection;
 @property(nonatomic, strong) NSMutableData *receiveData;
 
+@property (strong, nonatomic) UIImageView *avatarImageView;
+@property (strong, nonatomic) UILabel *nicknameLabel;
+
 @end
 
 @implementation RCDMeTableViewController {
@@ -128,11 +131,35 @@
   if (detailsCell == nil) {
     detailsCell = [[RCDMeDetailsCell alloc] init];
   }
+    
   switch (indexPath.section) {
     case 0: {
       switch (indexPath.row) {
         case 0: {
-          return detailsCell;
+//            static NSString *identifier = @"InformationCell";
+//            UITableViewCell *informationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+//            if (!_avatarImageView) {
+//                _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 11.5, 65, 65)];
+//                _avatarImageView.layer.masksToBounds = YES;
+//                _avatarImageView.layer.cornerRadius = 5.f;
+//            }
+//            [informationCell.contentView addSubview:_avatarImageView];
+//            NSString *portraitUrl = [DEFAULTS stringForKey:@"userPortraitUri"];
+//            if (!portraitUrl || [portraitUrl isEqualToString:@""]) {
+//                portraitUrl = [RCDUtilities defaultUserPortrait:[RCIM sharedRCIM].currentUserInfo];
+//                _avatarImageView.image = [UIImage imageNamed:portraitUrl];
+//            } else {
+//                [_avatarImageView sd_setImageWithURL:[NSURL URLWithString:portraitUrl] placeholderImage:nil];
+//            }
+//            if (!_nicknameLabel) {
+//                _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(83, 29, 300, 30)];
+//                _nicknameLabel.textColor = [UIColor blackColor];
+//                _nicknameLabel.font = [UIFont systemFontOfSize:16];
+//            }
+//            [informationCell.contentView addSubview:_nicknameLabel];
+//            _nicknameLabel.text = [DEFAULTS stringForKey:@"userNickName"];
+//          return informationCell;
+            return detailsCell;
         }
           break;
           
