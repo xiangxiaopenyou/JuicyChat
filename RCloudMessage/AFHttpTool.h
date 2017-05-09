@@ -58,6 +58,10 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 // reg nickname password verficationToken
 + (void)registerWithNickname:(NSString *)nickname
                     password:(NSString *)password
+                      avatar:(NSString *)avatarString
+                    nickname:(NSString *)nicknameString
+                         sex:(NSNumber *)sex
+                    wechatId:(NSString *)wechatId
             verficationToken:(NSString *)verficationToken
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure;
@@ -228,5 +232,15 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 + (void)getFriendDetailsByID:(NSString *)friendId
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure;
+
+//根据code获取微信token
++ (void)fetchWechatToken:(NSString *)code
+                 success:(void (^)(id response))success
+                 failure:(void (^)(NSError *err))failure;
+
+//根据微信用户信息
++ (void)requestUserInfoByToken:(NSString *)token andOpenid:(NSString *)openID
+                       success:(void (^)(id response))success
+                       failure:(void (^)(NSError *err))failure;
 
 @end

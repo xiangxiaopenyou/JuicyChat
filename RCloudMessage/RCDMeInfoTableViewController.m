@@ -75,7 +75,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return 3;
+  return 5;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -125,6 +125,25 @@
           return cell;
         }
           break;
+          case 3: {
+              [cell setCellStyle:DefaultStyle_RightLabel];
+              cell.leftLabel.text = @"性别";
+              if ([DEFAULTS integerForKey:@"userSex"] == 0) {
+                  cell.rightLabel.text = @"未设置";
+              } else {
+                  cell.rightLabel.text = [DEFAULTS integerForKey:@"userSex"] == 1 ? @"男" : @"女";
+              }
+              return cell;
+          }
+              break;
+          case 4:{
+              [cell setCellStyle:DefaultStyle_RightLabel_WithoutRightArrow];
+              cell.leftLabel.text = @"用户ID";
+              cell.rightLabel.text = [DEFAULTS stringForKey:@"userId"];
+              cell.selectionStyle = UITableViewCellSelectionStyleNone;
+              return cell;
+          }
+              break;
         default:
           break;
       }
@@ -185,9 +204,44 @@
       }
     }
       break;
+      case 3: {
+          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"选择性别" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+          UIAlertAction *alert1 = [UIAlertAction actionWithTitle:@"男" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+              [self editSexRequest:1];
+          }];
+          UIAlertAction *alert2 = [UIAlertAction actionWithTitle:@"女" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+              [self editSexRequest:2];
+          }];
+          UIAlertAction *cancelAlert = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+          [alertController addAction:alert1];
+          [alertController addAction:alert2];
+          [alertController addAction:cancelAlert];
+          [self presentViewController:alertController animated:YES completion:nil];
+      };
+          break;
     default:
       break;
   }
+}
+- (void)editSexRequest:(NSInteger)sexInt {
+    [[ModifyInformationsRequest new] request:^BOOL(ModifyInformationsRequest *request) {
+        request.sex = @(sexInt);
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            [DEFAULTS setObject:@(sexInt) forKey:@"userSex"];
+            [DEFAULTS synchronize];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+                //关闭HUD
+                [hud hide:YES];
+            });
+        } else {
+            [hud hide:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"设置性别失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
 }
 
 - (void)changePortrait {

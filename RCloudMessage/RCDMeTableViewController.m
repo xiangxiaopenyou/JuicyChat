@@ -25,6 +25,7 @@
 #import "RCDBaseSettingTableViewCell.h"
 #import "RCDMeDetailsCell.h"
 #import "RCDMeCell.h"
+#import "MyInformationsCell.h"
 
 /* RedPacket_FTR */
 #import <JrmfWalletKit/JrmfWalletKit.h>
@@ -101,7 +102,7 @@
 #if RCDDebugTestFunction
       rows = 4;
 #else
-      rows = 2;
+      rows = 1;
 #endif
       break;
       
@@ -123,13 +124,13 @@
                                        dequeueReusableCellWithIdentifier:reusableCellWithIdentifier];
   
   static NSString *detailsCellWithIdentifier = @"RCDMeDetailsCell";
-  RCDMeDetailsCell *detailsCell = [self.tableView
+  MyInformationsCell *detailsCell = [self.tableView
                                        dequeueReusableCellWithIdentifier:detailsCellWithIdentifier];
   if (cell == nil) {
     cell = [[RCDMeCell alloc] init];
   }
   if (detailsCell == nil) {
-    detailsCell = [[RCDMeDetailsCell alloc] init];
+    detailsCell = [[MyInformationsCell alloc] init];
   }
     
   switch (indexPath.section) {
@@ -190,20 +191,20 @@
     case 2: {
       switch (indexPath.row) {
         case 0:{
-          [cell setCellWithImageName:@"sevre_inactive" labelName:@"意见反馈"];
+          [cell setCellWithImageName:@"sevre_inactive" labelName:@"申诉中心"];
           return cell;
         }
           break;
           
-        case 1:{
-          [cell setCellWithImageName:@"about_rongcloud" labelName:@"关于 SealTalk"];
-          NSString *isNeedUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"isNeedUpdate"];
-          if ([isNeedUpdate isEqualToString:@"YES"]) {
-            [cell addRedpointImageView];
-          }
-          return cell;
-        }
-          break;
+//        case 1:{
+//          [cell setCellWithImageName:@"about_rongcloud" labelName:@"关于 SealTalk"];
+//          NSString *isNeedUpdate = [[NSUserDefaults standardUserDefaults] objectForKey:@"isNeedUpdate"];
+//          if ([isNeedUpdate isEqualToString:@"YES"]) {
+//            [cell addRedpointImageView];
+//          }
+//          return cell;
+//        }
+//          break;
 #if RCDDebugTestFunction
         case 2:{
           [cell setCellWithImageName:@"sevre_inactive" labelName:@"小能客服1"];

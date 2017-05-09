@@ -111,11 +111,15 @@
       [[UIColor alloc] initWithRed:153 green:153 blue:153 alpha:0.5];
   [self.view addSubview:_licenseLb];
 
-  UIImage *rongLogoImage = [UIImage imageNamed:@"login_logo"];
+  UIImage *rongLogoImage = [UIImage imageNamed:@"logo"];
   _rongLogo = [[UIImageView alloc] initWithImage:rongLogoImage];
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:_rongLogo];
+    
+    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
+    tempImage.image = [UIImage imageNamed:@"guoliao"];
+    [_rongLogo addSubview:tempImage];
 
   _inputBackground = [[UIView alloc] initWithFrame:CGRectZero];
   _inputBackground.translatesAutoresizingMaskIntoConstraints = NO;
@@ -631,38 +635,38 @@
   NSString *phoneNumber =
       [(UITextField *)[self.view viewWithTag:UserTextFieldTag] text];
   if (phoneNumber.length == 11 || [self isValidateEmail:phoneNumber]) {
-    [AFHttpTool checkPhoneNumberAvailable:@"86"
-        phoneNumber:phoneNumber
-        success:^(id response) {
-          if ([response[@"code"] intValue] == 200) {
-            //                if ([[NSString
-            //                stringWithFormat:@"%@",response[@"message"]]
-            //                isEqualToString:@"Phone number has already
-            //                existed."]) {
-            if ([response[@"result"] integerValue] == 0) {
-              [AFHttpTool getVerificationCode:phoneNumber
-                  success:^(id response) {
-                    [hud hide:YES];
-                    if ([response[@"code"] intValue] == 200) {
-                      ((UILabel *)[self.view viewWithTag:vCodeTimerLabelTag])
-                          .hidden = NO;
-                      ((UIButton *)[self.view viewWithTag:SendCodeButtonTag])
-                          .hidden = YES;
-                      [self CountDown:60];
-                    }
-                  }
-                  failure:^(NSError *err) {
-                    NSLog(@"%@", err);
-                  }];
-
-            } else {
-              [hud hide:YES];
-              _errorMsgLb.text = @"未注册";
-            }
-          }
-        }
-        failure:^(NSError *err){
-        }];
+      [AFHttpTool getVerificationCode:phoneNumber
+                              success:^(id response) {
+                                  [hud hide:YES];
+                                  if ([response[@"code"] intValue] == 200) {
+                                      ((UILabel *)[self.view viewWithTag:vCodeTimerLabelTag])
+                                      .hidden = NO;
+                                      ((UIButton *)[self.view viewWithTag:SendCodeButtonTag])
+                                      .hidden = YES;
+                                      [self CountDown:60];
+                                  }
+                              }
+                              failure:^(NSError *err) {
+                                  NSLog(@"%@", err);
+                              }];
+//    [AFHttpTool checkPhoneNumberAvailable:@"86"
+//        phoneNumber:phoneNumber
+//        success:^(id response) {
+//          if ([response[@"code"] intValue] == 200) {
+//            //                if ([[NSString
+//            //                stringWithFormat:@"%@",response[@"message"]]
+//            //                isEqualToString:@"Phone number has already
+//            //                existed."]) {
+//            if ([response[@"result"] integerValue] == 0) {
+//
+//            } else {
+//              [hud hide:YES];
+//              _errorMsgLb.text = @"未注册";
+//            }
+//          }
+//        }
+//        failure:^(NSError *err){
+//        }];
 
   } else {
     [hud hide:YES];
@@ -709,36 +713,36 @@
       [(UITextField *)[self.view viewWithTag:PassWordFieldTag] text];
   NSString *vCode =
       [(UITextField *)[self.view viewWithTag:VerificationCodeField] text];
-  [AFHttpTool verifyVerificationCode:@"86"
-      phoneNumber:phone
-      verificationCode:vCode
-      success:^(id response) {
-        if ([response[@"code"] intValue] == 200) {
-          NSDictionary *result = response[@"result"];
-          NSString *vToken = result[@"verification_token"];
-          [AFHttpTool resetPassword:userPwd
-              vToken:vToken
-              success:^(id response) {
-                if ([response[@"code"] intValue] == 200) {
-                  _errorMsgLb.text = @"修改成功!";
-                  dispatch_after(
-                      dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
-                      dispatch_get_main_queue(), ^{
-                        [self.navigationController
-                            popViewControllerAnimated:YES];
-                      });
-                }
-
-              }
-              failure:^(NSError *err){
-
-              }];
-        }
-
-      }
-      failure:^(NSError *err){
-
-      }];
+    [AFHttpTool resetPassword:userPwd
+                       vToken:vCode
+                      success:^(id response) {
+                          if ([response[@"code"] intValue] == 200) {
+                              _errorMsgLb.text = @"修改成功!";
+                              dispatch_after(
+                                             dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
+                                             dispatch_get_main_queue(), ^{
+                                                 [self.navigationController
+                                                  popViewControllerAnimated:YES];
+                                             });
+                          }
+                          
+                      }
+                      failure:^(NSError *err){
+                          
+                      }];
+//  [AFHttpTool verifyVerificationCode:@"86"
+//      phoneNumber:phone
+//      verificationCode:vCode
+//      success:^(id response) {
+//        if ([response[@"code"] intValue] == 200) {
+//          NSDictionary *result = response[@"result"];
+//          NSString *vToken = result[@"verification_token"];
+//        }
+//
+//      }
+//      failure:^(NSError *err){
+//
+//      }];
 }
 
 /**

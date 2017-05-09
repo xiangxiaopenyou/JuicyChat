@@ -29,6 +29,7 @@
 #import "RCDSettingUserDefaults.h"
 #import "RCDSettingServerUrlViewController.h"
 #import "FetchInformationsRequest.h"
+#import <OpenShareHeader.h>
 
 #define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //online key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
@@ -48,6 +49,7 @@
        ? CGSizeEqualToSize(CGSizeMake(1242, 2208),                             \
                            [[UIScreen mainScreen] currentMode].size)           \
        : NO)
+static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
 
 @interface AppDelegate () <RCWKAppInfoProvider>
 
@@ -74,6 +76,8 @@
   application.statusBarHidden = NO;
 
   [self umengTrack];
+    //微信sdk
+    [OpenShare connectWeixinWithAppId:WECHATAPPID];
   /**
    *  推送说明：
    *
@@ -769,6 +773,9 @@
   if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
     return YES;
   }
+    if ([OpenShare handleOpenURL:url]) {
+        return YES;
+    }
   return YES;
 }
 
@@ -776,6 +783,9 @@
   if ([[RCIM sharedRCIM] openExtensionModuleUrl:url]) {
     return YES;
   }
+    if ([OpenShare handleOpenURL:url]) {
+        return YES;
+    }
   return YES;
 }
 

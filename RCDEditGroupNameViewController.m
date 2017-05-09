@@ -13,6 +13,7 @@
 #import "RCDUIBarButtonItem.h"
 #import "RCDataBaseManager.h"
 #import "RCDCommonDefine.h"
+#import "ModifyGroupInformationsRequest.h"
 
 @interface RCDEditGroupNameViewController ()
 
@@ -106,28 +107,51 @@
     [self Alert:@"群组名称不能超过10个字"];
     return;
   }
-
-  [RCDHTTPTOOL renameGroupWithGoupId:_groupInfo.groupId
-                           groupName:nameStr
-                            complete:^(BOOL result) {
-                              if (result == YES) {
-                                RCGroup *groupInfo = [RCGroup new];
-                                groupInfo.groupId = _groupInfo.groupId;
-                                groupInfo.groupName = nameStr;
-                                groupInfo.portraitUri = _groupInfo.portraitUri;
-                                [[RCIM sharedRCIM]
-                                    refreshGroupInfoCache:groupInfo
-                                              withGroupId:_groupInfo.groupId];
-                                RCDGroupInfo *tempGroupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:groupInfo.groupId];
-                                tempGroupInfo.groupName = nameStr;
-                                [[RCDataBaseManager shareInstance] insertGroupToDB:tempGroupInfo];
-                                [self.navigationController
-                                    popViewControllerAnimated:YES];
-                              }
-                              if (result == NO) {
-                                [self Alert:@"群组名称修改失败"];
-                              }
-                            }];
+    [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+        request.groupId = self.groupInfo.groupId;
+        request.groupName = nameStr;
+        request.redPacketLimit = @(self.groupInfo.redPacketLimit.integerValue);
+        request.lockLimit = @(self.groupInfo.lockLimit.integerValue);
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            RCGroup *groupInfo = [RCGroup new];
+            groupInfo.groupId = _groupInfo.groupId;
+            groupInfo.groupName = nameStr;
+            groupInfo.portraitUri = _groupInfo.portraitUri;
+            [[RCIM sharedRCIM]
+             refreshGroupInfoCache:groupInfo
+             withGroupId:_groupInfo.groupId];
+            RCDGroupInfo *tempGroupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:groupInfo.groupId];
+            tempGroupInfo.groupName = nameStr;
+            [[RCDataBaseManager shareInstance] insertGroupToDB:tempGroupInfo];
+            [self.navigationController
+             popViewControllerAnimated:YES];
+        } else {
+            [self Alert:@"群组名称修改失败"];
+        }
+    }];
+//  [RCDHTTPTOOL renameGroupWithGoupId:_groupInfo.groupId
+//                           groupName:nameStr
+//                            complete:^(BOOL result) {
+//                              if (result == YES) {
+//                                RCGroup *groupInfo = [RCGroup new];
+//                                groupInfo.groupId = _groupInfo.groupId;
+//                                groupInfo.groupName = nameStr;
+//                                groupInfo.portraitUri = _groupInfo.portraitUri;
+//                                [[RCIM sharedRCIM]
+//                                    refreshGroupInfoCache:groupInfo
+//                                              withGroupId:_groupInfo.groupId];
+//                                RCDGroupInfo *tempGroupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:groupInfo.groupId];
+//                                tempGroupInfo.groupName = nameStr;
+//                                [[RCDataBaseManager shareInstance] insertGroupToDB:tempGroupInfo];
+//                                [self.navigationController
+//                                    popViewControllerAnimated:YES];
+//                              }
+//                              if (result == NO) {
+//                                [self Alert:@"群组名称修改失败"];
+//                              }
+//                            }];
 }
 
 - (void)Alert:(NSString *)alertContent {

@@ -57,10 +57,20 @@
             default:
                 break;
         }
-    }else if(indexPath.section == 2){
+    } else if (indexPath.section == 2) {
+        [self setCellStyle:DefaultStyle_RightLabel];
+        self.rightArrow.hidden = YES;
+        if (indexPath.row == 0) {
+            self.leftLabel.text = @"红包下限";
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", groupInfo.redPacketLimit];
+        } else {
+            self.leftLabel.text = @"冻结金额";
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", groupInfo.lockLimit];
+        }
+    } else if(indexPath.section == 3){
       [self setCellStyle:DefaultStyle];
       self.leftLabel.text = @"查找聊天记录";
-    }else{
+    } else{
         switch (indexPath.row) {
             case 0:
                 [self setCellStyle:SwitchStyle];

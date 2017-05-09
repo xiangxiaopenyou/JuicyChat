@@ -16,7 +16,15 @@
 #import "RCDTextFieldValidate.h"
 #import "RCUnderlineTextField.h"
 #import <RongIMLib/RongIMLib.h>
+#import <RongIMKit/RongIMKit.h>
 #import "UIColor+RCColor.h"
+#import "RCDHttpTool.h"
+#import "FetchInformationsRequest.h"
+#import "RCDUtilities.h"
+#import "RCDataBaseManager.h"
+#import "RCDRCIMDataSource.h"
+#import "RCDMainTabBarViewController.h"
+#import "RCDNavigationViewController.h"
 
 @interface RCDRegisterViewController () <UITextFieldDelegate>
 @property(unsafe_unretained, nonatomic) IBOutlet UITextField *tfEmail;
@@ -33,6 +41,11 @@
 @property(nonatomic, strong) UILabel *errorMsgLb;
 @property(strong, nonatomic) IBOutlet UILabel *countDownLable;
 @property(strong, nonatomic) IBOutlet UIButton *getVerificationCodeBt;
+
+@property(nonatomic, copy) NSString *loginUserName;
+@property(nonatomic, copy) NSString *loginUserId;
+@property(nonatomic, copy) NSString *loginToken;
+@property(nonatomic, copy) NSString *loginPassword;
 @end
 
 @implementation RCDRegisterViewController {
@@ -113,11 +126,15 @@
       [[UIColor alloc] initWithRed:153 green:153 blue:153 alpha:0.5];
   [self.view addSubview:_licenseLb];
 
-  UIImage *rongLogoImage = [UIImage imageNamed:@"login_logo"];
+  UIImage *rongLogoImage = [UIImage imageNamed:@"logo"];
   _rongLogo = [[UIImageView alloc] initWithImage:rongLogoImage];
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:_rongLogo];
+    
+    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
+    tempImage.image = [UIImage imageNamed:@"guoliao"];
+    [_rongLogo addSubview:tempImage];
 
   _inputBackground = [[UIView alloc] initWithFrame:CGRectZero];
   _inputBackground.translatesAutoresizingMaskIntoConstraints = NO;
@@ -735,6 +752,7 @@
 
           }
           failure:^(NSError *err) {
+              [hud hide:YES];
             NSLog(@"%@", err);
           }];
   } else {
@@ -806,33 +824,74 @@
 //          NSString *verificationToken =
 //              [result objectForKey:@"verification_token"];
       //注册用户
-      [AFHttpTool registerWithNickname:userName
-          password:userPwd
-          verficationToken:verificationCode
-          success:^(id response) {
-            NSDictionary *regResults = response;
-            NSString *code = [NSString
-                stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
+    if (self.isWechatRegister) {
+        [AFHttpTool registerWithNickname:userName
+                                password:userPwd
+                                  avatar:self.informations[@"headimgurl"]
+                                nickname:self.informations[@"nickname"]
+                                     sex:self.informations[@"sex"]
+                                wechatId:self.informations[@"unionid"]
+                        verficationToken:verificationCode
+                                 success:^(id response) {
+                                     NSDictionary *regResults = response;
+                                     NSString *code = [NSString
+                                                       stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
+                                     
+                                     if (code.intValue == 200) {
+                                         _errorMsgLb.text = @"注册成功";
+                                         dispatch_after(
+                                                        dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
+                                                        dispatch_get_main_queue(), ^{
+                                                            NSString *token = response[@"data"][@"token"];
+                                                            NSString *userId = response[@"data"][@"userId"];
+                                                            [self loginRongCloud:userName userId:userId token:token password:userPwd];
+                                                        });
+                                     } else {
+                                         _errorMsgLb.text = regResults[@"message"];
+                                     }
+                                     
+                                 }
+                                 failure:^(NSError *err) {
+                                     NSLog(@"");
+                                     _errorMsgLb.text = @"注册失败";
+                                     
+                                 }];
 
-            if (code.intValue == 200) {
-              _errorMsgLb.text = @"注册成功";
-              dispatch_after(
-                  dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
-                  dispatch_get_main_queue(), ^{
-                    [self.navigationController
-                        popViewControllerAnimated:YES];
-                  });
-            } else {
-                _errorMsgLb.text = regResults[@"message"];
-            }
+    } else {
+        [AFHttpTool registerWithNickname:userName
+                                password:userPwd
+                                  avatar:nil
+                                nickname:nil
+                                     sex:nil
+                                wechatId:nil
+                        verficationToken:verificationCode
+                                 success:^(id response) {
+                                     NSDictionary *regResults = response;
+                                     NSString *code = [NSString
+                                                       stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
+                                     
+                                     if (code.intValue == 200) {
+                                         _errorMsgLb.text = @"注册成功";
+                                         dispatch_after(
+                                                        dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
+                                                        dispatch_get_main_queue(), ^{
+                                                            NSString *token = response[@"data"][@"token"];
+                                                            NSString *userId = response[@"data"][@"userId"];
+                                                            [self loginRongCloud:userName userId:userId token:token password:userPwd];
+                                                        });
+                                     } else {
+                                         _errorMsgLb.text = regResults[@"message"];
+                                     }
+                                     
+                                 }
+                                 failure:^(NSError *err) {
+                                     NSLog(@"");
+                                     _errorMsgLb.text = @"注册失败";
+                                     
+                                 }];
 
-          }
-          failure:^(NSError *err) {
-            NSLog(@"");
-            _errorMsgLb.text = @"注册失败";
-
-          }];
-//        }
+    }
+      //        }
 //        if (code.intValue == 1000) {
 //          _errorMsgLb.text = @"验证码错误";
 //        }
@@ -915,6 +974,107 @@
     _countDownLable.text = @"60秒后发送";
   }
 }
+
+/**
+ *  登录融云服务器
+ *
+ *  @param userName 用户名
+ *  @param token    token
+ *  @param password 密码
+ */
+- (void)loginRongCloud:(NSString *)userName
+                userId:(NSString *)userId
+                 token:(NSString *)token
+              password:(NSString *)password {
+    self.loginUserName = userName;
+    self.loginUserId = userId;
+    self.loginToken = token;
+    self.loginPassword = password;
+    
+    //登录融云服务器
+    [[RCIM sharedRCIM] connectWithToken:token
+                                success:^(NSString *userId) {
+                                    NSLog([NSString
+                                           stringWithFormat:@"token is %@  userId is %@", token, userId],
+                                          nil);
+                                    self.loginUserId = userId;
+                                    [self loginSuccess:self.loginUserName userId:self.loginUserId token:self.loginToken password:self.loginPassword];
+                                }
+                                  error:^(RCConnectErrorCode status) {
+                                      //关闭HUD
+                                      
+                                      //        [hud hide:YES];
+                                      //        NSLog(@"RCConnectErrorCode is %ld", (long)status);
+                                      //        _errorMsgLb.text = [NSString stringWithFormat:@"登陆失败！Status: %zd", status];
+                                      //        [_pwdTextField shake];
+                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                          //关闭HUD
+                                          [hud hide:YES];
+                                          NSLog(@"RCConnectErrorCode is %ld", (long)status);
+                                          _errorMsgLb.text = [NSString stringWithFormat:@"登录失败！Status: %zd", status];
+                                          //[self.tfPassword shake];
+                                          
+                                          //SDK会自动重连登录，这时候需要监听连接状态
+//                                          [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
+                                      });
+                                      //        //SDK会自动重连登陆，这时候需要监听连接状态
+                                      //        [[RCIM sharedRCIM] setConnectionStatusDelegate:self];
+                                  }
+                         tokenIncorrect:^{
+                             NSLog(@"IncorrectToken");
+                             _errorMsgLb.text = [NSString stringWithFormat:@"登录失败!"];
+                             
+                         }];
+}
+- (void)loginSuccess:(NSString *)userName
+              userId:(NSString *)userId
+               token:(NSString *)token
+            password:(NSString *)password {
+    //[self invalidateRetryTime];
+    //保存默认用户
+    [DEFAULTS setObject:userName forKey:@"userName"];
+    [DEFAULTS setObject:password forKey:@"userPwd"];
+    [DEFAULTS setObject:token forKey:@"userToken"];
+    [DEFAULTS setObject:userId forKey:@"userId"];
+    [DEFAULTS synchronize];
+    //保存“发现”的信息
+    [[RCDHttpTool shareInstance] getSquareInfoCompletion:^(NSMutableArray *result) {
+        [DEFAULTS setObject:result forKey:@"SquareInfoList"];
+        [DEFAULTS synchronize];
+    }];
+    [[FetchInformationsRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            NSDictionary *result = (NSDictionary *)object;
+            NSString *nickname = result[@"nickname"];
+            NSString *portraitUri = result[@"headico"];
+            RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId name:nickname portrait:portraitUri];
+            if (!user.portraitUri || user.portraitUri.length <= 0) {
+                user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+            }
+            [[RCDataBaseManager shareInstance] insertUserToDB:user];
+            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+            [RCIM sharedRCIM].currentUserInfo = user;
+            [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+            [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
+            [DEFAULTS synchronize];
+        }
+    }];
+    //同步群组
+    [RCDDataSource syncGroups];
+    [RCDDataSource syncFriendList:userId
+                         complete:^(NSMutableArray *friends){
+                         }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        RCDMainTabBarViewController *mainTabBarVC = [[RCDMainTabBarViewController alloc] init];
+        RCDNavigationViewController *rootNavi = [[RCDNavigationViewController alloc] initWithRootViewController:mainTabBarVC];
+        [UIApplication sharedApplication].delegate.window.rootViewController = rootNavi;
+    });
+}
+
+
 
 /*
 #pragma mark - Navigation

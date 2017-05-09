@@ -11,5 +11,6 @@
 @interface ModifyInformationsRequest : BaseRequest
 @property (copy, nonatomic) NSString *avatar;
 @property (copy, nonatomic) NSString *nickname;
+@property (strong, nonatomic) NSNumber *sex;
 
 @end

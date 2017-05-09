@@ -110,7 +110,11 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
                 reuseIdentifier:reusableCellWithIdentifier];
         RCDUserInfo *user = _searchResult[indexPath.row];
         if (user) {
-            cell.lblName.text = user.name;
+            if ([user.name isKindOfClass:[NSNull class]]) {
+                cell.lblName.text = nil;
+            } else {
+                cell.lblName.text = user.name;
+            }
             if ([user.portraitUri isEqualToString:@""]) {
                 DefaultPortraitView *defaultPortrait = [[DefaultPortraitView alloc]
                                                         initWithFrame:CGRectMake(0, 0, 100, 100)];

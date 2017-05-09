@@ -76,7 +76,7 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
           @"CREATE TABLE GROUPTABLEV2 (id integer PRIMARY KEY autoincrement, "
           @"groupId text,name text, portraitUri text,inNumber text,maxNumber "
           @"text ,introduce text ,creatorId text,creatorTime text, isJoin "
-          @"text, isDismiss text)";
+          @"text, isDismiss text, redPacketLimit text, lockLimit text)";
       [db executeUpdate:createTableSQL];
       NSString *createIndexSQL =
           @"CREATE unique INDEX idx_groupid ON GROUPTABLEV2(groupId);";
@@ -252,22 +252,22 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
 }
 //存储群组信息
 - (void)insertGroupToDB:(RCDGroupInfo *)group {
-  if (group == nil || [group.groupId length] < 1)
-    return;
-
-  NSString *insertSql = @"REPLACE INTO GROUPTABLEV2 (groupId, "
-                        @"name,portraitUri,inNumber,maxNumber,introduce,"
-                        @"creatorId,creatorTime,isJoin,isDismiss) VALUES "
-                        @"(?,?,?,?,?,?,?,?,?,?)";
-
-  
-  [self.dbQueue inDatabase:^(FMDatabase *db) {
-    [db executeUpdate:insertSql, group.groupId, group.groupName,
-                      group.portraitUri, group.number, group.maxNumber,
-                      group.introduce, group.creatorId, group.creatorTime,
-                      [NSString stringWithFormat:@"%d", group.isJoin],
-                      group.isDismiss];
-  }];
+    if (group == nil || [group.groupId length] < 1)
+        return;
+    
+    NSString *insertSql = @"REPLACE INTO GROUPTABLEV2 (groupId, "
+    @"name,portraitUri,inNumber,maxNumber,introduce,"
+    @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit) VALUES "
+    @"(?,?,?,?,?,?,?,?,?,?,?,?)";
+    
+    
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        [db executeUpdate:insertSql, group.groupId, group.groupName,
+         group.portraitUri, group.number, group.maxNumber,
+         group.introduce, group.creatorId, group.creatorTime,
+         [NSString stringWithFormat:@"%d", group.isJoin],
+         group.isDismiss, group.redPacketLimit, group.lockLimit];
+    }];
 }
 
 - (void)insertGroupsToDB:(NSMutableArray *)groupList complete:(void (^)(BOOL))result{
@@ -279,13 +279,13 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
       for (RCDGroupInfo *group in groupList) {
         NSString *insertSql = @"REPLACE INTO GROUPTABLEV2 (groupId, "
         @"name,portraitUri,inNumber,maxNumber,introduce,"
-        @"creatorId,creatorTime,isJoin,isDismiss) VALUES "
-        @"(?,?,?,?,?,?,?,?,?,?)";
+        @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit) VALUES "
+        @"(?,?,?,?,?,?,?,?,?,?,?,?)";
         [db executeUpdate:insertSql, group.groupId, group.groupName,
          group.portraitUri, group.number, group.maxNumber,
          group.introduce, group.creatorId, group.creatorTime,
          [NSString stringWithFormat:@"%d", group.isJoin],
-         group.isDismiss];
+         group.isDismiss, group.redPacketLimit, group.lockLimit];
       }
     }];
     result (YES);
@@ -294,27 +294,29 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
 
 //从表中获取群组信息
 - (RCDGroupInfo *)getGroupByGroupId:(NSString *)groupId {
-  __block RCDGroupInfo *model = nil;
-
-  [self.dbQueue inDatabase:^(FMDatabase *db) {
-    FMResultSet *rs = [db
-        executeQuery:@"SELECT * FROM GROUPTABLEV2 where groupId = ?", groupId];
-    while ([rs next]) {
-      model = [[RCDGroupInfo alloc] init];
-      model.groupId = [rs stringForColumn:@"groupId"];
-      model.groupName = [rs stringForColumn:@"name"];
-      model.portraitUri = [rs stringForColumn:@"portraitUri"];
-      model.number = [rs stringForColumn:@"inNumber"];
-      model.maxNumber = [rs stringForColumn:@"maxNumber"];
-      model.introduce = [rs stringForColumn:@"introduce"];
-      model.creatorId = [rs stringForColumn:@"creatorId"];
-      model.creatorTime = [rs stringForColumn:@"creatorTime"];
-      model.isJoin = [rs boolForColumn:@"isJoin"];
-      model.isDismiss = [rs stringForColumn:@"isDismiss"];
-    }
-    [rs close];
-  }];
-  return model;
+    __block RCDGroupInfo *model = nil;
+    
+    [self.dbQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet *rs = [db
+                           executeQuery:@"SELECT * FROM GROUPTABLEV2 where groupId = ?", groupId];
+        while ([rs next]) {
+            model = [[RCDGroupInfo alloc] init];
+            model.groupId = [rs stringForColumn:@"groupId"];
+            model.groupName = [rs stringForColumn:@"name"];
+            model.portraitUri = [rs stringForColumn:@"portraitUri"];
+            model.number = [rs stringForColumn:@"inNumber"];
+            model.maxNumber = [rs stringForColumn:@"maxNumber"];
+            model.introduce = [rs stringForColumn:@"introduce"];
+            model.creatorId = [rs stringForColumn:@"creatorId"];
+            model.creatorTime = [rs stringForColumn:@"creatorTime"];
+            model.isJoin = [rs boolForColumn:@"isJoin"];
+            model.isDismiss = [rs stringForColumn:@"isDismiss"];
+            model.redPacketLimit = [rs stringForColumn:@"redPacketLimit"];
+            model.lockLimit = [rs stringForColumn:@"lockLimit"];
+        }
+        [rs close];
+    }];
+    return model;
 }
 
 //删除表中的群组信息
@@ -360,6 +362,9 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
       model.creatorId = [rs stringForColumn:@"creatorId"];
       model.creatorTime = [rs stringForColumn:@"creatorTime"];
       model.isJoin = [rs boolForColumn:@"isJoin"];
+        model.redPacketLimit = [rs stringForColumn:@"redPacketLimit"];
+        model.lockLimit = [rs stringForColumn:@"lockLimit"];
+        
       [allGroups addObject:model];
     }
     [rs close];

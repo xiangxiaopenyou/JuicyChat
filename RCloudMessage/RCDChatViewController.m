@@ -32,6 +32,7 @@
 #import <RongIMKit/RongIMKit.h>
 #import "RCDCustomerEmoticonTab.h"
 #import "RCDReceiptDetailsTableViewController.h"
+#import "RedPacketViewController.h"
 
 @interface RCDChatViewController () <
     UIActionSheetDelegate, RCRealTimeLocationObserver,
@@ -153,8 +154,9 @@ NSMutableDictionary *userInputStatus;
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
     
-    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" atIndex:2 tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
-
+    if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" atIndex:2 tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
+    }
   //    self.chatSessionInputBarControl.hidden = YES;
   //    CGRect intputTextRect = self.conversationMessageCollectionView.frame;
   //    intputTextRect.size.height = intputTextRect.size.height+50;
@@ -538,6 +540,15 @@ NSMutableDictionary *userInputStatus;
     }
 
   } break;
+      case PLUGIN_BOARD_ITEM_REDPACKET_TAG: {
+          RedPacketViewController *redPacket = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil]  instantiateViewControllerWithIdentifier:@"RedPacketView"];
+          redPacket.type = self.conversationType;
+          RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
+          redPacket.groupInfo = info;
+          UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:redPacket];
+          [self presentViewController:navigation animated:YES completion:nil];
+      }
+          break;
   default:
     [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
     break;
@@ -909,11 +920,15 @@ NSMutableDictionary *userInputStatus;
                              RCUserInfo *updatedUserInfo =
                                  [[RCUserInfo alloc] init];
                              updatedUserInfo.userId = user.userId;
-                             if (user.displayName.length > 0) {
-                               updatedUserInfo.name = user.displayName;
-                             } else {
-                               updatedUserInfo.name = user.name;
-                             }
+                               if (![user.displayName isKindOfClass:[NSNull class]]) {
+                                   if (user.displayName.length > 0  ) {
+                                       updatedUserInfo.name = user.displayName;
+                                   } else {
+                                       updatedUserInfo.name = user.name;
+                                   }
+                               } else {
+                                   updatedUserInfo.name = user.name;
+                               }
                              updatedUserInfo.portraitUri = user.portraitUri;
                              weakSelf.navigationItem.title =
                                  updatedUserInfo.name;
@@ -983,9 +998,10 @@ NSMutableDictionary *userInputStatus;
   if (self.userName == nil) {
     return;
   }
-    int count = [[[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId].number intValue];
-    if(self.conversationType == ConversationType_GROUP && count > 0){
-        self.title = [NSString stringWithFormat:@"%@(%d)",self.userName,count];
+    if(self.conversationType == ConversationType_GROUP){
+        RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
+        int count = info.number.intValue;
+        self.title = [NSString stringWithFormat:@"%@(%d)",info.groupName, count];
     }else{
         self.title = self.userName;
     }

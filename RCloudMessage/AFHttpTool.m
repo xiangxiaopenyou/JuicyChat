@@ -28,6 +28,9 @@
 //#define ContentType @"text/plain"
 #define ContentType @"application/json"
 
+static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
+static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
+
 @implementation AFHttpTool
 
 + (AFHttpTool *)shareInstance {
@@ -188,14 +191,30 @@
 // reg nickname password verficationToken
 + (void)registerWithNickname:(NSString *)nickname
                     password:(NSString *)password
+                      avatar:(NSString *)avatarString
+                    nickname:(NSString *)nicknameString
+                         sex:(NSNumber *)sex
+                    wechatId:(NSString *)wechatId
             verficationToken:(NSString *)verficationToken
                      success:(void (^)(id response))success
                      failure:(void (^)(NSError *err))failure {
-  NSDictionary *params = @{
+  NSMutableDictionary *params = [@{
     @"account" : nickname,
     @"password" : password,
     @"code" : verficationToken
-  };
+  } mutableCopy];
+    if (avatarString) {
+        [params setObject:avatarString forKey:@"headico"];
+    }
+    if (nicknameString) {
+        [params setObject:nicknameString forKey:@"nickname"];
+    }
+    if (sex) {
+        [params setObject:sex forKey:@"sex"];
+    }
+    if (wechatId) {
+        [params setObject:wechatId forKey:@"wechat"];
+    }
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
                             url:@"Register.aspx"
@@ -261,9 +280,8 @@
     @"password" : password,
     @"verification_token" : verification_token
   };
-
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"user/reset_password"
+                            url:@"ResetPassword.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -273,9 +291,11 @@
 + (void)getUserInfo:(NSString *)userId
             success:(void (^)(id response))success
             failure:(void (^)(NSError *err))failure {
-  [AFHttpTool requestWihtMethod:RequestMethodTypeGet
-                            url:[NSString stringWithFormat:@"user/%@", userId]
-                         params:nil
+    NSString *token = [DEFAULTS stringForKey:@"userToen"];
+    NSDictionary *param = @{@"token" : token};
+  [AFHttpTool requestWihtMethod:RequestMethodTypePost
+                            url:@"GetUserInfo.aspx"
+                         params:param
                         success:success
                         failure:failure];
 }
@@ -695,11 +715,50 @@
 + (void)getFriendDetailsByID:(NSString *)friendId
                     success:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure {
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"token" : token,
+                              @"friendId" : friendId };
   [AFHttpTool
-   requestWihtMethod:RequestMethodTypeGet
-   url:[NSString stringWithFormat:@"friendship/%@/profile", friendId]
-   params:nil
+   requestWihtMethod:RequestMethodTypePost
+   url:@"GetFriendInfo.aspx"
+   params:params
    success:success
    failure:failure];
+}
++ (void)fetchWechatToken:(NSString *)code success:(void (^)(id))success failure:(void (^)(NSError *))failure {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];//请求
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];//响应
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json",@"text/plain", nil];
+    [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code", WECHATAPPID, WECHATSECRET,code] parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {  //获得access_token，然后根据access_token获取用户信息请求。
+        
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        success(dic);
+        
+        /*
+         access_token   接口调用凭证
+         expires_in access_token接口调用凭证超时时间，单位（秒）
+         refresh_token  用户刷新access_token
+         openid 授权用户唯一标识
+         scope  用户授权的作用域，使用逗号（,）分隔
+         unionid     当且仅当该移动应用已获得该用户的userinfo授权时，才会出现该字段
+         */
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
+}
++ (void)requestUserInfoByToken:(NSString *)token andOpenid:(NSString *)openID success:(void (^)(id))success failure:(void (^)(NSError *))failure {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager GET:[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@", token, openID] parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dic = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"dic  ==== %@",dic);
+        success(dic);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"error %ld",(long)error.code);
+        failure(error);
+    }];
 }
 @end

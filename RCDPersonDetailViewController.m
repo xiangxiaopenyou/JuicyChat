@@ -701,7 +701,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 -(void)setPhoneNumber {
    self.phoneNumberLabel.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
     self.phoneNumberLabel.font = [UIFont systemFontOfSize:14.f];
-    self.phoneNumberLabel.text = @"手机号: --";
+    self.phoneNumberLabel.text = @"账号: --";
     self.phoneNumberLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *clickPhoneNumber = [[UITapGestureRecognizer alloc]
                                                 initWithTarget:self
@@ -709,14 +709,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     [AFHttpTool getFriendDetailsByID:self.friendInfo.userId
                              success:^(id response) {
                                  if ([response[@"code"] integerValue] == 200) {
-                                     NSDictionary *dic = response[@"result"];
-                                     NSDictionary *infoDic = dic[@"user"];
-                                     self.phoneNumberLabel.text = [NSString stringWithFormat:@"手机号: %@",[infoDic objectForKey:@"phone"]];
+                                     NSDictionary *dic = response[@"data"];
+                                     //NSDictionary *infoDic = dic[@"user"];
+                                     self.phoneNumberLabel.text = [NSString stringWithFormat:@"账号: %@",[dic objectForKey:@"username"]];
                                      //创建 NSMutableAttributedString
                                      NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString: self.phoneNumberLabel.text];
-                                     [attributedStr addAttribute: NSForegroundColorAttributeName value: [UIColor colorWithHexString:@"0099ff" alpha:1.f] range: NSMakeRange(5, 11)];
+//                                     [attributedStr addAttribute: NSForegroundColorAttributeName value: [UIColor colorWithHexString:@"0099ff" alpha:1.f] range: NSMakeRange(5, 11)];
                                      self.phoneNumberLabel.attributedText = attributedStr;
-                                     self.phonenumber = [NSString stringWithFormat:@"%@",[infoDic objectForKey:@"phone"]];
+                                     self.phonenumber = [NSString stringWithFormat:@"%@",[dic objectForKey:@"username"]];
                                      [self.phoneNumberLabel addGestureRecognizer:clickPhoneNumber];
                                      
                                  }

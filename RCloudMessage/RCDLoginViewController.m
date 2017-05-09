@@ -27,8 +27,9 @@
 #import "RCDMainTabBarViewController.h"
 #import "RCDSettingServerUrlViewController.h"
 #import "RCDSettingUserDefaults.h"
-
+#import <OpenShareHeader.h>
 #import "FetchInformationsRequest.h"
+#import "WechatLoginRequest.h"
 
 #define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
 #define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
@@ -149,6 +150,10 @@ MBProgressHUD *hud;
   _rongLogo.contentMode = UIViewContentModeScaleAspectFit;
   _rongLogo.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:_rongLogo];
+    
+    UIImageView *tempImage = [[UIImageView alloc] initWithFrame:CGRectMake(22, 110, 55, 26)];
+    tempImage.image = [UIImage imageNamed:@"guoliao"];
+    [_rongLogo addSubview:tempImage];
 
   //中部内容输入区
   _inputBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -438,6 +443,7 @@ arrayByAddingObjectsFromArray:
     [wechatLoginButton setImage:[UIImage imageNamed:@"wechat_login"] forState:UIControlStateNormal];
     [wechatLoginButton addTarget:self action:@selector(wechatAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:wechatLoginButton];
+    wechatLoginButton.hidden = ![OpenShare isWeixinInstalled];
     
   [[UIApplication sharedApplication]
       setStatusBarStyle:UIStatusBarStyleLightContent
@@ -612,7 +618,68 @@ arrayByAddingObjectsFromArray:
 
 //微信登录
 - (void)wechatAction {
-    
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.color = [UIColor colorWithHexString:@"343637" alpha:0.8];
+    hud.labelText = @"登录中...";
+    [hud show:YES];
+    [OpenShare WeixinAuth:@"snsapi_userinfo" Success:^(NSDictionary *message) {
+        if (message[@"code"]) {
+            [AFHttpTool fetchWechatToken:message[@"code"] success:^(id response) {
+                if (response[@"openid"] && response[@"access_token"]) {
+                    [AFHttpTool requestUserInfoByToken:response[@"access_token"] andOpenid:response[@"openid"] success:^(id response) {
+                        if (response[@"unionid"]) {
+                            [[WechatLoginRequest new] request:^BOOL(WechatLoginRequest *request) {
+                                request.wechat = response[@"unionid"];
+                                return YES;
+                            } result:^(id object, NSString *msg) {
+                                if (object) {
+                                    if ([object[@"code"] integerValue] == 200) {
+                                        NSDictionary *tempDictionary = [object[@"data"] copy];
+                                        NSString *userId = tempDictionary[@"userId"];
+                                        NSString *token = tempDictionary[@"token"];
+                                        NSString *account = tempDictionary[@"account"];
+                                        NSString *password = tempDictionary[@"password"];
+                                        [self loginSuccess:account userId:userId token:token password:password];
+                                    } else if ([object[@"code"] integerValue] == 61003) { //第一次用微信登录
+                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                            RCDRegisterViewController *temp = [[RCDRegisterViewController alloc] init];
+                                            temp.isWechatRegister = YES;
+                                            temp.informations = [response copy];
+                                            [self.navigationController pushViewController:temp animated:YES];
+                                        });
+                                    } else {
+                                        [hud hide:YES];
+                                        _errorMsgLb.text = @"登录失败，请检查网络。";
+                                    }
+                                } else {
+                                    [hud hide:YES];
+                                    _errorMsgLb.text = @"登录失败，请检查网络。";
+                                }
+                            }];
+                        } else {
+                            [hud hide:YES];
+                            _errorMsgLb.text = @"登录失败，请检查网络。";
+                        }
+                    } failure:^(NSError *err) {
+                        [hud hide:YES];
+                        _errorMsgLb.text = @"登录失败，请检查网络。";
+                    }];
+                } else {
+                    [hud hide:YES];
+                    _errorMsgLb.text = @"登录失败，请检查网络。";
+                }
+            } failure:^(NSError *err) {
+                [hud hide:YES];
+                _errorMsgLb.text = @"登录失败，请检查网络。";
+            }];
+        } else {
+            [hud hide:YES];
+            _errorMsgLb.text = @"登录失败，请检查网络。";
+        }
+    } Fail:^(NSDictionary *message, NSError *error) {
+        [hud hide:YES];
+        _errorMsgLb.text = @"登录失败，请检查网络。";
+    }];
 }
 
 - (void)retryConnectionFailed {
@@ -632,8 +699,8 @@ arrayByAddingObjectsFromArray:
             password:(NSString *)password {
   [self invalidateRetryTime];
   //保存默认用户
-  [DEFAULTS setObject:userName forKey:@"userName"];
-  [DEFAULTS setObject:password forKey:@"userPwd"];
+    [DEFAULTS setObject:userName forKey:@"userName"];
+    [DEFAULTS setObject:password forKey:@"userPwd"];
   [DEFAULTS setObject:token forKey:@"userToken"];
   [DEFAULTS setObject:userId forKey:@"userId"];
   [DEFAULTS synchronize];
@@ -682,6 +749,7 @@ arrayByAddingObjectsFromArray:
             [RCIM sharedRCIM].currentUserInfo = user;
             [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
             [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
             [DEFAULTS synchronize];
         }
     }];
@@ -744,24 +812,24 @@ arrayByAddingObjectsFromArray:
       tokenIncorrect:^{
         NSLog(@"IncorrectToken");
 
-        if (_loginFailureTimes < 1) {
-          _loginFailureTimes++;
-          [AFHttpTool getTokenSuccess:^(id response) {
-            NSString *token = response[@"result"][@"token"];
-            NSString *userId = response[@"result"][@"userId"];
-            [self loginRongCloud:userName
-                          userId:userId
-                           token:token
-                        password:password];
-          }
-              failure:^(NSError *err) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                  [hud hide:YES];
-                  NSLog(@"Token无效");
-                  _errorMsgLb.text = @"无法连接到服务器！";
-                });
-              }];
-        }
+//        if (_loginFailureTimes < 1) {
+//          _loginFailureTimes++;
+//          [AFHttpTool getTokenSuccess:^(id response) {
+//            NSString *token = response[@"result"][@"token"];
+//            NSString *userId = response[@"result"][@"userId"];
+//            [self loginRongCloud:userName
+//                          userId:userId
+//                           token:token
+//                        password:password];
+//          }
+//              failure:^(NSError *err) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                  [hud hide:YES];
+//                  NSLog(@"Token无效");
+//                  _errorMsgLb.text = @"无法连接到服务器！";
+//                });
+//              }];
+//        }
       }];
 }
 

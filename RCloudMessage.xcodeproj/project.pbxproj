@@ -46,7 +46,28 @@
 		3D0E5F0E1EADCE3100B41F9E /* RequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F0B1EADCE3100B41F9E /* RequestManager.m */; };
 		3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */; };
 		3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */; };
+		3D3F8CA01EC194E80040C0D5 /* RedPacket.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D3F8C9F1EC194E80040C0D5 /* RedPacket.storyboard */; };
+		3D3F8CA31EC19DE90040C0D5 /* RedPacketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA21EC19DE90040C0D5 /* RedPacketViewController.m */; };
+		3D3F8CA71EC19E160040C0D5 /* RedPacketCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */; };
+		3D3F8CAA1EC19E340040C0D5 /* RedPacketWordsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
+		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
+		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
+		3D85EEF61EC0572D00CD7ED2 /* WechatLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */; };
+		3DFF525A1EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */; };
+		3DFF525D1EBC736A00CDF351 /* DeleteGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */; };
+		3DFF52601EBC80EC00CDF351 /* MyInformationsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */; };
+		3DFF527C1EBC828F00CDF351 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DFF52621EBC828F00CDF351 /* Info.plist */; };
+		3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52641EBC828F00CDF351 /* MASCompositeConstraint.m */; };
+		3DFF527E1EBC828F00CDF351 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52671EBC828F00CDF351 /* MASConstraint.m */; };
+		3DFF527F1EBC828F00CDF351 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52691EBC828F00CDF351 /* MASConstraintMaker.m */; };
+		3DFF52801EBC828F00CDF351 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF526B1EBC828F00CDF351 /* MASLayoutConstraint.m */; };
+		3DFF52811EBC828F00CDF351 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF526F1EBC828F00CDF351 /* MASViewAttribute.m */; };
+		3DFF52821EBC828F00CDF351 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52711EBC828F00CDF351 /* MASViewConstraint.m */; };
+		3DFF52831EBC828F00CDF351 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52731EBC828F00CDF351 /* NSArray+MASAdditions.m */; };
+		3DFF52841EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52761EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		3DFF52851EBC828F00CDF351 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52781EBC828F00CDF351 /* View+MASAdditions.m */; };
+		3DFF52861EBC828F00CDF351 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF527B1EBC828F00CDF351 /* ViewController+MASAdditions.m */; };
 		466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */; };
 		466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684261B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m */; };
 		4666842A1B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684291B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m */; };
@@ -325,10 +346,53 @@
 		3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchInformationsRequest.m; sourceTree = "<group>"; };
 		3D0E5F3D1EB1A0B300B41F9E /* ModifyInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyInformationsRequest.h; sourceTree = "<group>"; };
 		3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyInformationsRequest.m; sourceTree = "<group>"; };
+		3D3F8C9F1EC194E80040C0D5 /* RedPacket.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RedPacket.storyboard; sourceTree = "<group>"; };
+		3D3F8CA11EC19DE90040C0D5 /* RedPacketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketViewController.h; sourceTree = "<group>"; };
+		3D3F8CA21EC19DE90040C0D5 /* RedPacketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketViewController.m; sourceTree = "<group>"; };
+		3D3F8CA51EC19E160040C0D5 /* RedPacketCommonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketCommonCell.h; sourceTree = "<group>"; };
+		3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketCommonCell.m; sourceTree = "<group>"; };
+		3D3F8CA81EC19E340040C0D5 /* RedPacketWordsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketWordsCell.h; sourceTree = "<group>"; };
+		3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketWordsCell.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
+		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
+		3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOpenShare.a; path = "../../../Library/Developer/Xcode/DerivedData/RCloudMessage-fnwxifbqotwixldygjwwxvoasrmp/Build/Products/Debug-iphoneos/OpenShare/libOpenShare.a"; sourceTree = "<group>"; };
+		3D85EEF41EC0572D00CD7ED2 /* WechatLoginRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatLoginRequest.h; sourceTree = "<group>"; };
+		3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WechatLoginRequest.m; sourceTree = "<group>"; };
 		3DA8046F1EA5C4480087DF1F /* SealTalk.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SealTalk.entitlements; sourceTree = "<group>"; };
 		3DA804711EA5D87D0087DF1F /* RCloudMessage.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = RCloudMessage.entitlements; path = RCloudMessage/RCloudMessage.entitlements; sourceTree = SOURCE_ROOT; };
+		3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyGroupInformationsRequest.h; sourceTree = "<group>"; };
+		3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyGroupInformationsRequest.m; sourceTree = "<group>"; };
+		3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteGroupRequest.h; sourceTree = "<group>"; };
+		3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteGroupRequest.m; sourceTree = "<group>"; };
+		3DFF525E1EBC80EC00CDF351 /* MyInformationsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInformationsCell.h; sourceTree = SOURCE_ROOT; };
+		3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInformationsCell.m; sourceTree = SOURCE_ROOT; };
+		3DFF52621EBC828F00CDF351 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3DFF52631EBC828F00CDF351 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		3DFF52641EBC828F00CDF351 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		3DFF52651EBC828F00CDF351 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		3DFF52661EBC828F00CDF351 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		3DFF52671EBC828F00CDF351 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		3DFF52681EBC828F00CDF351 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		3DFF52691EBC828F00CDF351 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		3DFF526A1EBC828F00CDF351 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		3DFF526B1EBC828F00CDF351 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		3DFF526C1EBC828F00CDF351 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		3DFF526D1EBC828F00CDF351 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		3DFF526E1EBC828F00CDF351 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		3DFF526F1EBC828F00CDF351 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
+		3DFF52701EBC828F00CDF351 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		3DFF52711EBC828F00CDF351 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		3DFF52721EBC828F00CDF351 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		3DFF52731EBC828F00CDF351 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		3DFF52741EBC828F00CDF351 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		3DFF52751EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		3DFF52761EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		3DFF52771EBC828F00CDF351 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		3DFF52781EBC828F00CDF351 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		3DFF52791EBC828F00CDF351 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		3DFF527A1EBC828F00CDF351 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		3DFF527B1EBC828F00CDF351 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		466684221B5DEA10000B7504 /* RCDSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDSettingBaseViewController.h; path = RCloudMessage/RCDSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = RCDSettingBaseViewController.m; path = RCloudMessage/RCDSettingBaseViewController.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		466684251B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDConversationSettingBaseViewController.h; path = RCloudMessage/RCDConversationSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -366,6 +430,8 @@
 		5C0253F31B53D6F8003F48D9 /* RCDBlackListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCDBlackListViewController.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5C7629811B54F7E60027DA82 /* RCDBlackListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RCDBlackListCell.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		5C7629821B54F7E60027DA82 /* RCDBlackListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RCDBlackListCell.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SealTalk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		684B076D6C1576D7E010C5FA /* Pods-SealTalk.autodebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SealTalk.autodebug.xcconfig"; path = "Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk.autodebug.xcconfig"; sourceTree = "<group>"; };
 		8C55EB501B2A8CE5004285F4 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Emoji.plist; path = framework/Emoji.plist; sourceTree = SOURCE_ROOT; };
 		8CCBC9861AEDDF8600BA1135 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		980235861D227F8100BCB1DD /* RCDPrivacyTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDPrivacyTableViewController.h; sourceTree = SOURCE_ROOT; };
@@ -494,6 +560,9 @@
 		A6EFABA21BB0EDD7007E9D67 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		A6EFABA41BB0EDE1007E9D67 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		A6EFABA61BB0EDFB007E9D67 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		B942919D24AC929F69CDDCD2 /* Pods-SealTalk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SealTalk.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk.debug.xcconfig"; sourceTree = "<group>"; };
+		D9016CFA0181351F1E3CDE88 /* Pods-SealTalk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SealTalk.release.xcconfig"; path = "Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk.release.xcconfig"; sourceTree = "<group>"; };
+		E24AD9C18EDD2E70934CACBA /* Pods-SealTalk.autorelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SealTalk.autorelease.xcconfig"; path = "Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk.autorelease.xcconfig"; sourceTree = "<group>"; };
 		E412BD1C1ADE19A4000DCA7A /* RCDChatListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDChatListCell.h; sourceTree = SOURCE_ROOT; };
 		E412BD1D1ADE19A4000DCA7A /* RCDChatListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDChatListCell.m; sourceTree = SOURCE_ROOT; };
 		E412BD221ADE6BFB000DCA7A /* RCDHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDHttpTool.h; sourceTree = SOURCE_ROOT; };
@@ -703,6 +772,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87E7BF19A6D012F2EB8A61A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A6447A021B1DBE6500EA2CEE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -720,6 +796,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */,
+				3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */,
 				E4C4E7E41A0A2F2800140067 /* CoreGraphics.framework in Frameworks */,
 				27AADC281DDC4DD800E1AE31 /* Foundation.framework in Frameworks */,
 				2E7A36E31E03A876005231BE /* JrmfPacketKit.framework in Frameworks */,
@@ -904,9 +982,70 @@
 				3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */,
 				3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */,
 				3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */,
+				3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */,
+				3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */,
+				3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */,
+				3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */,
+				3D85EEF41EC0572D00CD7ED2 /* WechatLoginRequest.h */,
+				3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */,
 			);
 			path = Request;
 			sourceTree = SOURCE_ROOT;
+		};
+		3D3F8C9E1EC193AD0040C0D5 /* RedPacket */ = {
+			isa = PBXGroup;
+			children = (
+				3D3F8CA41EC19DF70040C0D5 /* Views */,
+				3D3F8C9F1EC194E80040C0D5 /* RedPacket.storyboard */,
+				3D3F8CA11EC19DE90040C0D5 /* RedPacketViewController.h */,
+				3D3F8CA21EC19DE90040C0D5 /* RedPacketViewController.m */,
+			);
+			path = RedPacket;
+			sourceTree = SOURCE_ROOT;
+		};
+		3D3F8CA41EC19DF70040C0D5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3D3F8CA51EC19E160040C0D5 /* RedPacketCommonCell.h */,
+				3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */,
+				3D3F8CA81EC19E340040C0D5 /* RedPacketWordsCell.h */,
+				3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3DFF52611EBC828F00CDF351 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				3DFF52621EBC828F00CDF351 /* Info.plist */,
+				3DFF52631EBC828F00CDF351 /* MASCompositeConstraint.h */,
+				3DFF52641EBC828F00CDF351 /* MASCompositeConstraint.m */,
+				3DFF52651EBC828F00CDF351 /* MASConstraint+Private.h */,
+				3DFF52661EBC828F00CDF351 /* MASConstraint.h */,
+				3DFF52671EBC828F00CDF351 /* MASConstraint.m */,
+				3DFF52681EBC828F00CDF351 /* MASConstraintMaker.h */,
+				3DFF52691EBC828F00CDF351 /* MASConstraintMaker.m */,
+				3DFF526A1EBC828F00CDF351 /* MASLayoutConstraint.h */,
+				3DFF526B1EBC828F00CDF351 /* MASLayoutConstraint.m */,
+				3DFF526C1EBC828F00CDF351 /* Masonry.h */,
+				3DFF526D1EBC828F00CDF351 /* MASUtilities.h */,
+				3DFF526E1EBC828F00CDF351 /* MASViewAttribute.h */,
+				3DFF526F1EBC828F00CDF351 /* MASViewAttribute.m */,
+				3DFF52701EBC828F00CDF351 /* MASViewConstraint.h */,
+				3DFF52711EBC828F00CDF351 /* MASViewConstraint.m */,
+				3DFF52721EBC828F00CDF351 /* NSArray+MASAdditions.h */,
+				3DFF52731EBC828F00CDF351 /* NSArray+MASAdditions.m */,
+				3DFF52741EBC828F00CDF351 /* NSArray+MASShorthandAdditions.h */,
+				3DFF52751EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.h */,
+				3DFF52761EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				3DFF52771EBC828F00CDF351 /* View+MASAdditions.h */,
+				3DFF52781EBC828F00CDF351 /* View+MASAdditions.m */,
+				3DFF52791EBC828F00CDF351 /* View+MASShorthandAdditions.h */,
+				3DFF527A1EBC828F00CDF351 /* ViewController+MASAdditions.h */,
+				3DFF527B1EBC828F00CDF351 /* ViewController+MASAdditions.m */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
 		};
 		46A831B81AC014B2001A533F /* FindPsw */ = {
 			isa = PBXGroup;
@@ -972,6 +1111,8 @@
 				98F7B0A51D826151005B2E42 /* RCDMeDetailsCell.m */,
 				9891E8DB1D8263F700E874AB /* RCDMeCell.h */,
 				9891E8DC1D8263F700E874AB /* RCDMeCell.m */,
+				3DFF525E1EBC80EC00CDF351 /* MyInformationsCell.h */,
+				3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -1117,6 +1258,17 @@
 			path = RCAnnotation;
 			sourceTree = "<group>";
 		};
+		DC6C33C02A8B6B3FCA18E7FE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B942919D24AC929F69CDDCD2 /* Pods-SealTalk.debug.xcconfig */,
+				684B076D6C1576D7E010C5FA /* Pods-SealTalk.autodebug.xcconfig */,
+				D9016CFA0181351F1E3CDE88 /* Pods-SealTalk.release.xcconfig */,
+				E24AD9C18EDD2E70934CACBA /* Pods-SealTalk.autorelease.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		E411721B1A1D9D120025EE4E /* AccountSettings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1214,7 +1366,6 @@
 		E4C4E7C81A09F87C00140067 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				17F7A8351DAE184000E27D25 /* SearchView */,
 				46B8315E1D8FCAA000FCD97A /* EmoticonExtension */,
 				983903601D2D052800CE2C00 /* Discovery */,
 				F836AB0F1C226A3500A1A5D2 /* Cell */,
@@ -1238,6 +1389,7 @@
 				E4C4E7D01A09FD3E00140067 /* ChatRoom */,
 				E4C4E7D21A0A125D00140067 /* Service */,
 				E4C4E7D11A09FD5B00140067 /* Me */,
+				3D3F8C9E1EC193AD0040C0D5 /* RedPacket */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1245,6 +1397,7 @@
 		E4C4E7CC1A09FC2800140067 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				17F7A8351DAE184000E27D25 /* SearchView */,
 				E4BFAE601A1219D8007165B1 /* RCDLoginViewController.h */,
 				E4BFAE611A1219D8007165B1 /* RCDLoginViewController.m */,
 				27D6FF9A1DFE4D2100053F69 /* RCDSettingServerUrlViewController.h */,
@@ -1342,6 +1495,8 @@
 		E4C4E7E71A0A309100140067 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */,
+				3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */,
 				27579B631E10D28700A30A62 /* PTT */,
 				F894EC361DF7E3A200EFD084 /* BQMM */,
 				27C42EE91DE30637003E2306 /* ifly */,
@@ -1392,6 +1547,7 @@
 				E4C330F11A0C721D00E31B9A /* AVFoundation.framework */,
 				E4C4E7E51A0A2F2E00140067 /* UIKit.framework */,
 				E4C4E7E31A0A2F2800140067 /* CoreGraphics.framework */,
+				6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */,
 			);
 			name = Frameworks;
 			path = RongCloudTests;
@@ -1405,6 +1561,7 @@
 				E4D40F2A1A031F460045097C /* RCloudMessage */,
 				E4C4E7E71A0A309100140067 /* Frameworks */,
 				E4D40F291A031F460045097C /* Products */,
+				DC6C33C02A8B6B3FCA18E7FE /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -1474,6 +1631,7 @@
 			children = (
 				98AB3C071D38940600C3B87C /* SortForTime.h */,
 				98AB3C081D38940600C3B87C /* SortForTime.m */,
+				3DFF52611EBC828F00CDF351 /* Masonry */,
 				F821B7F11BE75BD000F0D14C /* UMAnalytics */,
 				46E17CB81B0EC275001AC57A /* DB */,
 				E4E938CC1AD65A95001E0AC6 /* AFNetworking */,
@@ -1720,6 +1878,7 @@
 			buildConfigurationList = A6447A271B1DBE6500EA2CEE /* Build configuration list for PBXNativeTarget "SealTalk WatchKit App" */;
 			buildPhases = (
 				A6447A121B1DBE6500EA2CEE /* Resources */,
+				87E7BF19A6D012F2EB8A61A0 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1734,10 +1893,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4D40F4E1A031F460045097C /* Build configuration list for PBXNativeTarget "SealTalk" */;
 			buildPhases = (
+				B4D0ACFFF5B0AC839B9F7D60 /* [CP] Check Pods Manifest.lock */,
 				2E29FF1D1DC1BBAA00AF2DF0 /* ShellScript */,
 				E4D40F241A031F460045097C /* Sources */,
 				E4D40F251A031F460045097C /* Frameworks */,
 				E4D40F261A031F460045097C /* Resources */,
+				58104E9DF89BAEC3A11EF98F /* [CP] Embed Pods Frameworks */,
+				7FC55BD76BB22B2BDF04A1EF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1849,7 +2011,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFF527C1EBC828F00CDF351 /* Info.plist in Resources */,
 				F894EC391DF7E47600EFD084 /* BQMM.bundle in Resources */,
+				3D3F8CA01EC194E80040C0D5 /* RedPacket.storyboard in Resources */,
 				2E29FF3C1DC1BE8400AF2DF0 /* AlipaySDK.bundle in Resources */,
 				27C42EED1DE30637003E2306 /* RongCloudiFly.bundle in Resources */,
 				2E6B9A1E1E127C0C006EA6B4 /* JrmfInfo.strings in Resources */,
@@ -1882,6 +2046,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "sh xcodebuild.sh";
+		};
+		58104E9DF89BAEC3A11EF98F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7FC55BD76BB22B2BDF04A1EF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SealTalk/Pods-SealTalk-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4D0ACFFF5B0AC839B9F7D60 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1922,6 +2131,7 @@
 				E4E9394A1AD65A95001E0AC6 /* AFURLSessionManager.m in Sources */,
 				9891E8E61D82AC4400E874AB /* RCDVersionCell.m in Sources */,
 				17F7A84C1DAE187200E27D25 /* RCDSearchResultViewCell.m in Sources */,
+				3DFF527E1EBC828F00CDF351 /* MASConstraint.m in Sources */,
 				E4E939601AD65A95001E0AC6 /* RCDNavigationBar.m in Sources */,
 				4666842D1B5DEC25000B7504 /* RCDConversationSettingTableViewCell.m in Sources */,
 				E4E939461AD65A95001E0AC6 /* AFSecurityPolicy.m in Sources */,
@@ -1930,6 +2140,7 @@
 				46E17CC91B0EC32A001AC57A /* FMDatabasePool.m in Sources */,
 				E475A3371AE6981B009C31D7 /* RCDPrivateSettingViewController.m in Sources */,
 				E4E9396E1AD65A95001E0AC6 /* UIImage+MultiFormat.m in Sources */,
+				3DFF52601EBC80EC00CDF351 /* MyInformationsCell.m in Sources */,
 				E4E939941AD65BF4001E0AC6 /* RCDUserInfo.m in Sources */,
 				3D0E5F0D1EADCE3100B41F9E /* RequestCacher.m in Sources */,
 				E4E9397C1AD65B0D001E0AC6 /* RCDChatViewController.m in Sources */,
@@ -1942,6 +2153,7 @@
 				27D6FF9F1DFE4D2C00053F69 /* RCDSettingUserDefaults.m in Sources */,
 				E4E939AB1AD65CC2001E0AC6 /* RCDSearchFriendViewController.m in Sources */,
 				E4E939721AD65A95001E0AC6 /* UIView+WebCacheOperation.m in Sources */,
+				3DFF52851EBC828F00CDF351 /* View+MASAdditions.m in Sources */,
 				E4E939D21AD6805E001E0AC6 /* RCDPersonDetailViewController.m in Sources */,
 				A677D69B1B81EBB9007D5D90 /* RCAnnotationView.m in Sources */,
 				E4E939671AD65A95001E0AC6 /* SDWebImageDecoder.m in Sources */,
@@ -1950,8 +2162,10 @@
 				A6827BE11B15E94A000B9862 /* SelectAppKeyViewController.m in Sources */,
 				E4E939761AD65AC7001E0AC6 /* RCDAddressBookTableViewCell.m in Sources */,
 				46E17CC81B0EC32A001AC57A /* FMDatabaseAdditions.m in Sources */,
+				3DFF52831EBC828F00CDF351 /* NSArray+MASAdditions.m in Sources */,
 				E4E939CC1AD65E1E001E0AC6 /* UITextFiled+Shake.m in Sources */,
 				98C8B2911DB85E9C00D42297 /* RCDContactSelectedCollectionViewCell.m in Sources */,
+				3DFF52811EBC828F00CDF351 /* MASViewAttribute.m in Sources */,
 				9891E8DD1D8263F700E874AB /* RCDMeCell.m in Sources */,
 				9B447DE61CF82926005D3ED5 /* RCDChangePasswordViewController.m in Sources */,
 				E4E9399A1AD65C3B001E0AC6 /* RCDFindPswViewController.m in Sources */,
@@ -1967,11 +2181,13 @@
 				E4E939691AD65A95001E0AC6 /* SDWebImageDownloaderOperation.m in Sources */,
 				E4E939CA1AD65E1E001E0AC6 /* UIColor+RCColor.m in Sources */,
 				98A3E70A1D45F961007989E7 /* RCDNavigationViewController.m in Sources */,
+				3DFF52841EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				E4E939B81AD65CFD001E0AC6 /* RCDGroupTableViewCell.m in Sources */,
 				466684361B5DF36E000B7504 /* RCDUtilities.m in Sources */,
 				E4E939441AD65A95001E0AC6 /* AFHTTPSessionManager.m in Sources */,
 				17D7D1FB1D535272000AEC54 /* DefaultPortraitView.m in Sources */,
 				E4E939A01AD65C74001E0AC6 /* RCDDiscussGroupSettingViewController.m in Sources */,
+				3D3F8CA31EC19DE90040C0D5 /* RedPacketViewController.m in Sources */,
 				9899D8331DBDAA1C00AD60F8 /* RCDTabBarBtn.m in Sources */,
 				A677D69C1B81EBB9007D5D90 /* RCLocationConvert.m in Sources */,
 				980EF4591D376BC9000C26FC /* UITextViewAndPlaceholder.m in Sources */,
@@ -1982,10 +2198,12 @@
 				9B447DED1CF82926005D3ED5 /* RCDGroupMemberCollectionViewCell.m in Sources */,
 				980EF4561D373BE0000C26FC /* RCDGroupAnnouncementViewController.m in Sources */,
 				E4BFAE6B1A121A13007165B1 /* RCDGroupViewController.m in Sources */,
+				3DFF52861EBC828F00CDF351 /* ViewController+MASAdditions.m in Sources */,
 				9B447DEA1CF82926005D3ED5 /* RCDContactViewController.m in Sources */,
 				E4E9396F1AD65A95001E0AC6 /* UIImage+WebP.m in Sources */,
 				17F7A84D1DAE187200E27D25 /* RCDSearchViewController.m in Sources */,
 				A677D6A01B81EBB9007D5D90 /* RealTimeLocationStatusView.m in Sources */,
+				3DFF525D1EBC736A00CDF351 /* DeleteGroupRequest.m in Sources */,
 				98AB3C091D38940600C3B87C /* SortForTime.m in Sources */,
 				466684331B5DEC7C000B7504 /* RCDConversationSettingTableViewHeaderItem.m in Sources */,
 				17F7A8481DAE187200E27D25 /* RCDSearchDataManager.m in Sources */,
@@ -1998,6 +2216,7 @@
 				98A670751DDD5478007D426D /* RCDNoFriendView.m in Sources */,
 				A6447A3E1B1DC12500EA2CEE /* RCWKRequestHandler.m in Sources */,
 				986A192A1D751FFC00FFEA2F /* RCDBaseSettingTableViewCell.m in Sources */,
+				3D3F8CAA1EC19E340040C0D5 /* RedPacketWordsCell.m in Sources */,
 				E4E939BE1AD65D30001E0AC6 /* RCDMessageNotifySettingTableViewController.m in Sources */,
 				3D0E5F0C1EADCE3100B41F9E /* BaseRequest.m in Sources */,
 				E4E939611AD65A95001E0AC6 /* RCDTextFieldValidate.m in Sources */,
@@ -2008,6 +2227,7 @@
 				9B447DF51CF82926005D3ED5 /* RCDPrivateSettingsTableViewController.m in Sources */,
 				E4E939821AD65B27001E0AC6 /* RCDDiscussSettingSwitchCell.m in Sources */,
 				46E0D44F1B1EA7E300E04B8A /* RCDataBaseManager.m in Sources */,
+				3D85EEF61EC0572D00CD7ED2 /* WechatLoginRequest.m in Sources */,
 				A662A0E11AEE50D400847EEB /* RCDAboutRongCloudTableViewController.m in Sources */,
 				5C0253F41B53D6F8003F48D9 /* RCDBlackListViewController.m in Sources */,
 				A6B1D8EB1B1FFCB700AD32EC /* RCWKNotifier.m in Sources */,
@@ -2030,11 +2250,15 @@
 				466684301B5DEC57000B7504 /* RCDConversationSettingTableViewHeader.m in Sources */,
 				980235881D227F8100BCB1DD /* RCDPrivacyTableViewController.m in Sources */,
 				E4E939521AD65A95001E0AC6 /* UIWebView+AFNetworking.m in Sources */,
+				3D3F8CA71EC19E160040C0D5 /* RedPacketCommonCell.m in Sources */,
 				E4E939641AD65A95001E0AC6 /* NSData+ImageContentType.m in Sources */,
 				E4E9394C1AD65A95001E0AC6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				E4E939811AD65B27001E0AC6 /* RCDDiscussSettingCell.m in Sources */,
 				E4E939BB1AD65D18001E0AC6 /* RCDChatRoomTableViewCell.m in Sources */,
+				3DFF527F1EBC828F00CDF351 /* MASConstraintMaker.m in Sources */,
+				3DFF525A1EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m in Sources */,
 				F836AB0E1C2262C400A1A5D2 /* RCDTestMessage.m in Sources */,
+				3DFF52821EBC828F00CDF351 /* MASViewConstraint.m in Sources */,
 				E4E939471AD65A95001E0AC6 /* AFURLConnectionOperation.m in Sources */,
 				E4E9396C1AD65A95001E0AC6 /* UIButton+WebCache.m in Sources */,
 				3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */,
@@ -2047,6 +2271,7 @@
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
 				3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */,
 				E412BD271ADFA2A0000DCA7A /* RCDAddFriendViewController.m in Sources */,
+				3DFF52801EBC828F00CDF351 /* MASLayoutConstraint.m in Sources */,
 				E4E939701AD65A95001E0AC6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				E4BFAE6E1A121A22007165B1 /* RCDChatRoomViewController.m in Sources */,
 				E4E939621AD65A95001E0AC6 /* RCUnderlineTextField.m in Sources */,
@@ -2067,6 +2292,7 @@
 				46E17CCC1B0EC32A001AC57A /* FMResultSet.m in Sources */,
 				A61647881BE9BF7C00E90813 /* RCDMeInfoTableViewController.m in Sources */,
 				466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */,
+				3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */,
 				9B447DE81CF82926005D3ED5 /* RCDContactSelectedTableViewController.m in Sources */,
 				174151F51CBE516A00A4B23B /* RCDPublicServiceListViewController.m in Sources */,
 				A6447A3F1B1DC12500EA2CEE /* RCWKSharedUserDefault.m in Sources */,
@@ -2268,6 +2494,7 @@
 		};
 		A608834E1B3954240003B082 /* AutoDebug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 684B076D6C1576D7E010C5FA /* Pods-SealTalk.autodebug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2295,8 +2522,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
 					"$(PROJECT_DIR)/RCloudMessage/Utilities/UMAnalytics",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -2414,6 +2642,7 @@
 		};
 		A60883521B3972CB0003B082 /* AutoRelease */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E24AD9C18EDD2E70934CACBA /* Pods-SealTalk.autorelease.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2441,8 +2670,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
 					"$(PROJECT_DIR)/RCloudMessage/Utilities/UMAnalytics",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_CODE_SIGN_FLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
@@ -2719,6 +2949,7 @@
 		};
 		E4D40F4F1A031F460045097C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B942919D24AC929F69CDDCD2 /* Pods-SealTalk.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2746,8 +2977,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
 					"$(PROJECT_DIR)/RCloudMessage/Utilities/UMAnalytics",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
@@ -2760,6 +2992,7 @@
 		};
 		E4D40F501A031F460045097C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9016CFA0181351F1E3CDE88 /* Pods-SealTalk.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2787,8 +3020,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
 					"$(PROJECT_DIR)/RCloudMessage/Utilities/UMAnalytics",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-fembed-bitcode";
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";

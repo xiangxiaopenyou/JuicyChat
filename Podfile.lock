@@ -1,0 +1,12 @@
+PODS:
+  - OpenShare (0.0.1)
+
+DEPENDENCIES:
+  - OpenShare
+
+SPEC CHECKSUMS:
+  OpenShare: a560580dbb729d5c0c3cc1ee84cd6aa4a07e94c6
+
+PODFILE CHECKSUM: d53e12b05e395a8d63e48d80ae06e03515bef81f
+
+COCOAPODS: 1.2.0

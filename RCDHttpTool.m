@@ -97,6 +97,8 @@
           } else {
             group.isDismiss = @"NO";
           }
+            group.redPacketLimit = [NSString stringWithFormat:@"%@", result[@"redpacketlimit"]];
+            group.lockLimit = [NSString stringWithFormat:@"%@", result[@"locklimit"]];
           [[RCDataBaseManager shareInstance] insertGroupToDB:group];
           if (group.groupId.integerValue == groupID.integerValue && completion) {
             completion(group);
@@ -131,11 +133,11 @@
             NSString *code =
                 [NSString stringWithFormat:@"%@", response[@"code"]];
             if ([code isEqualToString:@"200"]) {
-              NSDictionary *dic = response[@"result"];
+              NSDictionary *dic = response[@"data"];
               RCUserInfo *user = [RCUserInfo new];
               user.userId = dic[@"id"];
               user.name = [dic objectForKey:@"nickname"];
-              user.portraitUri = [dic objectForKey:@"portraitUri"];
+              user.portraitUri = [dic objectForKey:@"headIco"];
               if (!user.portraitUri || user.portraitUri.length <= 0) {
                 user.portraitUri = [RCDUtilities defaultUserPortrait:user];
               }
@@ -643,12 +645,11 @@
    getFriendDetailsByID:userID
    success:^(id response) {
      if ([response[@"code"] integerValue] == 200) {
-       NSDictionary *dic = response[@"result"];
-       NSDictionary *infoDic = dic[@"user"];
+       NSDictionary *dic = response[@"data"];
        RCUserInfo *user = [RCUserInfo new];
-       user.userId = infoDic[@"id"];
-       user.name = [infoDic objectForKey:@"nickname"];
-       NSString *portraitUri = [infoDic objectForKey:@"portraitUri"];
+       user.userId = dic[@"friendid"];
+       user.name = [dic objectForKey:@"nickname"];
+       NSString *portraitUri = [dic objectForKey:@"headico"];
        if (!portraitUri || portraitUri.length <= 0) {
          portraitUri = [RCDUtilities defaultUserPortrait:user];
        }
@@ -659,9 +660,9 @@
        if (Details == nil) {
          Details = [[RCDUserInfo alloc] init];
        }
-       Details.name = [infoDic objectForKey:@"nickname"];
+       Details.name = [dic objectForKey:@"nickname"];
        Details.portraitUri = portraitUri;
-       Details.displayName = dic[@"displayName"];
+       Details.displayName = dic[@"remark"];
        [[RCDataBaseManager shareInstance] insertFriendToDB:Details];
        if (success) {
          dispatch_async(dispatch_get_main_queue(), ^{
@@ -777,12 +778,12 @@
   [AFHttpTool getFriendDetailsByID:friendId
                            success:^(id response) {
                              if ([response[@"code"] integerValue] == 200) {
-                               NSDictionary *dic = response[@"result"];
-                               NSDictionary *infoDic = dic[@"user"];
+                               NSDictionary *dic = response[@"data"];
+                               //NSDictionary *infoDic = dic[@"user"];
                                RCUserInfo *user = [RCUserInfo new];
-                               user.userId = infoDic[@"id"];
-                               user.name = [infoDic objectForKey:@"nickname"];
-                               NSString *portraitUri = [infoDic objectForKey:@"portraitUri"];
+                               user.userId = dic[@"friendid"];
+                               user.name = [dic objectForKey:@"nickname"];
+                               NSString *portraitUri = [dic objectForKey:@"headico"];
                                if (!portraitUri || portraitUri.length <= 0) {
                                  portraitUri = [RCDUtilities defaultUserPortrait:user];
                                }
@@ -793,9 +794,14 @@
                                if (Details == nil) {
                                  Details = [[RCDUserInfo alloc] init];
                                }
-                               Details.name = [infoDic objectForKey:@"nickname"];
+                               Details.name = [dic objectForKey:@"nickname"];
                                Details.portraitUri = portraitUri;
-                               Details.displayName = dic[@"displayName"];
+                                 if ([dic[@"remark"] isKindOfClass:[NSNull class]]) {
+                                     Details.displayName = nil;
+                                 } else {
+                                     Details.displayName = dic[@"remark"];
+                                 }
+                               
                                [[RCDataBaseManager shareInstance] insertFriendToDB:Details];
                                if (success) {
                                  dispatch_async(dispatch_get_main_queue(), ^{

@@ -26,6 +26,8 @@
 #import "RCDUserInfoManager.h"
 #import "RCDGroupSettingsTableViewCell.h"
 #import "RCDSearchHistoryMessageController.h"
+#import "ModifyGroupInformationsRequest.h"
+#import "DeleteGroupRequest.h"
 static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 @interface RCDGroupSettingsTableViewController ()
@@ -155,6 +157,8 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
     }else{
         self.title = @"群组信息";
     }
+    self.Group = [[RCDataBaseManager shareInstance] getGroupByGroupId:groupId];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -194,10 +198,10 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
       [[RCIMClient sharedRCIMClient] getConversation:ConversationType_GROUP
                                             targetId:groupId];
   if (currentConversation.targetId == nil) {
-    numberOfSections = 3;
+    numberOfSections = 4;
     [self.tableView reloadData];
   } else {
-    numberOfSections = 4;
+    numberOfSections = 5;
     [[RCIMClient sharedRCIMClient]
         getConversationNotificationStatus:ConversationType_GROUP
         targetId:groupId
@@ -250,8 +254,9 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
                [self.tableView viewWithTag:RCDGroupSettingsTableViewCellGroupNameTag];
                cell.leftLabel.text = [NSString stringWithFormat:@"全部群成员(%lu)", (unsigned long)result.count];
            });
-         collectionViewResource = [NSMutableArray new];
-         NSMutableArray *tempArray = result;
+         collectionViewResource = [[NSMutableArray alloc] init];
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+         tempArray = result;
          tempArray = [self moveCreator:tempArray];
          NSArray *resultList = [[RCDUserInfoManager shareInstance] getFriendInfoList:tempArray];
          NSMutableArray *groupMemberList = [[NSMutableArray alloc] initWithArray:resultList];
@@ -418,34 +423,61 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         weakSelf.Group.portraitUri = url;
         [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
                                      withGroupId:groupInfo.groupId];
-        [RCDHTTPTOOL setGroupPortraitUri:url
-                                 groupId:weakSelf.Group.groupId
-                                complete:^(BOOL result) {
-                                  if (result == YES) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                      RCDBaseSettingTableViewCell *cell =
-                                          (RCDBaseSettingTableViewCell *)
-                                              [self.tableView viewWithTag:1000];
-                                        [cell.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.Group.portraitUri]];
-                                      //在修改群组头像成功后，更新本地数据库。
-                                      [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
-//                                      cell.PortraitImg.image = image;
-                                      //关闭HUD
-                                      [hud hide:YES];
-                                    });
-                                  }
-                                  if (result == NO) {
-                                    //关闭HUD
-                                    [hud hide:YES];
-                                    UIAlertView *alert = [[UIAlertView alloc]
-                                            initWithTitle:nil
-                                                  message:@"上传头像失败"
-                                                 delegate:self
+          [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+              request.groupId = groupInfo.groupId;
+              request.headIco = url;
+              request.redPacketLimit = @(weakSelf.Group.redPacketLimit.integerValue);
+              request.lockLimit = @(weakSelf.Group.lockLimit.integerValue);
+              return YES;
+          } result:^(id object, NSString *msg) {
+              if (object) {
+                  dispatch_async(dispatch_get_main_queue(), ^{
+                      RCDBaseSettingTableViewCell *cell = (RCDBaseSettingTableViewCell *)[self.tableView viewWithTag:1000];
+                      [cell.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.Group.portraitUri]];
+                      //在修改群组头像成功后，更新本地数据库。
+                      [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
+                      //关闭HUD
+                      [hud hide:YES];
+                  });
+              } else {
+                  [hud hide:YES];
+                  UIAlertView *alert = [[UIAlertView alloc]
+                                        initWithTitle:nil
+                                        message:@"上传头像失败"
+                                        delegate:self
                                         cancelButtonTitle:@"确定"
                                         otherButtonTitles:nil];
-                                    [alert show];
-                                  }
-                                }];
+                  [alert show];
+              }
+          }];
+//        [RCDHTTPTOOL setGroupPortraitUri:url
+//                                 groupId:weakSelf.Group.groupId
+//                                complete:^(BOOL result) {
+//                                  if (result == YES) {
+//                                    dispatch_async(dispatch_get_main_queue(), ^{
+//                                      RCDBaseSettingTableViewCell *cell =
+//                                          (RCDBaseSettingTableViewCell *)
+//                                              [self.tableView viewWithTag:1000];
+//                                        [cell.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.Group.portraitUri]];
+//                                      //在修改群组头像成功后，更新本地数据库。
+//                                      [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
+////                                      cell.PortraitImg.image = image;
+//                                      //关闭HUD
+//                                      [hud hide:YES];
+//                                    });
+//                                  }
+//                                  if (result == NO) {
+//                                    //关闭HUD
+//                                    [hud hide:YES];
+//                                    UIAlertView *alert = [[UIAlertView alloc]
+//                                            initWithTitle:nil
+//                                                  message:@"上传头像失败"
+//                                                 delegate:self
+//                                        cancelButtonTitle:@"确定"
+//                                        otherButtonTitles:nil];
+//                                    [alert show];
+//                                  }
+//                                }];
 
       }
       failure:^(NSError *err) {
@@ -597,68 +629,122 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
          popToRootViewControllerAnimated:YES];
         return;
       }
-
-      [RCDHTTPTOOL
-          quitGroupWithGroupId:groupId
-                      complete:^(BOOL isOk) {
-
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                          if (isOk) {
-                            [[RCIMClient sharedRCIMClient]
-                                clearMessages:ConversationType_GROUP
-                                     targetId:groupId];
-
-                            [[RCIMClient sharedRCIMClient]
-                                removeConversation:ConversationType_GROUP
-                                          targetId:groupId];
-
-                            [[RCDataBaseManager shareInstance]
-                                deleteGroupToDB:groupId];
-                            [self.navigationController
-                                popToRootViewControllerAnimated:YES];
-                          } else {
-                            UIAlertView *alertView = [[UIAlertView alloc]
-                                    initWithTitle:nil
+        [[DeleteGroupRequest new] request:^BOOL(DeleteGroupRequest *request) {
+            request.groupId = groupId;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[RCIMClient sharedRCIMClient]
+                     clearMessages:ConversationType_GROUP
+                     targetId:groupId];
+                    [[RCIMClient sharedRCIMClient]
+                     removeConversation:ConversationType_GROUP
+                     targetId:groupId];
+                    [[RCDataBaseManager shareInstance]
+                     deleteGroupToDB:groupId];
+                    [self.navigationController
+                     popToRootViewControllerAnimated:YES];
+                });
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc]
+                                          initWithTitle:nil
                                           message:@"退出失败！"
-                                         delegate:nil
-                                cancelButtonTitle:@"确定"
-                                otherButtonTitles:nil, nil];
-                            [alertView show];
-                          }
-                        });
-                      }];
+                                          delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil, nil];
+                [alertView show];
+            }
+        }];
+//      [RCDHTTPTOOL
+//          quitGroupWithGroupId:groupId
+//                      complete:^(BOOL isOk) {
+//
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                          if (isOk) {
+//                            [[RCIMClient sharedRCIMClient]
+//                                clearMessages:ConversationType_GROUP
+//                                     targetId:groupId];
+//
+//                            [[RCIMClient sharedRCIMClient]
+//                                removeConversation:ConversationType_GROUP
+//                                          targetId:groupId];
+//
+//                            [[RCDataBaseManager shareInstance]
+//                                deleteGroupToDB:groupId];
+//                            [self.navigationController
+//                                popToRootViewControllerAnimated:YES];
+//                          } else {
+//                            UIAlertView *alertView = [[UIAlertView alloc]
+//                                    initWithTitle:nil
+//                                          message:@"退出失败！"
+//                                         delegate:nil
+//                                cancelButtonTitle:@"确定"
+//                                otherButtonTitles:nil, nil];
+//                            [alertView show];
+//                          }
+//                        });
+//                      }];
     }
   }
 
   if (actionSheet.tag == 102) {
     if (buttonIndex == 0) {
-      [RCDHTTPTOOL
-          dismissGroupWithGroupId:groupId
-                         complete:^(BOOL isOk) {
+        [[DeleteGroupRequest new] request:^BOOL(DeleteGroupRequest *request) {
+            request.groupId = groupId;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[RCIMClient sharedRCIMClient]
+                     clearMessages:ConversationType_GROUP
+                     targetId:groupId];
+                    [[RCIMClient sharedRCIMClient]
+                     removeConversation:ConversationType_GROUP
+                     targetId:groupId];
+                    [[RCDataBaseManager shareInstance]
+                     deleteGroupToDB:groupId];
+                    [self.navigationController
+                     popToRootViewControllerAnimated:YES];
+                });
+            } else {
+                UIAlertView *alertView = [[UIAlertView alloc]
+                                          initWithTitle:nil
+                                          message:@"退出失败！"
+                                          delegate:nil
+                                          cancelButtonTitle:@"确定"
+                                          otherButtonTitles:nil, nil];
+                [alertView show];
+            }
+        }];
 
-                           dispatch_async(dispatch_get_main_queue(), ^{
-                             if (isOk) {
-                               [[RCIMClient sharedRCIMClient]
-                                   clearMessages:ConversationType_GROUP
-                                        targetId:groupId];
-
-                               [[RCIMClient sharedRCIMClient]
-                                   removeConversation:ConversationType_GROUP
-                                             targetId:groupId];
-                               [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
-                               [self.navigationController
-                                   popToRootViewControllerAnimated:YES];
-                             } else {
-                               UIAlertView *alertView = [[UIAlertView alloc]
-                                       initWithTitle:nil
-                                             message:@"解散群组失败！"
-                                            delegate:nil
-                                   cancelButtonTitle:@"确定"
-                                   otherButtonTitles:nil, nil];
-                               [alertView show];
-                             }
-                           });
-                         }];
+//      [RCDHTTPTOOL
+//          dismissGroupWithGroupId:groupId
+//                         complete:^(BOOL isOk) {
+//
+//                           dispatch_async(dispatch_get_main_queue(), ^{
+//                             if (isOk) {
+//                               [[RCIMClient sharedRCIMClient]
+//                                   clearMessages:ConversationType_GROUP
+//                                        targetId:groupId];
+//
+//                               [[RCIMClient sharedRCIMClient]
+//                                   removeConversation:ConversationType_GROUP
+//                                             targetId:groupId];
+//                               [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
+//                               [self.navigationController
+//                                   popToRootViewControllerAnimated:YES];
+//                             } else {
+//                               UIAlertView *alertView = [[UIAlertView alloc]
+//                                       initWithTitle:nil
+//                                             message:@"解散群组失败！"
+//                                            delegate:nil
+//                                   cancelButtonTitle:@"确定"
+//                                   otherButtonTitles:nil, nil];
+//                               [alertView show];
+//                             }
+//                           });
+//                         }];
     }
   }
 }
@@ -683,12 +769,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   case 1:
     rows = 3;
     break;
+    case 2:
+      rows = 2;
+      break;
 
-  case 2:
+  case 3:
     rows = 1;
     break;
       
-  case 3:
+  case 4:
     rows = 3;
     break;
       
@@ -705,9 +794,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             cell = [[RCDGroupSettingsTableViewCell alloc]initWithIndexPath:indexPath andGroupInfo:_Group];
     }
     //设置switchbutton的开关状态
-    if(indexPath.section == 3 && indexPath.row == 0){
+    if(indexPath.section == 4 && indexPath.row == 0){
         cell.switchButton.on = !enableNotification;
-    }else if (indexPath.section ==3 && indexPath.row == 1){
+    }else if (indexPath.section == 4 && indexPath.row == 1){
         cell.switchButton.on = currentConversation.isTop;
     }
     cell.baseSettingTableViewDelegate = self;
@@ -768,8 +857,20 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             [self showAlert:@"只有群主可以修改群组名称"];
           }
         }break;
+          case 2:{
+              if (isCreator == YES) {
+                  RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
+                  vc.GroupId = _Group.groupId;
+                  [self.navigationController pushViewController:vc animated:YES];
+              }
+              else
+              {
+                  [self showAlert:@"只有群主可以发布群公告"];
+              }
+          }
+              break;
          
-          case 2:
+          case 3:
         {
           RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
           vc.GroupId = _Group.groupId;
@@ -791,14 +892,117 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           break;
       }
     }break;
-    case 2:{
+      case 2:{
+          if (indexPath.row == 0) {
+              if (isCreator) {
+                  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置红包下限" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                  [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                      textField.font = [UIFont systemFontOfSize:15];
+                      textField.textAlignment = NSTextAlignmentCenter;
+                      textField.keyboardType = UIKeyboardTypeNumberPad;
+                      textField.text = self.Group.redPacketLimit;
+                  }];
+                  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                      UITextField *textField = alert.textFields[0];
+                      if (textField.text.length > 0 && ![textField.text isEqualToString:self.Group.redPacketLimit]) {
+                          hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                          hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
+                          hud.labelText = @"设置中...";
+                          [hud show:YES];
+                          [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+                              request.groupId = self.Group.groupId;
+                              request.redPacketLimit = @(textField.text.integerValue);
+                              request.lockLimit = @(self.Group.lockLimit.integerValue);
+                              return YES;
+                          } result:^(id object, NSString *msg) {
+                              if (object) {
+                                  self.Group.redPacketLimit = textField.text;
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
+                                      [hud hide:YES];
+                                      [self.tableView reloadData];
+                                  });
+                              } else {
+                                  [hud hide:YES];
+                                  UIAlertView *alert = [[UIAlertView alloc]
+                                                        initWithTitle:nil
+                                                        message:@"设置失败"
+                                                        delegate:self
+                                                        cancelButtonTitle:@"确定"
+                                                        otherButtonTitles:nil];
+                                  [alert show];
+                              }
+                          }];
+                      }
+                  }];
+                  [alert addAction:cancelAction];
+                  [alert addAction:okAction];
+                  [self presentViewController:alert animated:YES completion:nil];
+              } else {
+                  [self showAlert:@"只有群主可以设置红包下限"];
+              }
+          } else {
+              if (isCreator) {
+                  UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置冻结金额" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                  [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                      textField.font = [UIFont systemFontOfSize:15];
+                      textField.textAlignment = NSTextAlignmentCenter;
+                      textField.keyboardType = UIKeyboardTypeNumberPad;
+                      textField.text = self.Group.lockLimit;
+                  }];
+                  UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                  UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                      UITextField *textField = alert.textFields[0];
+                      if (textField.text.length > 0 && ![textField.text isEqualToString:self.Group.redPacketLimit]) {
+                          hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                          hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
+                          hud.labelText = @"设置中...";
+                          [hud show:YES];
+                          [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+                              request.groupId = self.Group.groupId;
+                              request.redPacketLimit = @(self.Group.redPacketLimit.integerValue);
+                              request.lockLimit = @(textField.text.integerValue);
+                              return YES;
+                          } result:^(id object, NSString *msg) {
+                              if (object) {
+                                  self.Group.lockLimit = textField.text;
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
+                                      [hud hide:YES];
+                                      [self.tableView reloadData];
+                                  });
+                              } else {
+                                  [hud hide:YES];
+                                  UIAlertView *alert = [[UIAlertView alloc]
+                                                        initWithTitle:nil
+                                                        message:@"设置失败"
+                                                        delegate:self
+                                                        cancelButtonTitle:@"确定"
+                                                        otherButtonTitles:nil];
+                                  [alert show];
+                              }
+                          }];
+                      }
+                  }];
+                  [alert addAction:cancelAction];
+                  [alert addAction:okAction];
+                  [self presentViewController:alert animated:YES completion:nil];
+              } else {
+                  [self showAlert:@"只有群主可以设置红包下限"];
+              }
+
+          }
+      }
+          break;
+    case 3:{
       RCDSearchHistoryMessageController *searchViewController = [[RCDSearchHistoryMessageController alloc] init];
       searchViewController.conversationType = ConversationType_GROUP;
       searchViewController.targetId = self.Group.groupId;
       [self.navigationController pushViewController:searchViewController animated:YES];
     }
       break;
-      case 3:
+      case 4:
     {
       switch (indexPath.row) {
         case 2:
@@ -1046,8 +1250,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   RCUserInfo *creator;
   for (int i = 0; i < [temp count]; i++) {
     RCUserInfo *user = [temp objectAtIndex:i];
-    
-    if ([creatorId isEqualToString:user.userId]) {
+      NSString *userId = [NSString stringWithFormat:@"%@", user.userId];
+      if ([creatorId isEqualToString:userId]) {
       index = i;
       creator = user;
       break;

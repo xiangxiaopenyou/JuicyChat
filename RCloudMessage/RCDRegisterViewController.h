@@ -10,5 +10,7 @@
 #import <UIKit/UIKit.h>
 @interface RCDRegisterViewController
     : UIViewController <RCAnimatedImagesViewDelegate>
+@property (assign, nonatomic) BOOL isWechatRegister;
+@property (copy, nonatomic) NSDictionary *informations;
 
 @end

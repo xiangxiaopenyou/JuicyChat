@@ -18,6 +18,7 @@
 #import "UIColor+RCColor.h"
 #import "RCDChatViewController.h"
 #import "RCDCommonDefine.h"
+#import "ModifyGroupInformationsRequest.h"
 
 // 是否iPhone5
 #define isiPhone5                                                              \
@@ -300,38 +301,58 @@ preparation before navigation
             .currentUserInfo.userId
             ImageData:data
             success:^(NSString *url) {
+                NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
               RCGroup *groupInfo = [RCGroup new];
               groupInfo.portraitUri = url;
-              groupInfo.groupId = groupId;
+              groupInfo.groupId = groupIdString;
               groupInfo.groupName = nameStr;
               dispatch_async(dispatch_get_main_queue(), ^{
-                [RCDHTTPTOOL
-                 setGroupPortraitUri:url
-                 groupId:groupId
-                 complete:^(BOOL result) {
-                   [[RCIM sharedRCIM]
-                    refreshGroupInfoCache:
-                    groupInfo
-                    withGroupId:
-                    groupId];
-                   if (result == YES) {
-                     [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
-                     //关闭HUD
-                     [hud hide:YES];
-                     [RCDHTTPTOOL getGroupByID:groupInfo.groupId
-                             successCompletion:^(RCDGroupInfo *group) {
-                               [[RCDataBaseManager shareInstance] insertGroupToDB:group];
-                             }];
-                   }
-                   if (result == NO) {
-                     self.navigationItem
-                     .rightBarButtonItem
-                     .enabled =
-                     YES; //关闭HUD
-                     [hud hide:YES];
-                     [self Alert:@"创建群组失败，请检查你的网络设置。"];
-                   }
-                 }];
+                  [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+                      request.groupId = groupId;
+                      request.headIco = url;
+                      return YES;
+                  } result:^(id object, NSString *msg) {
+                      if (object) {
+                          [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo withGroupId:groupId];
+                          [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+                          //关闭HUD
+                          [hud hide:YES];
+                          [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+                                  successCompletion:^(RCDGroupInfo *group) {
+                                      [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+                                  }];
+                      } else {
+                          self.navigationItem.rightBarButtonItem.enabled = YES;
+                          //关闭HUD
+                          [hud hide:YES];
+                          [self Alert:@"创建群组失败，请检查你的网络设置。"];
+                      }
+                  }];
+//                [RCDHTTPTOOL setGroupPortraitUri:url groupId:groupId
+//                 complete:^(BOOL result) {
+//                   [[RCIM sharedRCIM]
+//                    refreshGroupInfoCache:
+//                    groupInfo
+//                    withGroupId:
+//                    groupId];
+//                   if (result == YES) {
+//                     [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+//                     //关闭HUD
+//                     [hud hide:YES];
+//                     [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+//                             successCompletion:^(RCDGroupInfo *group) {
+//                               [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+//                             }];
+//                   }
+//                   if (result == NO) {
+//                     self.navigationItem
+//                     .rightBarButtonItem
+//                     .enabled =
+//                     YES; //关闭HUD
+//                     [hud hide:YES];
+//                     [self Alert:@"创建群组失败，请检查你的网络设置。"];
+//                   }
+//                 }];
               });
               
             }
