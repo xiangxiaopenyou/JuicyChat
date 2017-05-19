@@ -7,6 +7,12 @@
 //
 
 #import "RCDNavigationViewController.h"
+#import "RedPacketDetailViewController.h"
+#import "RCDLoginViewController.h"
+#import "RCDRegisterViewController.h"
+#import "RCDFindPswViewController.h"
+#import "MyWalletViewController.h"
+#import "UIColor+RCColor.h"
 
 @interface RCDNavigationViewController ()
 
@@ -62,6 +68,13 @@
   if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
     self.interactivePopGestureRecognizer.enabled = YES;
   }
+}
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    if ([viewController isKindOfClass:[RedPacketDetailViewController class]] || [viewController isKindOfClass:[RCDLoginViewController class]] || [viewController isKindOfClass:[RCDRegisterViewController class]] || [viewController isKindOfClass:[RCDFindPswViewController class]] || [viewController isKindOfClass:[MyWalletViewController class]]) {
+        [navigationController setNavigationBarHidden:YES animated:YES];
+    } else {
+        [navigationController setNavigationBarHidden:NO animated:YES];
+    }
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {

@@ -635,7 +635,7 @@ arrayByAddingObjectsFromArray:
                                 if (object) {
                                     if ([object[@"code"] integerValue] == 200) {
                                         NSDictionary *tempDictionary = [object[@"data"] copy];
-                                        NSString *userId = tempDictionary[@"userId"];
+                                        NSString *userId = [NSString stringWithFormat:@"%@", tempDictionary[@"userId"]];
                                         NSString *token = tempDictionary[@"token"];
                                         NSString *account = tempDictionary[@"account"];
                                         NSString *password = tempDictionary[@"password"];
@@ -868,9 +868,9 @@ arrayByAddingObjectsFromArray:
             [hud hide:YES];
             int _errCode = [response[@"code"] intValue];
             NSLog(@"NSError is %d", _errCode);
-            if (_errCode == 1000) {
-              _errorMsgLb.text = @"用户名或密码错误！";
-            }
+//            if (_errCode == 1000) {
+            _errorMsgLb.text = @"用户名或密码错误！";
+//            }
             [_pwdTextField shake];
           }
         }

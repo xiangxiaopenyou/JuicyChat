@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface RCDChangePasswordViewController : UIViewController<UITextFieldDelegate>
+@property (assign, nonatomic) BOOL isPayPassword;
 
 @end

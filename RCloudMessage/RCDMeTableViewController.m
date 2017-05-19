@@ -26,6 +26,7 @@
 #import "RCDMeDetailsCell.h"
 #import "RCDMeCell.h"
 #import "MyInformationsCell.h"
+#import "MyWalletViewController.h"
 
 /* RedPacket_FTR */
 #import <JrmfWalletKit/JrmfWalletKit.h>
@@ -264,7 +265,9 @@
           break;
         /* RedPacket_FTR */ //open my wallet
           case 1: {
-              [JrmfWalletSDK openWallet];
+              //[JrmfWalletSDK openWallet];
+              MyWalletViewController *walletViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"MyWallet"];
+              [self.navigationController pushViewController:walletViewController animated:YES];
           }
               break;
           

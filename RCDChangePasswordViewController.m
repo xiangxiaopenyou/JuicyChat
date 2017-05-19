@@ -11,6 +11,7 @@
 #import "RCDCommonDefine.h"
 #import "UIColor+RCColor.h"
 #import "RCDUIBarButtonItem.h"
+#import "ChangePayPasswordRequest.h"
 
 @interface RCDChangePasswordViewController ()
 @property(nonatomic, strong) UILabel *oldPwdLabel;
@@ -39,7 +40,7 @@
   [super viewDidLoad];
   // Do any additional setup after loading the view.
 
-  self.navigationItem.title = @"密码修改";
+    self.navigationItem.title = self.isPayPassword ? @"支付密码修改" : @"密码修改";
   
   [self initialize];
   [self setNavigationButton];
@@ -67,26 +68,33 @@
   
   self.newsPwdLabel = [self setLabel:@"新密码"];
   self.newsPwdView = [self setSubView];
-  self.newsPwdTextField = [self setTextField:@"6-16位字符，区分大小写"];
+    self.newsPwdTextField = self.isPayPassword ? [self setTextField:@"6位数字"] : [self setTextField:@"6-16位字符，区分大小写"];
   [self.view addSubview:self.newsPwdLabel];
   [self.view addSubview:self.newsPwdView];
   [self.newsPwdView addSubview:self.newsPwdTextField];
   
   self.confirmPwdLabel = [self setLabel:@"确认密码"];
   self.confirmPwdView = [self setSubView];
-  self.confirmPwdTextField = [self setTextField:@"6-16位字符，区分大小写"];
+    self.confirmPwdTextField = self.isPayPassword ? [self setTextField:@"6位数字"] : [self setTextField:@"6-16位字符，区分大小写"];
   [self.view addSubview:self.confirmPwdLabel];
   [self.view addSubview:self.confirmPwdView];
   [self.confirmPwdView addSubview:self.confirmPwdTextField];
+    
+    if (self.isPayPassword) {
+        self.oldPwdTextField.keyboardType = UIKeyboardTypeNumberPad;
+        self.newsPwdTextField.keyboardType = UIKeyboardTypeNumberPad;
+        self.confirmPwdTextField.keyboardType = UIKeyboardTypeNumberPad;
+    }
   
   [self setAutoLayout];
 }
 
 - (void)setNavigationButton {
+    NSString *string = self.isPayPassword ? @"" : @"设置";
   self.leftBtn =
   [[RCDUIBarButtonItem alloc] initContainImage:[UIImage imageNamed:@"navigator_btn_back"]
                                 imageViewFrame:CGRectMake(-6, 4, 10, 17)
-                                   buttonTitle:@"设置"
+                                   buttonTitle:string
                                     titleColor:[UIColor whiteColor]
                                     titleFrame:CGRectMake(9, 4, 85, 17)
                                    buttonFrame:CGRectMake(0, 6, 87, 23)
@@ -247,35 +255,58 @@
 
 - (void)saveNewPassword:(id)sender {
   __weak __typeof(&*self) weakSelf = self;
-  NSString *userPwd = [DEFAULTS objectForKey:@"userPwd"];
-  if ([userPwd isEqualToString:self.oldPwdTextField.text]) {
-    NSInteger newPwdLength = self.newsPwdTextField.text.length;
-    if (newPwdLength <6 || newPwdLength > 20) {
-      [self AlertShow:@"密码必须为6-16位字符，区分大小写"];
-    }
-    else {
-      if ([self.newsPwdTextField.text isEqualToString:self.confirmPwdTextField.text]) {
-        [AFHttpTool changePassword:self.oldPwdTextField.text
-            newPwd:self.newsPwdTextField.text
-            success:^(id response) {
-              if ([response[@"code"] intValue] == 200) {
-                [DEFAULTS setObject:self.newsPwdTextField.text forKey:@"userPwd"];
-                [DEFAULTS synchronize];
+    if (self.isPayPassword) {
+        if (self.oldPwdTextField.text.length != 6 || self.newsPwdTextField.text.length != 6) {
+            [self AlertShow:@"密码必须为6位数字"];
+            return;
+        }
+        if (![self.newsPwdTextField.text isEqualToString:self.confirmPwdTextField.text]) {
+            [self AlertShow:@"新密码两次输入不一致"];
+            return;
+        }
+        [[ChangePayPasswordRequest new] request:^BOOL(ChangePayPasswordRequest *request) {
+            request.oldPassword = self.oldPwdTextField.text;
+            request.password = self.newsPwdTextField.text;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
-              }
+            } else {
+                [self AlertShow:msg];
             }
-            failure:^(NSError *err){
-
-            }];
-
-      } else {
-        [self AlertShow:@"填写的确认密码与新密码不一致"];
-      }
+        }];
+    } else {
+        NSString *userPwd = [DEFAULTS objectForKey:@"userPwd"];
+        if ([userPwd isEqualToString:self.oldPwdTextField.text]) {
+            NSInteger newPwdLength = self.newsPwdTextField.text.length;
+            if (newPwdLength <6 || newPwdLength > 20) {
+                [self AlertShow:@"密码必须为6-16位字符，区分大小写"];
+            }
+            else {
+                if ([self.newsPwdTextField.text isEqualToString:self.confirmPwdTextField.text]) {
+                    [AFHttpTool changePassword:self.oldPwdTextField.text
+                                        newPwd:self.newsPwdTextField.text
+                                       success:^(id response) {
+                                           if ([response[@"code"] intValue] == 200) {
+                                               [DEFAULTS setObject:self.newsPwdTextField.text forKey:@"userPwd"];
+                                               [DEFAULTS synchronize];
+                                               [weakSelf.navigationController popViewControllerAnimated:YES];
+                                           }
+                                       }
+                                       failure:^(NSError *err){
+                                           
+                                       }];
+                    
+                } else {
+                    [self AlertShow:@"填写的确认密码与新密码不一致"];
+                }
+            }
+            
+        } else {
+            [self AlertShow:@"原密码填写错误"];
+        }
     }
-
-  } else {
-    [self AlertShow:@"原密码填写错误"];
-  }
+  
 }
 
 - (void)AlertShow:(NSString *)content {

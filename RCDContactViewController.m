@@ -133,6 +133,9 @@
   [super viewWillAppear:animated];
 
   [self.searchFriendsBar resignFirstResponder];
+    [RCDDataSource syncFriendList:[RCIM sharedRCIM].currentUserInfo.userId
+                         complete:^(NSMutableArray *result) {
+                         }];
   [self sortAndRefreshWithList:[self getAllFriendList]];
   
   //自定义rightBarButtonItem

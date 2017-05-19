@@ -167,23 +167,26 @@ MBProgressHUD *hud;
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   RCDUserInfo *user = _friends[indexPath.row];
-  if ([user.status intValue] == 10 || [user.status intValue] == 11) {
-    return;
-  }
-  RCUserInfo *userInfo = [RCUserInfo new];
-  userInfo.userId = user.userId;
-  userInfo.portraitUri = user.portraitUri;
-  userInfo.name = user.name;
-
-  RCDChatViewController *chatViewController =
-      [[RCDChatViewController alloc] init];
-  chatViewController.conversationType = ConversationType_PRIVATE;
-  chatViewController.targetId = userInfo.userId;
-  chatViewController.title = userInfo.name;
-  chatViewController.displayUserNameInCell = NO;
-  //chatViewController.needPopToRootView = YES;
-  [self.navigationController pushViewController:chatViewController
-                                       animated:YES];
+    if (user.status.integerValue == 1) {
+        if ([user.status intValue] == 10 || [user.status intValue] == 11) {
+            return;
+        }
+        RCUserInfo *userInfo = [RCUserInfo new];
+        userInfo.userId = user.userId;
+        userInfo.portraitUri = user.portraitUri;
+        userInfo.name = user.name;
+        
+        RCDChatViewController *chatViewController =
+        [[RCDChatViewController alloc] init];
+        chatViewController.conversationType = ConversationType_PRIVATE;
+        chatViewController.targetId = userInfo.userId;
+        chatViewController.title = userInfo.name;
+        chatViewController.displayUserNameInCell = NO;
+        //chatViewController.needPopToRootView = YES;
+        [self.navigationController pushViewController:chatViewController
+                                             animated:YES];
+    }
+  
 }
 
 - (void)doAccept:(UIButton *)sender {
@@ -214,6 +217,7 @@ MBProgressHUD *hud;
                      cell.rightLabel.hidden = NO;
                      cell.rightLabel.text = @"已添加";
                      cell.selected = YES;
+                     friend.status = @"1";
                      [hud hide:YES];
                  });
              }];

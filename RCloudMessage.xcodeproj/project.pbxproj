@@ -50,10 +50,38 @@
 		3D3F8CA31EC19DE90040C0D5 /* RedPacketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA21EC19DE90040C0D5 /* RedPacketViewController.m */; };
 		3D3F8CA71EC19E160040C0D5 /* RedPacketCommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */; };
 		3D3F8CAA1EC19E340040C0D5 /* RedPacketWordsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */; };
+		3D3F8CAD1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */; };
+		3D3F8CB01EC1FD070040C0D5 /* SetupPayPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CAF1EC1FD070040C0D5 /* SetupPayPasswordViewController.m */; };
+		3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */; };
+		3D3F8CB61EC45FD20040C0D5 /* EntryPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB51EC45FD20040C0D5 /* EntryPasswordView.m */; };
+		3D3F8CB91EC462B30040C0D5 /* SYPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB81EC462B30040C0D5 /* SYPasswordView.m */; };
+		3D3F8CBC1EC4A13E0040C0D5 /* FetchBalanceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */; };
+		3D3F8CBF1EC4A7120040C0D5 /* SendRedPacketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CBE1EC4A7120040C0D5 /* SendRedPacketRequest.m */; };
+		3D3F8CC21EC5D4840040C0D5 /* RedPacketMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CC11EC5D4840040C0D5 /* RedPacketMessage.m */; };
+		3D3F8CC51EC5E12D0040C0D5 /* RedPacketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CC41EC5E12D0040C0D5 /* RedPacketCell.m */; };
+		3D3F8CC81EC6FE460040C0D5 /* CheckLockMoneyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CC71EC6FE460040C0D5 /* CheckLockMoneyRequest.m */; };
+		3D3F8CCB1EC70E3D0040C0D5 /* RedPacketDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CCA1EC70E3D0040C0D5 /* RedPacketDetailViewController.m */; };
+		3D3F8CCE1EC72B390040C0D5 /* CheckTakeApartStateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CCD1EC72B390040C0D5 /* CheckTakeApartStateRequest.m */; };
+		3D3F8CD11EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CD01EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.m */; };
+		3D3F8CD41EC738670040C0D5 /* TakeApartPacketView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CD31EC738670040C0D5 /* TakeApartPacketView.m */; };
+		3D3F8CE61EC9923B0040C0D5 /* RedPacketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CE51EC9923B0040C0D5 /* RedPacketRequest.m */; };
+		3D3F8CEC1EC9AE630040C0D5 /* TakeApartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CEB1EC9AE630040C0D5 /* TakeApartRequest.m */; };
+		3D3F8D291ECAE2840040C0D5 /* RedPacketMembersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8D281ECAE2840040C0D5 /* RedPacketMembersRequest.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
 		3D85EEF61EC0572D00CD7ED2 /* WechatLoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */; };
+		3DE932971ECD9D0D00C89762 /* ChangePayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */; };
+		3DE9329B1ECDA67100C89762 /* AppealCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE9329A1ECDA67100C89762 /* AppealCenterViewController.m */; };
+		3DE9329E1ECE9A6900C89762 /* FindPayPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE9329D1ECE9A6900C89762 /* FindPayPasswordViewController.m */; };
+		3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */; };
+		3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */; };
+		3DE932A71ECEE23400C89762 /* LockedMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A61ECEE23400C89762 /* LockedMoneyViewController.m */; };
+		3DF1D4701ECB03D9005B494D /* RedPacketMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D46F1ECB03D9005B494D /* RedPacketMemberCell.m */; };
+		3DF1D4741ECD3D0E005B494D /* MyWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D4731ECD3D0E005B494D /* MyWalletViewController.m */; };
+		3DF1D4771ECD657F005B494D /* SecuritySettingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D4761ECD657F005B494D /* SecuritySettingTableViewController.m */; };
+		3DF1D47A1ECD67E5005B494D /* MyRedPacketsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D4791ECD67E5005B494D /* MyRedPacketsViewController.m */; };
+		3DF1D47D1ECD7FA4005B494D /* MyRedPacketsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DF1D47C1ECD7FA4005B494D /* MyRedPacketsRequest.m */; };
 		3DFF525A1EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */; };
 		3DFF525D1EBC736A00CDF351 /* DeleteGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */; };
 		3DFF52601EBC80EC00CDF351 /* MyInformationsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF525F1EBC80EC00CDF351 /* MyInformationsCell.m */; };
@@ -353,6 +381,40 @@
 		3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketCommonCell.m; sourceTree = "<group>"; };
 		3D3F8CA81EC19E340040C0D5 /* RedPacketWordsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketWordsCell.h; sourceTree = "<group>"; };
 		3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketWordsCell.m; sourceTree = "<group>"; };
+		3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckSetPayPasswordRequest.h; sourceTree = "<group>"; };
+		3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckSetPayPasswordRequest.m; sourceTree = "<group>"; };
+		3D3F8CAE1EC1FD070040C0D5 /* SetupPayPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupPayPasswordViewController.h; sourceTree = "<group>"; };
+		3D3F8CAF1EC1FD070040C0D5 /* SetupPayPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupPayPasswordViewController.m; sourceTree = "<group>"; };
+		3D3F8CB11EC1FF7C0040C0D5 /* SetupPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupPayPasswordRequest.h; sourceTree = "<group>"; };
+		3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupPayPasswordRequest.m; sourceTree = "<group>"; };
+		3D3F8CB41EC45FD20040C0D5 /* EntryPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryPasswordView.h; sourceTree = "<group>"; };
+		3D3F8CB51EC45FD20040C0D5 /* EntryPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryPasswordView.m; sourceTree = "<group>"; };
+		3D3F8CB71EC462B30040C0D5 /* SYPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPasswordView.h; sourceTree = "<group>"; };
+		3D3F8CB81EC462B30040C0D5 /* SYPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPasswordView.m; sourceTree = "<group>"; };
+		3D3F8CBA1EC4A13E0040C0D5 /* FetchBalanceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchBalanceRequest.h; sourceTree = "<group>"; };
+		3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchBalanceRequest.m; sourceTree = "<group>"; };
+		3D3F8CBD1EC4A7120040C0D5 /* SendRedPacketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRedPacketRequest.h; sourceTree = "<group>"; };
+		3D3F8CBE1EC4A7120040C0D5 /* SendRedPacketRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRedPacketRequest.m; sourceTree = "<group>"; };
+		3D3F8CC01EC5D4840040C0D5 /* RedPacketMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketMessage.h; sourceTree = SOURCE_ROOT; };
+		3D3F8CC11EC5D4840040C0D5 /* RedPacketMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketMessage.m; sourceTree = SOURCE_ROOT; };
+		3D3F8CC31EC5E12D0040C0D5 /* RedPacketCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketCell.h; sourceTree = SOURCE_ROOT; };
+		3D3F8CC41EC5E12D0040C0D5 /* RedPacketCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketCell.m; sourceTree = SOURCE_ROOT; };
+		3D3F8CC61EC6FE460040C0D5 /* CheckLockMoneyRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckLockMoneyRequest.h; sourceTree = "<group>"; };
+		3D3F8CC71EC6FE460040C0D5 /* CheckLockMoneyRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckLockMoneyRequest.m; sourceTree = "<group>"; };
+		3D3F8CC91EC70E3D0040C0D5 /* RedPacketDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketDetailViewController.h; sourceTree = "<group>"; };
+		3D3F8CCA1EC70E3D0040C0D5 /* RedPacketDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketDetailViewController.m; sourceTree = "<group>"; };
+		3D3F8CCC1EC72B390040C0D5 /* CheckTakeApartStateRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckTakeApartStateRequest.h; sourceTree = "<group>"; };
+		3D3F8CCD1EC72B390040C0D5 /* CheckTakeApartStateRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckTakeApartStateRequest.m; sourceTree = "<group>"; };
+		3D3F8CCF1EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchRemainingPacketAmountRequest.h; sourceTree = "<group>"; };
+		3D3F8CD01EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchRemainingPacketAmountRequest.m; sourceTree = "<group>"; };
+		3D3F8CD21EC738670040C0D5 /* TakeApartPacketView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakeApartPacketView.h; sourceTree = "<group>"; };
+		3D3F8CD31EC738670040C0D5 /* TakeApartPacketView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakeApartPacketView.m; sourceTree = "<group>"; };
+		3D3F8CE41EC9923B0040C0D5 /* RedPacketRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketRequest.h; sourceTree = "<group>"; };
+		3D3F8CE51EC9923B0040C0D5 /* RedPacketRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketRequest.m; sourceTree = "<group>"; };
+		3D3F8CEA1EC9AE630040C0D5 /* TakeApartRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakeApartRequest.h; sourceTree = "<group>"; };
+		3D3F8CEB1EC9AE630040C0D5 /* TakeApartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakeApartRequest.m; sourceTree = "<group>"; };
+		3D3F8D271ECAE2840040C0D5 /* RedPacketMembersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketMembersRequest.h; sourceTree = "<group>"; };
+		3D3F8D281ECAE2840040C0D5 /* RedPacketMembersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketMembersRequest.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -361,6 +423,28 @@
 		3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WechatLoginRequest.m; sourceTree = "<group>"; };
 		3DA8046F1EA5C4480087DF1F /* SealTalk.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SealTalk.entitlements; sourceTree = "<group>"; };
 		3DA804711EA5D87D0087DF1F /* RCloudMessage.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = RCloudMessage.entitlements; path = RCloudMessage/RCloudMessage.entitlements; sourceTree = SOURCE_ROOT; };
+		3DE932951ECD9D0D00C89762 /* ChangePayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePayPasswordRequest.h; sourceTree = "<group>"; };
+		3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePayPasswordRequest.m; sourceTree = "<group>"; };
+		3DE932991ECDA67100C89762 /* AppealCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppealCenterViewController.h; sourceTree = "<group>"; };
+		3DE9329A1ECDA67100C89762 /* AppealCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppealCenterViewController.m; sourceTree = "<group>"; };
+		3DE9329C1ECE9A6900C89762 /* FindPayPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPayPasswordViewController.h; sourceTree = "<group>"; };
+		3DE9329D1ECE9A6900C89762 /* FindPayPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPayPasswordViewController.m; sourceTree = "<group>"; };
+		3DE9329F1ECEAC8E00C89762 /* FindPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPayPasswordRequest.h; sourceTree = "<group>"; };
+		3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindPayPasswordRequest.m; sourceTree = "<group>"; };
+		3DE932A21ECED03B00C89762 /* DeleteFriendRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteFriendRequest.h; sourceTree = "<group>"; };
+		3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteFriendRequest.m; sourceTree = "<group>"; };
+		3DE932A51ECEE23400C89762 /* LockedMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockedMoneyViewController.h; sourceTree = "<group>"; };
+		3DE932A61ECEE23400C89762 /* LockedMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockedMoneyViewController.m; sourceTree = "<group>"; };
+		3DF1D46E1ECB03D9005B494D /* RedPacketMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketMemberCell.h; sourceTree = "<group>"; };
+		3DF1D46F1ECB03D9005B494D /* RedPacketMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketMemberCell.m; sourceTree = "<group>"; };
+		3DF1D4721ECD3D0E005B494D /* MyWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWalletViewController.h; sourceTree = "<group>"; };
+		3DF1D4731ECD3D0E005B494D /* MyWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWalletViewController.m; sourceTree = "<group>"; };
+		3DF1D4751ECD657F005B494D /* SecuritySettingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecuritySettingTableViewController.h; sourceTree = "<group>"; };
+		3DF1D4761ECD657F005B494D /* SecuritySettingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecuritySettingTableViewController.m; sourceTree = "<group>"; };
+		3DF1D4781ECD67E5005B494D /* MyRedPacketsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRedPacketsViewController.h; sourceTree = "<group>"; };
+		3DF1D4791ECD67E5005B494D /* MyRedPacketsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRedPacketsViewController.m; sourceTree = "<group>"; };
+		3DF1D47B1ECD7FA4005B494D /* MyRedPacketsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRedPacketsRequest.h; sourceTree = "<group>"; };
+		3DF1D47C1ECD7FA4005B494D /* MyRedPacketsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRedPacketsRequest.m; sourceTree = "<group>"; };
 		3DFF52581EBC0F2400CDF351 /* ModifyGroupInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyGroupInformationsRequest.h; sourceTree = "<group>"; };
 		3DFF52591EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyGroupInformationsRequest.m; sourceTree = "<group>"; };
 		3DFF525B1EBC736A00CDF351 /* DeleteGroupRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteGroupRequest.h; sourceTree = "<group>"; };
@@ -988,6 +1072,34 @@
 				3DFF525C1EBC736A00CDF351 /* DeleteGroupRequest.m */,
 				3D85EEF41EC0572D00CD7ED2 /* WechatLoginRequest.h */,
 				3D85EEF51EC0572D00CD7ED2 /* WechatLoginRequest.m */,
+				3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */,
+				3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */,
+				3D3F8CB11EC1FF7C0040C0D5 /* SetupPayPasswordRequest.h */,
+				3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */,
+				3D3F8CBA1EC4A13E0040C0D5 /* FetchBalanceRequest.h */,
+				3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */,
+				3D3F8CBD1EC4A7120040C0D5 /* SendRedPacketRequest.h */,
+				3D3F8CBE1EC4A7120040C0D5 /* SendRedPacketRequest.m */,
+				3D3F8CC61EC6FE460040C0D5 /* CheckLockMoneyRequest.h */,
+				3D3F8CC71EC6FE460040C0D5 /* CheckLockMoneyRequest.m */,
+				3D3F8CCC1EC72B390040C0D5 /* CheckTakeApartStateRequest.h */,
+				3D3F8CCD1EC72B390040C0D5 /* CheckTakeApartStateRequest.m */,
+				3D3F8CCF1EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.h */,
+				3D3F8CD01EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.m */,
+				3D3F8CE41EC9923B0040C0D5 /* RedPacketRequest.h */,
+				3D3F8CE51EC9923B0040C0D5 /* RedPacketRequest.m */,
+				3D3F8CEA1EC9AE630040C0D5 /* TakeApartRequest.h */,
+				3D3F8CEB1EC9AE630040C0D5 /* TakeApartRequest.m */,
+				3D3F8D271ECAE2840040C0D5 /* RedPacketMembersRequest.h */,
+				3D3F8D281ECAE2840040C0D5 /* RedPacketMembersRequest.m */,
+				3DF1D47B1ECD7FA4005B494D /* MyRedPacketsRequest.h */,
+				3DF1D47C1ECD7FA4005B494D /* MyRedPacketsRequest.m */,
+				3DE932951ECD9D0D00C89762 /* ChangePayPasswordRequest.h */,
+				3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */,
+				3DE9329F1ECEAC8E00C89762 /* FindPayPasswordRequest.h */,
+				3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */,
+				3DE932A21ECED03B00C89762 /* DeleteFriendRequest.h */,
+				3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */,
 			);
 			path = Request;
 			sourceTree = SOURCE_ROOT;
@@ -999,6 +1111,10 @@
 				3D3F8C9F1EC194E80040C0D5 /* RedPacket.storyboard */,
 				3D3F8CA11EC19DE90040C0D5 /* RedPacketViewController.h */,
 				3D3F8CA21EC19DE90040C0D5 /* RedPacketViewController.m */,
+				3D3F8CAE1EC1FD070040C0D5 /* SetupPayPasswordViewController.h */,
+				3D3F8CAF1EC1FD070040C0D5 /* SetupPayPasswordViewController.m */,
+				3D3F8CC91EC70E3D0040C0D5 /* RedPacketDetailViewController.h */,
+				3D3F8CCA1EC70E3D0040C0D5 /* RedPacketDetailViewController.m */,
 			);
 			path = RedPacket;
 			sourceTree = SOURCE_ROOT;
@@ -1010,9 +1126,45 @@
 				3D3F8CA61EC19E160040C0D5 /* RedPacketCommonCell.m */,
 				3D3F8CA81EC19E340040C0D5 /* RedPacketWordsCell.h */,
 				3D3F8CA91EC19E340040C0D5 /* RedPacketWordsCell.m */,
+				3D3F8CC31EC5E12D0040C0D5 /* RedPacketCell.h */,
+				3D3F8CC41EC5E12D0040C0D5 /* RedPacketCell.m */,
+				3D3F8CB41EC45FD20040C0D5 /* EntryPasswordView.h */,
+				3D3F8CB51EC45FD20040C0D5 /* EntryPasswordView.m */,
+				3D3F8CB71EC462B30040C0D5 /* SYPasswordView.h */,
+				3D3F8CB81EC462B30040C0D5 /* SYPasswordView.m */,
+				3D3F8CD21EC738670040C0D5 /* TakeApartPacketView.h */,
+				3D3F8CD31EC738670040C0D5 /* TakeApartPacketView.m */,
+				3DF1D46E1ECB03D9005B494D /* RedPacketMemberCell.h */,
+				3DF1D46F1ECB03D9005B494D /* RedPacketMemberCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
+		};
+		3DE932981ECDA63C00C89762 /* AppealCenter */ = {
+			isa = PBXGroup;
+			children = (
+				3DE932991ECDA67100C89762 /* AppealCenterViewController.h */,
+				3DE9329A1ECDA67100C89762 /* AppealCenterViewController.m */,
+			);
+			path = AppealCenter;
+			sourceTree = SOURCE_ROOT;
+		};
+		3DF1D4711ECD38D7005B494D /* MyWallet */ = {
+			isa = PBXGroup;
+			children = (
+				3DF1D4721ECD3D0E005B494D /* MyWalletViewController.h */,
+				3DF1D4731ECD3D0E005B494D /* MyWalletViewController.m */,
+				3DF1D4751ECD657F005B494D /* SecuritySettingTableViewController.h */,
+				3DF1D4761ECD657F005B494D /* SecuritySettingTableViewController.m */,
+				3DF1D4781ECD67E5005B494D /* MyRedPacketsViewController.h */,
+				3DF1D4791ECD67E5005B494D /* MyRedPacketsViewController.m */,
+				3DE9329C1ECE9A6900C89762 /* FindPayPasswordViewController.h */,
+				3DE9329D1ECE9A6900C89762 /* FindPayPasswordViewController.m */,
+				3DE932A51ECEE23400C89762 /* LockedMoneyViewController.h */,
+				3DE932A61ECEE23400C89762 /* LockedMoneyViewController.m */,
+			);
+			path = MyWallet;
+			sourceTree = SOURCE_ROOT;
 		};
 		3DFF52611EBC828F00CDF351 /* Masonry */ = {
 			isa = PBXGroup;
@@ -1359,6 +1511,8 @@
 				E4E939961AD65C15001E0AC6 /* RCDGroupInfo.m */,
 				F836AB0C1C2262C400A1A5D2 /* RCDTestMessage.h */,
 				F836AB0D1C2262C400A1A5D2 /* RCDTestMessage.m */,
+				3D3F8CC01EC5D4840040C0D5 /* RedPacketMessage.h */,
+				3D3F8CC11EC5D4840040C0D5 /* RedPacketMessage.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1473,6 +1627,8 @@
 			children = (
 				9891E8D91D82638400E874AB /* HomePage */,
 				98F7B0A21D825F61005B2E42 /* PersonalInfor */,
+				3DF1D4711ECD38D7005B494D /* MyWallet */,
+				3DE932981ECDA63C00C89762 /* AppealCenter */,
 				E411721B1A1D9D120025EE4E /* AccountSettings */,
 				98F7B0A31D825F89005B2E42 /* AboutSealTalk */,
 			);
@@ -2116,7 +2272,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				98BC0E0B1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewCell.m in Sources */,
+				3DF1D47D1ECD7FA4005B494D /* MyRedPacketsRequest.m in Sources */,
 				17F7A8461DAE187200E27D25 /* RCDLabel.m in Sources */,
+				3D3F8CAD1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m in Sources */,
 				98BC0E0D1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewController.m in Sources */,
 				9B447DEE1CF82926005D3ED5 /* RCDGroupMembersTableViewController.m in Sources */,
 				3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */,
@@ -2144,8 +2302,11 @@
 				E4E939941AD65BF4001E0AC6 /* RCDUserInfo.m in Sources */,
 				3D0E5F0D1EADCE3100B41F9E /* RequestCacher.m in Sources */,
 				E4E9397C1AD65B0D001E0AC6 /* RCDChatViewController.m in Sources */,
+				3DE932A71ECEE23400C89762 /* LockedMoneyViewController.m in Sources */,
 				98FD3F1E1D5CC48F007A70DE /* RCDFrienfRemarksViewController.m in Sources */,
+				3D3F8CEC1EC9AE630040C0D5 /* TakeApartRequest.m in Sources */,
 				9B447DF41CF82926005D3ED5 /* RCDPrivateSettingsCell.m in Sources */,
+				3D3F8CB91EC462B30040C0D5 /* SYPasswordView.m in Sources */,
 				9B447DEB1CF82926005D3ED5 /* RCDCreateGroupViewController.m in Sources */,
 				E4E939661AD65A95001E0AC6 /* SDWebImageCompat.m in Sources */,
 				98BD8A761D6D3E1600FE717D /* RCDUIBarButtonItem.m in Sources */,
@@ -2153,10 +2314,13 @@
 				27D6FF9F1DFE4D2C00053F69 /* RCDSettingUserDefaults.m in Sources */,
 				E4E939AB1AD65CC2001E0AC6 /* RCDSearchFriendViewController.m in Sources */,
 				E4E939721AD65A95001E0AC6 /* UIView+WebCacheOperation.m in Sources */,
+				3D3F8CC81EC6FE460040C0D5 /* CheckLockMoneyRequest.m in Sources */,
 				3DFF52851EBC828F00CDF351 /* View+MASAdditions.m in Sources */,
+				3D3F8CD41EC738670040C0D5 /* TakeApartPacketView.m in Sources */,
 				E4E939D21AD6805E001E0AC6 /* RCDPersonDetailViewController.m in Sources */,
 				A677D69B1B81EBB9007D5D90 /* RCAnnotationView.m in Sources */,
 				E4E939671AD65A95001E0AC6 /* SDWebImageDecoder.m in Sources */,
+				3DF1D4701ECB03D9005B494D /* RedPacketMemberCell.m in Sources */,
 				E4E939C11AD65D41001E0AC6 /* RCDMeTableViewController.m in Sources */,
 				E4BFAE211A1217C0007165B1 /* AppDelegate.m in Sources */,
 				A6827BE11B15E94A000B9862 /* SelectAppKeyViewController.m in Sources */,
@@ -2178,6 +2342,7 @@
 				E4E939421AD65A95001E0AC6 /* AFHTTPRequestOperation.m in Sources */,
 				E4E9394B1AD65A95001E0AC6 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				E4BFAE681A1219FC007165B1 /* RCDChatListViewController.m in Sources */,
+				3D3F8CBC1EC4A13E0040C0D5 /* FetchBalanceRequest.m in Sources */,
 				E4E939691AD65A95001E0AC6 /* SDWebImageDownloaderOperation.m in Sources */,
 				E4E939CA1AD65E1E001E0AC6 /* UIColor+RCColor.m in Sources */,
 				98A3E70A1D45F961007989E7 /* RCDNavigationViewController.m in Sources */,
@@ -2187,6 +2352,7 @@
 				E4E939441AD65A95001E0AC6 /* AFHTTPSessionManager.m in Sources */,
 				17D7D1FB1D535272000AEC54 /* DefaultPortraitView.m in Sources */,
 				E4E939A01AD65C74001E0AC6 /* RCDDiscussGroupSettingViewController.m in Sources */,
+				3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */,
 				3D3F8CA31EC19DE90040C0D5 /* RedPacketViewController.m in Sources */,
 				9899D8331DBDAA1C00AD60F8 /* RCDTabBarBtn.m in Sources */,
 				A677D69C1B81EBB9007D5D90 /* RCLocationConvert.m in Sources */,
@@ -2204,6 +2370,7 @@
 				17F7A84D1DAE187200E27D25 /* RCDSearchViewController.m in Sources */,
 				A677D6A01B81EBB9007D5D90 /* RealTimeLocationStatusView.m in Sources */,
 				3DFF525D1EBC736A00CDF351 /* DeleteGroupRequest.m in Sources */,
+				3DE9329B1ECDA67100C89762 /* AppealCenterViewController.m in Sources */,
 				98AB3C091D38940600C3B87C /* SortForTime.m in Sources */,
 				466684331B5DEC7C000B7504 /* RCDConversationSettingTableViewHeaderItem.m in Sources */,
 				17F7A8481DAE187200E27D25 /* RCDSearchDataManager.m in Sources */,
@@ -2222,18 +2389,23 @@
 				E4E939611AD65A95001E0AC6 /* RCDTextFieldValidate.m in Sources */,
 				E4E9395F1AD65A95001E0AC6 /* RCAnimatedImagesView.m in Sources */,
 				E4BFAE651A1219EA007165B1 /* RCDAddressBookViewController.m in Sources */,
+				3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */,
 				E4E939451AD65A95001E0AC6 /* AFNetworkReachabilityManager.m in Sources */,
 				E4E939481AD65A95001E0AC6 /* AFURLRequestSerialization.m in Sources */,
 				9B447DF51CF82926005D3ED5 /* RCDPrivateSettingsTableViewController.m in Sources */,
 				E4E939821AD65B27001E0AC6 /* RCDDiscussSettingSwitchCell.m in Sources */,
 				46E0D44F1B1EA7E300E04B8A /* RCDataBaseManager.m in Sources */,
+				3DE9329E1ECE9A6900C89762 /* FindPayPasswordViewController.m in Sources */,
 				3D85EEF61EC0572D00CD7ED2 /* WechatLoginRequest.m in Sources */,
 				A662A0E11AEE50D400847EEB /* RCDAboutRongCloudTableViewController.m in Sources */,
 				5C0253F41B53D6F8003F48D9 /* RCDBlackListViewController.m in Sources */,
+				3D3F8CBF1EC4A7120040C0D5 /* SendRedPacketRequest.m in Sources */,
+				3DF1D47A1ECD67E5005B494D /* MyRedPacketsViewController.m in Sources */,
 				A6B1D8EB1B1FFCB700AD32EC /* RCWKNotifier.m in Sources */,
 				A677D6991B81EBB9007D5D90 /* HeadCollectionView.m in Sources */,
 				466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */,
 				9891E8E31D82AB3100E874AB /* RCDLogoTableViewCell.m in Sources */,
+				3D3F8CC51EC5E12D0040C0D5 /* RedPacketCell.m in Sources */,
 				9B447DE91CF82926005D3ED5 /* RCDContactTableViewCell.m in Sources */,
 				17244C181B56553B000EFF79 /* RCDMessageNoDisturbSettingController.m in Sources */,
 				98E4A6021DC08980007C3D1C /* RCDSquareCell.m in Sources */,
@@ -2258,34 +2430,43 @@
 				3DFF527F1EBC828F00CDF351 /* MASConstraintMaker.m in Sources */,
 				3DFF525A1EBC0F2400CDF351 /* ModifyGroupInformationsRequest.m in Sources */,
 				F836AB0E1C2262C400A1A5D2 /* RCDTestMessage.m in Sources */,
+				3D3F8CD11EC72BBE0040C0D5 /* FetchRemainingPacketAmountRequest.m in Sources */,
 				3DFF52821EBC828F00CDF351 /* MASViewConstraint.m in Sources */,
 				E4E939471AD65A95001E0AC6 /* AFURLConnectionOperation.m in Sources */,
+				3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */,
 				E4E9396C1AD65A95001E0AC6 /* UIButton+WebCache.m in Sources */,
 				3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */,
 				E4BFAE621A1219D8007165B1 /* RCDLoginViewController.m in Sources */,
 				A677D69E1B81EBB9007D5D90 /* RealTimeLocationEndCell.m in Sources */,
+				3D3F8CB01EC1FD070040C0D5 /* SetupPayPasswordViewController.m in Sources */,
 				E4E9396D1AD65A95001E0AC6 /* UIImage+GIF.m in Sources */,
+				3D3F8CE61EC9923B0040C0D5 /* RedPacketRequest.m in Sources */,
 				E4BFAE711A121A5E007165B1 /* RCDRCIMDataSource.m in Sources */,
 				E4E939631AD65A95001E0AC6 /* MKAnnotationView+WebCache.m in Sources */,
 				E4E939651AD65A95001E0AC6 /* SDImageCache.m in Sources */,
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
 				3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */,
 				E412BD271ADFA2A0000DCA7A /* RCDAddFriendViewController.m in Sources */,
+				3D3F8CCE1EC72B390040C0D5 /* CheckTakeApartStateRequest.m in Sources */,
 				3DFF52801EBC828F00CDF351 /* MASLayoutConstraint.m in Sources */,
 				E4E939701AD65A95001E0AC6 /* UIImageView+HighlightedWebCache.m in Sources */,
+				3DF1D4771ECD657F005B494D /* SecuritySettingTableViewController.m in Sources */,
 				E4BFAE6E1A121A22007165B1 /* RCDChatRoomViewController.m in Sources */,
 				E4E939621AD65A95001E0AC6 /* RCUnderlineTextField.m in Sources */,
+				3DF1D4741ECD3D0E005B494D /* MyWalletViewController.m in Sources */,
 				E4E939681AD65A95001E0AC6 /* SDWebImageDownloader.m in Sources */,
 				F836AB151C226A7F00A1A5D2 /* RCDTestMessageCell.m in Sources */,
 				E4E939AC1AD65CC2001E0AC6 /* RCDSearchResultTableViewCell.m in Sources */,
 				E4E939511AD65A95001E0AC6 /* UIRefreshControl+AFNetworking.m in Sources */,
 				E4E939CB1AD65E1E001E0AC6 /* UIImage+RCImage.m in Sources */,
 				E4E939711AD65A95001E0AC6 /* UIImageView+WebCache.m in Sources */,
+				3D3F8D291ECAE2840040C0D5 /* RedPacketMembersRequest.m in Sources */,
 				9B447DF11CF82926005D3ED5 /* RCDGroupSettingsTableViewController.m in Sources */,
 				9B447DEC1CF82926005D3ED5 /* RCDEditGroupNameViewController.m in Sources */,
 				E4E9394E1AD65A95001E0AC6 /* UIButton+AFNetworking.m in Sources */,
 				E4E9398A1AD65B7A001E0AC6 /* RCDSettingsTableViewController.m in Sources */,
 				9B447DF91CF82926005D3ED5 /* RCDSquareTableViewController.m in Sources */,
+				3D3F8CB61EC45FD20040C0D5 /* EntryPasswordView.m in Sources */,
 				A6827BDE1B15E52C000B9862 /* AppkeyModel.m in Sources */,
 				E4E9395D1AD65A95001E0AC6 /* KxMenu.m in Sources */,
 				E4E9399D1AD65C61001E0AC6 /* RCDRoomSettingViewController.m in Sources */,
@@ -2294,13 +2475,16 @@
 				466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */,
 				3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */,
 				9B447DE81CF82926005D3ED5 /* RCDContactSelectedTableViewController.m in Sources */,
+				3D3F8CCB1EC70E3D0040C0D5 /* RedPacketDetailViewController.m in Sources */,
 				174151F51CBE516A00A4B23B /* RCDPublicServiceListViewController.m in Sources */,
 				A6447A3F1B1DC12500EA2CEE /* RCWKSharedUserDefault.m in Sources */,
 				E4E939971AD65C15001E0AC6 /* RCDGroupInfo.m in Sources */,
 				A677D69F1B81EBB9007D5D90 /* RealTimeLocationStartCell.m in Sources */,
 				A616478B1BE9D97D00E90813 /* RCDEditUserNameViewController.m in Sources */,
 				98F973D51D66B8ED007F1483 /* RCDUserInfoManager.m in Sources */,
+				3DE932971ECD9D0D00C89762 /* ChangePayPasswordRequest.m in Sources */,
 				E4E939431AD65A95001E0AC6 /* AFHTTPRequestOperationManager.m in Sources */,
+				3D3F8CC21EC5D4840040C0D5 /* RedPacketMessage.m in Sources */,
 				E4BFAE5F1A121996007165B1 /* AFHttpTool.m in Sources */,
 				9B447DF01CF82926005D3ED5 /* RCDGroupSettingsTableViewCell.m in Sources */,
 			);

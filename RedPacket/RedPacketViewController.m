@@ -7,8 +7,16 @@
 //
 
 #import "RedPacketViewController.h"
+#import "SetupPayPasswordViewController.h"
 #import "RedPacketWordsCell.h"
 #import "RedPacketCommonCell.h"
+#import "EntryPasswordView.h"
+
+#import "CheckSetPayPasswordRequest.h"
+#import "FetchBalanceRequest.h"
+#import "SendRedPacketRequest.h"
+#import "UIColor+RCColor.h"
+#import "MBProgressHUD.h"
 
 #define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
 #define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
@@ -17,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *amountLabel;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
+@property (strong, nonatomic) MBProgressHUD *hud;
+@property (strong, nonatomic) EntryPasswordView *entryView;
 
 @end
 
@@ -27,19 +37,134 @@
     // Do any additional setup after loading the view.
     self.title = @"发红包";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeAction)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishInputAction:) name:@"kPayPaswordInputDidFinish" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"kPayPaswordInputDidFinish" object:nil];
+}
 - (IBAction)submitAction:(id)sender {
+    UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
+    UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
+    if (self.type == ConversationType_GROUP) {
+        if (textField1.text.integerValue < textField2.text.integerValue) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少一个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+    
+    [textField1 resignFirstResponder];
+    [textField2 resignFirstResponder];
+    _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
+    _hud.labelText = @"";
+    [_hud show:YES];
+    [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            if ([object[@"code"] integerValue] == 200) {
+                [[FetchBalanceRequest new] request:^BOOL(id request) {
+                    return YES;
+                } result:^(id object, NSString *msg) {
+                    if (object) {
+                        [_hud hide:YES];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.entryView show];
+                            self.entryView.amount = textField1.text.integerValue;
+                            self.entryView.balance = [object[@"money"] integerValue];
+                        });
+                    } else {
+                        [_hud hide:YES];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"获取余额失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }];
+                
+                
+            } else if ([object[@"code"] integerValue] == 66001) {
+                [_hud hide:YES];
+                SetupPayPasswordViewController *setupPayPassword = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"SetupPayPassword"];
+                [self.navigationController pushViewController:setupPayPassword animated:YES];
+            } else {
+                [_hud hide:YES];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+        } else {
+            [_hud hide:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+}
+- (void)finishInputAction:(NSNotification *)notification {
+    if (notification) {
+        _hud = [MBProgressHUD showHUDAddedTo:self.entryView animated:YES];
+        _hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
+        _hud.labelText = @"";
+        [_hud show:YES];
+        NSString *passwordString = (NSString *)notification.object;
+        [[SendRedPacketRequest new] request:^BOOL(SendRedPacketRequest *request) {
+            UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1001];
+            UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1000];
+            UITextField *textField3 = (UITextField *)[self.tableView viewWithTag:1002];
+            if (self.type == ConversationType_GROUP) {
+                request.type = @(2);
+                request.toId = self.groupInfo.groupId;
+                request.count = @(textField3.text.integerValue);
+            } else {
+                request.type = @(1);
+                request.toId = self.toId;
+            }
+            
+            if (textField1.text.length > 0) {
+                request.note = textField1.text;
+            }
+            request.payPassword = passwordString;
+            request.amount = @(textField2.text.integerValue);
+            return YES;
+        } result:^(id object, NSString *msg) {
+            [_hud hide:YES];
+            if (object) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (object[@"id"]) {
+                        [self.entryView closeAction];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        NSString *noteString = @"恭喜发财，大吉大利";
+                        if (object[@"note"]) {
+                            noteString = object[@"note"];
+                        }
+                        NSString *idString = [NSString stringWithFormat:@"%@", object[@"id"]];
+                        if (self.successBlock) {
+                            self.successBlock(idString, noteString);
+                        }
+                    } else {
+                        [self.entryView closeAction];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"发送失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                    
+                });
+            } else {
+                [_hud hide:YES];
+                [self.entryView closeAction];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alert show];
+            }
+        }];
+    }
 }
 - (void)textChanged:(UITextField *)textField {
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     if (self.type == ConversationType_PRIVATE) {
-        if ([textField1.text floatValue] > 0) {
+        if ([textField1.text integerValue] > 0) {
             self.submitButton.enabled = YES;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
         } else {
@@ -47,7 +172,7 @@
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:245/255.0 green:168/255.0 blue:171/255.0 alpha:1]];
         }
     } else {
-        if ([textField1.text floatValue] > 0 && [textField2.text integerValue] > 0) {
+        if ([textField1.text integerValue] > 0 && [textField2.text integerValue] > 0) {
             self.submitButton.enabled = YES;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
         } else {
@@ -56,39 +181,38 @@
         }
     }
     if (textField == textField1) {
-        self.amountLabel.text = [NSString stringWithFormat:@"￥%.2f", [textField1.text floatValue]];
+        self.amountLabel.text = [NSString stringWithFormat:@"%@", @([textField1.text integerValue])];
     }
 }
 - (void)closeAction {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSRange rangeItem = [textField.text rangeOfString:@"."];//判断字符串是否包含
-    if (rangeItem.location != NSNotFound) {
-        if ([string isEqualToString:@"."]) {
-            return NO;
-        } else {
-            //rangeItem.location == 0   说明“.”在第一个位置
-            if (range.location > rangeItem.location + 2) {
-                return NO;
-            }
-        }
-    } else {
-        if ([string isEqualToString:@"."]) {
-            if (textField.text.length < 1) {
-                textField.text = @"0.";
-                return NO;
-            }
-            return YES;
-        }
-        if (range.location>1) {
-            return NO;
-        }
-    }
-    
-    return YES;
-}
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+//    NSRange rangeItem = [textField.text rangeOfString:@"."];//判断字符串是否包含
+//    if (rangeItem.location != NSNotFound) {
+//        if ([string isEqualToString:@"."]) {
+//            return NO;
+//        } else {
+//            //rangeItem.location == 0   说明“.”在第一个位置
+//            if (range.location > rangeItem.location + 2) {
+//                return NO;
+//            }
+//        }
+//    } else {
+//        if ([string isEqualToString:@"."]) {
+//            if (textField.text.length < 1) {
+//                textField.text = @"0.";
+//                return NO;
+//            }
+//            return YES;
+//        }
+//        if (range.location>1) {
+//            return NO;
+//        }
+//    }
+//    return YES;
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.type == ConversationType_PRIVATE ? 2 : 3;
@@ -115,9 +239,8 @@
         } else {
             cell.leftLabel.text = @"总金额";
         }
-        cell.rightLabel.text = @"元";
+        cell.rightLabel.text = @"果币";
         cell.textField.tag = 1000;
-        cell.textField.keyboardType = UIKeyboardTypeDecimalPad;
         cell.textField.delegate = self;
         [cell.textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         return cell;
@@ -135,7 +258,6 @@
             cell.leftLabel.text = @"红包个数";
             cell.rightLabel.text = @"个";
             cell.textField.tag = 1002;
-            cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             [cell.textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
             return cell;
 
@@ -174,5 +296,11 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (EntryPasswordView *)entryView {
+    if (!_entryView) {
+        _entryView = [[EntryPasswordView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    }
+    return _entryView;
+}
 
 @end

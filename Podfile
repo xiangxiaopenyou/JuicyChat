@@ -2,5 +2,6 @@
 platform :ios, '8.0'
 target 'SealTalk' do
 pod 'OpenShare'
+pod 'YYModel'
 end 
 

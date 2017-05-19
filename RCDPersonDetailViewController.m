@@ -19,6 +19,7 @@
 #import "UIColor+RCColor.h"
 #import "RCDFrienfRemarksViewController.h"
 #import "AFHttpTool.h"
+#import "DeleteFriendRequest.h"
 
 @interface RCDPersonDetailViewController () <UIActionSheetDelegate>
 @property(nonatomic) BOOL inBlackList;
@@ -29,6 +30,7 @@
 @property(nonatomic, strong) UILabel *displayNameLabel;
 @property(nonatomic, strong) UILabel *phoneNumberLabel;
 @property(nonatomic, strong) UILabel *onlineStatusLabel;
+@property (strong, nonatomic) UILabel *userIdLabel;
 @property(nonatomic, strong) NSString *phonenumber;
 @end
 
@@ -79,6 +81,10 @@
                  forControlEvents:UIControlEventTouchUpInside];
   
   [self.view addSubview:self.conversationBtn];
+    
+    if ([self.userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+        self.conversationBtn.hidden = YES;
+    }
   
   self.audioCallBtn = [[UIButton alloc]init];
   self.audioCallBtn.backgroundColor = [UIColor whiteColor];
@@ -248,24 +254,26 @@
 }
 
 - (void)rightBarButtonItemClicked:(id)sender {
-  
-  if (self.inBlackList) {
-    UIActionSheet *actionSheet =
-    [[UIActionSheet alloc] initWithTitle:nil
-                                delegate:self
-                       cancelButtonTitle:@"取消"
-                  destructiveButtonTitle:nil
-                       otherButtonTitles:@"取消黑名单", nil];
+    NSString *blackString = self.inBlackList ? @"取消黑名单" : @"加入黑名单";
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除好友" otherButtonTitles:blackString, nil];
     [actionSheet showInView:self.view];
-  } else {
-    UIActionSheet *actionSheet =
-    [[UIActionSheet alloc] initWithTitle:nil
-                                delegate:self
-                       cancelButtonTitle:@"取消"
-                  destructiveButtonTitle:nil
-                       otherButtonTitles:@"加入黑名单", nil];
-    [actionSheet showInView:self.view];
-  }
+//  if (self.inBlackList) {
+//    UIActionSheet *actionSheet =
+//    [[UIActionSheet alloc] initWithTitle:nil
+//                                delegate:self
+//                       cancelButtonTitle:@"取消"
+//                  destructiveButtonTitle:nil
+//                       otherButtonTitles:@"取消黑名单", nil];
+//    [actionSheet showInView:self.view];
+//  } else {
+//    UIActionSheet *actionSheet =
+//    [[UIActionSheet alloc] initWithTitle:nil
+//                                delegate:self
+//                       cancelButtonTitle:@"取消"
+//                  destructiveButtonTitle:nil
+//                       otherButtonTitles:@"加入黑名单", nil];
+//    [actionSheet showInView:self.view];
+//  }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -277,7 +285,26 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet
 clickedButtonAtIndex:(NSInteger)buttonIndex {
   switch (buttonIndex) {
-    case 0: {
+      case 0: {
+          [[DeleteFriendRequest new] request:^BOOL(DeleteFriendRequest *request) {
+              request.friendId = self.userId;
+              return YES;
+          } result:^(id object, NSString *msg) {
+              if (object) {
+                  [[RCDataBaseManager shareInstance] deleteFriendFromDB:self.userId];
+                  [self.navigationController popViewControllerAnimated:YES];
+              } else {
+                  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+                                             message:@"删除好友失败"
+                                            delegate:nil
+                                   cancelButtonTitle:@"确定"
+                                   otherButtonTitles:nil, nil];
+                  [alertView show];
+              }
+          }];
+      }
+          break;
+    case 1: {
       MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
       
       //黑名单
@@ -523,6 +550,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                   attribute:NSLayoutAttributeCenterY
                   multiplier:1
                   constant:0]];
+    if (!_userIdLabel) {
+        _userIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 110, 36, 100, 30)];
+        _userIdLabel.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
+        _userIdLabel.font = [UIFont systemFontOfSize:14];
+    }
+    _userIdLabel.text = [NSString stringWithFormat:@"ID：%@", [RCIM sharedRCIM].currentUserInfo.userId];
+    [self.infoView addSubview:_userIdLabel];
 }
 
 - (void)setLayoutForSelf

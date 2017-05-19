@@ -262,10 +262,11 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
                 newPwd:(NSString *)newPwd
                success:(void (^)(id response))success
                failure:(void (^)(NSError *err))failure {
-  NSDictionary *params = @{ @"oldPassword" : oldPwd, @"newPassword" : newPwd };
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"oldPassword" : oldPwd, @"password" : newPwd, @"token" : token };
 
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"user/change_password"
+                            url:@"UpdatePassword.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -291,7 +292,7 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 + (void)getUserInfo:(NSString *)userId
             success:(void (^)(id response))success
             failure:(void (^)(NSError *err))failure {
-    NSString *token = [DEFAULTS stringForKey:@"userToen"];
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
     NSDictionary *param = @{@"token" : token};
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
                             url:@"GetUserInfo.aspx"
@@ -470,9 +471,11 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 
 + (void)getMyGroupsSuccess:(void (^)(id response))success
                    failure:(void (^)(NSError *err))failure {
-  [AFHttpTool requestWihtMethod:RequestMethodTypeGet
-                            url:@"user/groups"
-                         params:nil
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{@"token" : token};
+  [AFHttpTool requestWihtMethod:RequestMethodTypePost
+                            url:@"GetGroupList.aspx"
+                         params:params
                         success:success
                         failure:failure];
 }
@@ -539,9 +542,10 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
                   usersId:(NSMutableArray *)usersId
                   success:(void (^)(id response))success
                   failure:(void (^)(NSError *err))failure {
-  NSDictionary *params = @{ @"groupId" : groupID, @"memberIds" : usersId };
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"token" : token, @"groupId" : groupID, @"userList" : usersId };
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"group/add"
+                            url:@"AddUserToGroup.aspx"
                          params:params
                         success:success
                         failure:failure];
@@ -552,9 +556,10 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
                     usersId:(NSMutableArray *)usersId
                     success:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure {
-  NSDictionary *params = @{ @"groupId" : groupID, @"memberIds" : usersId };
+    NSString *token = [DEFAULTS stringForKey:@"userToken"];
+    NSDictionary *params = @{ @"token" : token, @"groupId" : groupID, @"userList" : usersId };
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
-                            url:@"group/kick"
+                            url:@"RemoveUserFromGroup.aspx"
                          params:params
                         success:success
                         failure:failure];

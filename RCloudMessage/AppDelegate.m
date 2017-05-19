@@ -15,6 +15,7 @@
 #import "RCDLoginViewController.h"
 #import "RCDRCIMDataSource.h"
 #import "RCDTestMessage.h"
+#import "RedPacketMessage.h"
 #import "RCDataBaseManager.h"
 #import "RCWKNotifier.h"
 #import "RCWKRequestHandler.h"
@@ -131,6 +132,9 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   
   // 注册自定义测试消息
   [[RCIM sharedRCIM] registerMessageType:[RCDTestMessage class]];
+    
+    //注册自定义红包消息
+    [[RCIM sharedRCIM] registerMessageType:[RedPacketMessage class]];
 
   //设置会话列表头像和会话页面头像
 
@@ -324,6 +328,7 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
   [[UINavigationBar appearance]
       setBarTintColor:[UIColor colorWithHexString:@"0099ff" alpha:1.0f]];
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
 
   [[NSNotificationCenter defaultCenter]
       addObserver:self

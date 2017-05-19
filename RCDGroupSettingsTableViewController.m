@@ -149,9 +149,9 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-  if (collectionViewResource.count < 1) {
+//  if (collectionViewResource.count < 1) {
     [self startLoad];
-  }
+//  }
     if(self.Group.number){
         self.title = [NSString stringWithFormat:@"群组信息(%@)",self.Group.number];
     }else{
@@ -917,7 +917,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                               return YES;
                           } result:^(id object, NSString *msg) {
                               if (object) {
-                                  self.Group.redPacketLimit = textField.text;
+                                  self.Group.redPacketLimit = [NSString stringWithFormat:@"%@", @(textField.text.integerValue)];
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
                                       [hud hide:YES];
@@ -966,7 +966,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                               return YES;
                           } result:^(id object, NSString *msg) {
                               if (object) {
-                                  self.Group.lockLimit = textField.text;
+                                  self.Group.lockLimit = [NSString stringWithFormat:@"%@", @(textField.text.integerValue)];
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
                                       [hud hide:YES];
@@ -989,7 +989,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                   [alert addAction:okAction];
                   [self presentViewController:alert animated:YES completion:nil];
               } else {
-                  [self showAlert:@"只有群主可以设置红包下限"];
+                  [self showAlert:@"只有群主可以设置冻结金额"];
               }
 
           }
@@ -1073,7 +1073,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     if (![collectionViewResource[indexPath.row]
             isKindOfClass:[UIImage class]]) {
       RCUserInfo *user = collectionViewResource[indexPath.row];
-      if ([user.userId isEqualToString:[RCIMClient sharedRCIMClient]
+        NSString *userIdString = [NSString stringWithFormat:@"%@", user.userId];
+      if ([userIdString isEqualToString:[RCIMClient sharedRCIMClient]
                                            .currentUserInfo.userId]) {
         [cell.btnImg setHidden:YES];
       }
@@ -1136,7 +1137,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       return;
     }
   } else {
-    if (indexPath.row == collectionViewResource.count - 1) {
+    if (indexPath.row == collectionViewResource.count) {
       NSLog(@"点加号");
       contactSelectedVC.titleStr = @"选择联系人";
       contactSelectedVC.addGroupMembers = membersId;
@@ -1150,7 +1151,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
   for (RCDUserInfo *friend in friendList) {
     if ([selectedUser.userId isEqualToString:friend.userId] &&
-        [friend.status isEqualToString:@"20"]) {
+        [friend.status isEqualToString:@"1"]) {
       isFriend = YES;
     }
   }
@@ -1268,10 +1269,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (void)setHeaderView
 {
   [self limitDisplayMemberCount];
-  UIImage *addImage = [UIImage imageNamed:@"add_member"];
-  [collectionViewResource addObject:addImage];
   //判断如果是创建者，添加踢人按钮
   if (isCreator == YES) {
+      UIImage *addImage = [UIImage imageNamed:@"add_member"];
+      [collectionViewResource addObject:addImage];
     UIImage *delImage = [UIImage imageNamed:@"delete_member"];
     [collectionViewResource addObject:delImage];
   }

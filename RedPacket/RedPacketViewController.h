@@ -13,5 +13,8 @@
 @interface RedPacketViewController : UIViewController
 @property (nonatomic) RCConversationType type;
 @property (strong, nonatomic) RCDGroupInfo *groupInfo;
+@property (copy, nonatomic) NSString *toId;
+
+@property (copy, nonatomic) void (^successBlock)(NSString *packetId, NSString *note);
 
 @end

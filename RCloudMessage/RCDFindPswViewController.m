@@ -289,7 +289,7 @@
   UILabel *footerLabel = [[UILabel alloc] init];
   footerLabel.textAlignment = NSTextAlignmentCenter;
   footerLabel.frame = CGRectMake(screenBounds.size.width / 2 - 100, -2, 200, 21);
-  footerLabel.text = @"Powered by RongCloud";
+  footerLabel.text = @"Powered by guoguo";
   [footerLabel setFont:[UIFont systemFontOfSize:12.f]];
   [footerLabel setTextColor:[UIColor colorWithHexString:@"484848" alpha:1.0]];
   [bottomBackground addSubview:footerLabel];

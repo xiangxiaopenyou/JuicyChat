@@ -28,6 +28,8 @@
 #import "RCDSearchResultModel.h"
 #import "RCDSearchViewController.h"
 #import "RCDCommonDefine.h"
+#import "RedPacketMessage.h"
+#import "RCDataBaseManager.h"
 
 @interface RCDChatListViewController ()<UISearchBarDelegate,RCDSearchViewDelegate>
 @property (nonatomic,strong)UINavigationController *searchNavigationController;
@@ -303,6 +305,23 @@
           RCDAddressBookViewController * addressBookVC= [RCDAddressBookViewController addressBookViewController];
         [self.navigationController pushViewController:addressBookVC
                                              animated:YES];
+      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"]) {
+          RCDChatViewController *_conversationVC =
+          [[RCDChatViewController alloc] init];
+          _conversationVC.conversationType = model.conversationType;
+          _conversationVC.targetId = model.targetId;
+          _conversationVC.userName = model.conversationTitle;
+          _conversationVC.title = model.conversationTitle;
+          _conversationVC.conversation = model;
+          _conversationVC.unReadMessage = model.unreadMessageCount;
+          _conversationVC.enableNewComingMessageIcon = YES; //开启消息提醒
+          _conversationVC.enableUnreadMessageIcon = YES;
+          //如果是单聊，不显示发送方昵称
+          if (model.conversationType == ConversationType_PRIVATE) {
+              _conversationVC.displayUserNameInCell = NO;
+          }
+          [self.navigationController pushViewController:_conversationVC
+                                               animated:YES];
       }
     }
   }
@@ -463,6 +482,12 @@
         }
       }
     }
+      if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
+          model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
+      }
+      if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
+          model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
+      }
   }
 
   return dataSource;
@@ -473,9 +498,14 @@
                  commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
                   forRowAtIndexPath:(NSIndexPath *)indexPath {
   //可以从数据库删除数据
-  RCConversationModel *model = self.conversationListDataSource[indexPath.row];
-  [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_SYSTEM
-                                           targetId:model.targetId];
+    RCConversationModel *model = self.conversationListDataSource[indexPath.row];
+    if (model.conversationType == ConversationType_SYSTEM) {
+        [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_SYSTEM
+                                                 targetId:model.targetId];
+    } else {
+        [[RCIMClient sharedRCIMClient] removeConversation:model.conversationType
+                                                 targetId:model.targetId];
+    }
   [self.conversationListDataSource removeObjectAtIndex:indexPath.row];
   [self.conversationListTableView reloadData];
 }
@@ -554,7 +584,112 @@
                                      UITableViewRowAnimationAutomatic];
                      }];
       }
-    }
+        } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
+            RCDChatListCell *cell =
+            [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                   reuseIdentifier:@""];
+            cell.lblName.text = nil;
+            cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
+            
+            if (model.conversationType == ConversationType_GROUP) {
+                if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
+                    RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
+                    cell.lblDetail.text = message.message;
+                } else {
+                    RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
+                    cell.lblDetail.text = [NSString stringWithFormat:@"[红包]%@", message.content];
+                }
+                if( [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId] ) {
+                    RCDGroupInfo *groupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell.lblName.text = groupInfo.groupName;
+                        [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:groupInfo.portraitUri]
+                                      placeholderImage:[UIImage imageNamed:@"icon_5"]];
+                    });
+                } else {
+                    [RCDHTTPTOOL getGroupByID:model.targetId
+                            successCompletion:^(RCDGroupInfo *group) {
+                                NSString *targetIdString = [NSString stringWithFormat:@"%@", model.targetId];
+                                RCGroup *Group = [[RCGroup alloc] initWithGroupId:targetIdString
+                                                                        groupName:group.groupName
+                                                                      portraitUri:group.portraitUri];
+                                
+                                [[RCIM sharedRCIM] refreshGroupInfoCache:Group withGroupId:targetIdString];
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    cell.lblName.text = group.groupName;
+                                    [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:group.portraitUri]
+                                                  placeholderImage:[UIImage imageNamed:@"icon_5"]];
+                                });
+                            }];
+                }
+            } else if (model.conversationType == ConversationType_PRIVATE) {
+                if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
+                    RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
+                    cell.lblDetail.text = message.message;
+                } else {
+                    RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
+                    cell.lblDetail.text = [NSString stringWithFormat:@"[红包]%@", message.content];
+                }
+                if ([[RCDataBaseManager shareInstance] getUserByUserId:model.targetId]) {
+                    RCUserInfo *userInfo = [[RCDataBaseManager shareInstance] getUserByUserId:model.targetId];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell.lblName.text = userInfo.name;
+                        [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri]
+                                      placeholderImage:[UIImage imageNamed:@"icon_person"]];
+                    });
+                } else {
+                    [[RCDHttpTool shareInstance] updateUserInfo:model.targetId success:^(RCDUserInfo *user) {
+                        RCUserInfo *updatedUserInfo = [[RCUserInfo alloc] init];
+                        updatedUserInfo.userId = user.userId;
+                        if (![user.displayName isKindOfClass:[NSNull class]]) {
+                            if (user.displayName.length > 0  ) {
+                                updatedUserInfo.name = user.displayName;
+                            } else {
+                                updatedUserInfo.name = user.name;
+                            }
+                        } else {
+                            updatedUserInfo.name = user.name;
+                        }
+                        updatedUserInfo.portraitUri = user.portraitUri;
+                        [[RCIM sharedRCIM] refreshUserInfoCache:updatedUserInfo withUserId:updatedUserInfo.userId];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            cell.lblName.text = updatedUserInfo.name;
+                            [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:updatedUserInfo.portraitUri]
+                                          placeholderImage:[UIImage imageNamed:@"icon_person"]];
+                        });
+                    } failure:^(NSError *err) {
+                        
+                    }];
+                }
+//                [[RCDRCIMDataSource shareInstance] getUserInfoWithUserId:model.targetId completion:^(RCUserInfo *userInfo) {
+//                     [[RCDHttpTool shareInstance] updateUserInfo:model.targetId
+//                      success:^(RCDUserInfo *user) {
+//                          RCUserInfo *updatedUserInfo = [[RCUserInfo alloc] init];
+//                          updatedUserInfo.userId = user.userId;
+//                          if (![user.displayName isKindOfClass:[NSNull class]]) {
+//                              if (user.displayName.length > 0  ) {
+//                                  updatedUserInfo.name = user.displayName;
+//                              } else {
+//                                  updatedUserInfo.name = user.name;
+//                              }
+//                          } else {
+//                              updatedUserInfo.name = user.name;
+//                          }
+//                          updatedUserInfo.portraitUri = user.portraitUri;
+//                          [[RCIM sharedRCIM] refreshUserInfoCache:updatedUserInfo withUserId:updatedUserInfo.userId];
+//                          dispatch_async(dispatch_get_main_queue(), ^{
+//                              cell.lblName.text = updatedUserInfo.name;
+//                              [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:updatedUserInfo.portraitUri]
+//                                            placeholderImage:[UIImage imageNamed:@"icon_person"]];
+//                          });
+//                      }
+//                      failure:^(NSError *err){
+//                          
+//                      }];
+//                 }];
+            }
+            return cell;
+        }
 
   } else {
     RCDUserInfo *user = (RCDUserInfo *)model.extend;
@@ -591,12 +726,12 @@
 
     if (message.conversationType != ConversationType_SYSTEM) {
       NSLog(@"好友消息要发系统消息！！！");
-#if DEBUG
-      @throw [[NSException alloc]
-          initWithName:@"error"
-                reason:@"好友消息要发系统消息！！！"
-              userInfo:nil];
-#endif
+//#if DEBUG
+//      @throw [[NSException alloc]
+//          initWithName:@"error"
+//                reason:@"好友消息要发系统消息！！！"
+//              userInfo:nil];
+//#endif
     }
     RCContactNotificationMessage *_contactNotificationMsg =
         (RCContactNotificationMessage *)message.content;

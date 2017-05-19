@@ -75,7 +75,7 @@
         NSDictionary *result = response[@"data"];
         if (result && [code isEqualToString:@"200"]) {
           RCDGroupInfo *group = [[RCDGroupInfo alloc] init];
-            NSString *groupIdString = [NSString stringWithFormat:@"%@", [result objectForKey:@"id"]];
+            NSString *groupIdString = [NSString stringWithFormat:@"%@", [result objectForKey:@"groupid"]];
           group.groupId = groupIdString;
           group.groupName = [result objectForKey:@"groupname"];
             NSString *portraitString = [NSString stringWithFormat:@"%@", [result objectForKey:@"groupico"]];
@@ -91,12 +91,12 @@
           group.number = [result objectForKey:@"usercount"];
           //group.maxNumber = [result objectForKey:@"locklimit"];
           group.creatorTime = [result objectForKey:@"createtime"];
-          if (![[result objectForKey:@"deletedAt"]
-                  isKindOfClass:[NSNull class]]) {
-            group.isDismiss = @"YES";
-          } else {
+//          if (![[result objectForKey:@"deletedAt"]
+//                  isKindOfClass:[NSNull class]]) {
+//            group.isDismiss = @"YES";
+//          } else {
             group.isDismiss = @"NO";
-          }
+//          }
             group.redPacketLimit = [NSString stringWithFormat:@"%@", result[@"redpacketlimit"]];
             group.lockLimit = [NSString stringWithFormat:@"%@", result[@"locklimit"]];
           [[RCDataBaseManager shareInstance] insertGroupToDB:group];
@@ -137,7 +137,7 @@
               RCUserInfo *user = [RCUserInfo new];
               user.userId = dic[@"id"];
               user.name = [dic objectForKey:@"nickname"];
-              user.portraitUri = [dic objectForKey:@"headIco"];
+              user.portraitUri = [dic objectForKey:@"headico"];
               if (!user.portraitUri || user.portraitUri.length <= 0) {
                 user.portraitUri = [RCDUtilities defaultUserPortrait:user];
               }
@@ -216,21 +216,20 @@
 //获取当前用户所在的所有群组信息
 - (void)getMyGroupsWithBlock:(void (^)(NSMutableArray *result))block {
   [AFHttpTool getMyGroupsSuccess:^(id response) {
-    NSArray *allGroups = response[@"result"];
+    NSArray *allGroups = response[@"data"];
     NSMutableArray *tempArr = [NSMutableArray new];
     if (allGroups) {
       NSMutableArray *groups = [NSMutableArray new];
       [[RCDataBaseManager shareInstance] clearGroupfromDB];
-      for (NSDictionary *dic in allGroups) {
-        NSDictionary *groupInfo = dic[@"group"];
+      for (NSDictionary *groupInfo in allGroups) {
         RCDGroupInfo *group = [[RCDGroupInfo alloc] init];
-        group.groupId = [groupInfo objectForKey:@"id"];
-        group.groupName = [groupInfo objectForKey:@"name"];
-        group.portraitUri = [groupInfo objectForKey:@"portraitUri"];
+        group.groupId = [groupInfo objectForKey:@"groupid"];
+        group.groupName = [groupInfo objectForKey:@"groupname"];
+        group.portraitUri = [groupInfo objectForKey:@"grouphead"];
         if (!group.portraitUri || group.portraitUri.length == 0) {
           group.portraitUri = [RCDUtilities defaultGroupPortrait:group];
         }
-        group.creatorId = [groupInfo objectForKey:@"creatorId"];
+        group.creatorId = [groupInfo objectForKey:@"leaderid"];
         //                group.introduce = [dic objectForKey:@"introduce"];
         if (!group.introduce) {
           group.introduce = @"";
@@ -284,7 +283,7 @@
           for (NSDictionary *memberInfo in members) {
             NSDictionary *tempInfo = [memberInfo copy];
             RCDUserInfo *member = [[RCDUserInfo alloc] init];
-            member.userId = tempInfo[@"userid"];
+            member.userId = [NSString stringWithFormat:@"%@", tempInfo[@"userid"]];
             member.name = tempInfo[@"nickname"];
             member.portraitUri = tempInfo[@"userhead"];
             //member.updatedAt = memberInfo[@"createdAt"];
@@ -432,6 +431,7 @@
   [AFHttpTool getFriendListFromServerSuccess:^(id response) {
     if (((NSArray*)response[@"data"]).count == 0) {
       friendList(nil);
+        [[RCDataBaseManager shareInstance] clearFriendsData];
       return;
     }
         NSString *code = [NSString stringWithFormat:@"%@", response[@"code"]];
@@ -512,24 +512,27 @@
           NSArray *result = [response[@"data"] copy];
 //          if ([result respondsToSelector:@selector(intValue)])
 //            return;
-        [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSDictionary *temp = (NSDictionary *)obj;
-            RCDUserInfo *userInfo = [RCDUserInfo new];
-            userInfo.userId = [temp objectForKey:@"memberId"];
-            userInfo.name = [temp objectForKey:@"nickName"];
-            userInfo.portraitUri = [temp objectForKey:@"headIco"];
-            if (!userInfo.portraitUri || userInfo.portraitUri <= 0) {
-                userInfo.portraitUri =
-                [RCDUtilities defaultUserPortrait:userInfo];
+            if (![result isKindOfClass:[NSNull class]]) {
+                [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    NSDictionary *temp = (NSDictionary *)obj;
+                    RCDUserInfo *userInfo = [RCDUserInfo new];
+                    userInfo.userId = [temp objectForKey:@"memberId"];
+                    userInfo.name = [temp objectForKey:@"nickName"];
+                    userInfo.portraitUri = [temp objectForKey:@"headIco"];
+                    if (!userInfo.portraitUri || userInfo.portraitUri <= 0) {
+                        userInfo.portraitUri =
+                        [RCDUtilities defaultUserPortrait:userInfo];
+                    }
+                    [list addObject:userInfo];
+                }];
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    userList(list);
+                });
+            } else if(userList) {
+                userList(nil);
             }
-            [list addObject:userInfo];
-        }];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-          userList(list);
-        });
-        } else if(userList) {
-          userList(nil);
-        }
+            }
+        
       }
       failure:^(NSError *err) {
         userList(nil);

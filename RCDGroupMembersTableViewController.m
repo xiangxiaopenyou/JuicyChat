@@ -110,7 +110,7 @@
   NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
   for (RCDUserInfo *friend in friendList) {
     if ([user.userId isEqualToString:friend.userId] &&
-        [friend.status isEqualToString:@"20"]) {
+        [friend.status isEqualToString:@"1"]) {
       isFriend = YES;
     }
   }
