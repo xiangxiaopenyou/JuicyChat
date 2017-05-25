@@ -98,7 +98,7 @@
     }
     if (textField.text.length == kDotCount) {
         NSLog(@"输入完毕");
-        [textField resignFirstResponder];
+        //[textField resignFirstResponder];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"kPayPaswordInputDidFinish" object:textField.text];
     }
 }

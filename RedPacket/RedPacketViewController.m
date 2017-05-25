@@ -145,7 +145,7 @@
                             self.successBlock(idString, noteString);
                         }
                     } else {
-                        [self.entryView closeAction];
+                        [self.entryView clearPassword];
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"发送失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                         [alert show];
                     }
@@ -153,7 +153,7 @@
                 });
             } else {
                 [_hud hide:YES];
-                [self.entryView closeAction];
+                [self.entryView clearPassword];
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                 [alert show];
             }

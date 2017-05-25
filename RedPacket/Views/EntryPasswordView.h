@@ -14,5 +14,6 @@
 
 - (void)show;
 - (void)closeAction;
+- (void)clearPassword;
 
 @end

@@ -84,7 +84,13 @@
                         }
                         
                     } else {
-                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@果币", @([temp[@"unpackcount"] integerValue]), temp[@"count"], @([temp[@"unpacksummoney"] integerValue]), temp[@"money"]];
+                        NSInteger unpacksummoney;
+                        if ([temp[@"unpacksummoney"] isKindOfClass:[NSNull class]]) {
+                            unpacksummoney = 0;
+                        } else {
+                            unpacksummoney = [temp[@"unpacksummoney"] integerValue];
+                        }
+                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@果币", @([temp[@"unpackcount"] integerValue]), temp[@"count"], @(unpacksummoney), @([temp[@"money"] integerValue])];
                     }
                     
                 } else {

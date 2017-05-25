@@ -745,6 +745,8 @@
       [AFHttpTool getVerificationCode:phone
           success:^(id response) {
             [hud hide:YES];
+              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+              [alert show];
             _getVerificationCodeBt.hidden = YES;
             _countDownLable.hidden = NO;
             [self CountDown:60];
@@ -752,6 +754,8 @@
 
           }
           failure:^(NSError *err) {
+              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码发送失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+              [alert show];
               [hud hide:YES];
             NSLog(@"%@", err);
           }];
@@ -801,6 +805,7 @@
 
   if (RC_NotReachable == status) {
     _errorMsgLb.text = @"当前网络不可用，请检查！";
+      return;
   }
   NSString *userName =
       [(UITextField *)[self.view viewWithTag:UserTextFieldTag] text];
@@ -823,6 +828,7 @@
 //          NSDictionary *result = [results objectForKey:@"result"];
 //          NSString *verificationToken =
 //              [result objectForKey:@"verification_token"];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
       //注册用户
     if (self.isWechatRegister) {
         [AFHttpTool registerWithNickname:userName
@@ -833,6 +839,7 @@
                                 wechatId:self.informations[@"unionid"]
                         verficationToken:verificationCode
                                  success:^(id response) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSDictionary *regResults = response;
                                      NSString *code = [NSString
                                                        stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
@@ -852,6 +859,7 @@
                                      
                                  }
                                  failure:^(NSError *err) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSLog(@"");
                                      _errorMsgLb.text = @"注册失败";
                                      
@@ -866,6 +874,7 @@
                                 wechatId:nil
                         verficationToken:verificationCode
                                  success:^(id response) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSDictionary *regResults = response;
                                      NSString *code = [NSString
                                                        stringWithFormat:@"%@", [regResults objectForKey:@"code"]];
@@ -880,11 +889,13 @@
                                                             [self loginRongCloud:userName userId:userId token:token password:userPwd];
                                                         });
                                      } else {
+                                         
                                          _errorMsgLb.text = regResults[@"message"];
                                      }
                                      
                                  }
                                  failure:^(NSError *err) {
+                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
                                      NSLog(@"");
                                      _errorMsgLb.text = @"注册失败";
                                      

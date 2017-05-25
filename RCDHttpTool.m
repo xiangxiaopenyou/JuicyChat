@@ -31,20 +31,21 @@
 
 //创建群组
 - (void)createGroupWithGroupName:(NSString *)groupName
+                          avatar:(NSString *)avatarUrl
                  GroupMemberList:(NSArray *)groupMemberList
-                        complete:(void (^)(NSString *))userId {
-  [AFHttpTool createGroupWithGroupName:groupName
+                        complete:(void (^)(NSDictionary *))groupInfo {
+    [AFHttpTool createGroupWithGroupName:groupName avatar:(NSString *)avatarUrl
       groupMemberList:groupMemberList
       success:^(id response) {
         if ([response[@"code"] integerValue] == 200) {
           NSDictionary *result = response[@"data"];
-          userId(result[@"groupid"]);
+          groupInfo(result);
         } else {
-          userId(nil);
+          groupInfo(nil);
         }
       }
       failure:^(NSError *err) {
-        userId(nil);
+        groupInfo(nil);
       }];
 }
 
@@ -79,6 +80,7 @@
           group.groupId = groupIdString;
           group.groupName = [result objectForKey:@"groupname"];
             NSString *portraitString = [NSString stringWithFormat:@"%@", [result objectForKey:@"groupico"]];
+            portraitString = [portraitString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
           group.portraitUri = portraitString;
           if (!group.portraitUri || group.portraitUri.length <= 0) {
             group.portraitUri = [RCDUtilities defaultGroupPortrait:group];
@@ -225,7 +227,9 @@
         RCDGroupInfo *group = [[RCDGroupInfo alloc] init];
         group.groupId = [groupInfo objectForKey:@"groupid"];
         group.groupName = [groupInfo objectForKey:@"groupname"];
-        group.portraitUri = [groupInfo objectForKey:@"grouphead"];
+          NSString *portraitString = [NSString stringWithFormat:@"%@", [groupInfo objectForKey:@"grouphead"]];
+          portraitString = [portraitString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+          group.portraitUri = portraitString;
         if (!group.portraitUri || group.portraitUri.length == 0) {
           group.portraitUri = [RCDUtilities defaultGroupPortrait:group];
         }

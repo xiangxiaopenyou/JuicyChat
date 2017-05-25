@@ -28,6 +28,7 @@
 #import "RCDSearchHistoryMessageController.h"
 #import "ModifyGroupInformationsRequest.h"
 #import "DeleteGroupRequest.h"
+#import "RelieveLockViewController.h"
 static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 @interface RCDGroupSettingsTableViewController ()
@@ -401,7 +402,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CGRect captureRect = [[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
     UIImage *captureImage = [self getSubImage:originImage Rect:captureRect imageOrientation:originImage.imageOrientation];
     
-    UIImage *scaleImage = [self scaleImage:captureImage toScale:0.8];
+    UIImage *scaleImage = [self reSizeImage:captureImage toSize:CGSizeMake(200, 200)];
     data = UIImageJPEGRepresentation(scaleImage, 0.00001);
   }
 
@@ -435,6 +436,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                       RCDBaseSettingTableViewCell *cell = (RCDBaseSettingTableViewCell *)[self.tableView viewWithTag:1000];
                       [cell.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.Group.portraitUri]];
                       //在修改群组头像成功后，更新本地数据库。
+                      [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo withGroupId:groupId];
                       [[RCDataBaseManager shareInstance] insertGroupToDB:self.Group];
                       //关闭HUD
                       [hud hide:YES];
@@ -770,7 +772,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     rows = 3;
     break;
     case 2:
-      rows = 2;
+      rows = 3;
       break;
 
   case 3:
@@ -900,7 +902,11 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                       textField.font = [UIFont systemFontOfSize:15];
                       textField.textAlignment = NSTextAlignmentCenter;
                       textField.keyboardType = UIKeyboardTypeNumberPad;
-                      textField.text = self.Group.redPacketLimit;
+                      if (self.Group.redPacketLimit.integerValue == 0) {
+                          textField.text = nil;
+                      } else {
+                          textField.text = [NSString stringWithFormat:@"%ld", self.Group.redPacketLimit.integerValue];
+                      }
                   }];
                   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
                   UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -942,19 +948,23 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
               } else {
                   [self showAlert:@"只有群主可以设置红包下限"];
               }
-          } else {
+          } else if (indexPath.row == 1) {
               if (isCreator) {
                   UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"设置冻结金额" message:nil preferredStyle:UIAlertControllerStyleAlert];
                   [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
                       textField.font = [UIFont systemFontOfSize:15];
                       textField.textAlignment = NSTextAlignmentCenter;
                       textField.keyboardType = UIKeyboardTypeNumberPad;
-                      textField.text = self.Group.lockLimit;
+                      if (self.Group.lockLimit.integerValue == 0) {
+                          textField.text = nil;
+                      } else {
+                          textField.text = [NSString stringWithFormat:@"%ld", self.Group.lockLimit.integerValue];
+                      }
                   }];
                   UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
                   UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                       UITextField *textField = alert.textFields[0];
-                      if (textField.text.length > 0 && ![textField.text isEqualToString:self.Group.redPacketLimit]) {
+                      if (textField.text.length > 0 && ![textField.text isEqualToString:self.Group.lockLimit]) {
                           hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
                           hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
                           hud.labelText = @"设置中...";
@@ -992,6 +1002,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                   [self showAlert:@"只有群主可以设置冻结金额"];
               }
 
+          } else {
+              if (isCreator) {
+                  RelieveLockViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RelieveLock"];
+                  viewController.groupId = self.Group.groupId;
+                  [self.navigationController pushViewController:viewController animated:YES];
+              } else {
+                  [self showAlert:@"只有群主可以解除冻结"];
+              }
           }
       }
           break;
@@ -1302,5 +1320,14 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     }else { //否则是“会话置顶”的switch点击
         [self clickIsTopBtn:sender];
     }
+}
+
+- (UIImage *)reSizeImage:(UIImage *)targetImage toSize:(CGSize)reSize {
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [targetImage drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
+    
 }
 @end

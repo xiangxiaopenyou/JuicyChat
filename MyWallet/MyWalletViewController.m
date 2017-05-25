@@ -10,6 +10,7 @@
 #import "SetupPayPasswordViewController.h"
 #import "SecuritySettingTableViewController.h"
 #import "MyRedPacketsViewController.h"
+#import "LockedMoneyViewController.h"
 
 #import "CheckSetPayPasswordRequest.h"
 #import "FetchBalanceRequest.h"
@@ -92,6 +93,8 @@
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 1) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        LockedMoneyViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"LockedMoney"];
+        [self.navigationController pushViewController:viewController animated:YES];
     } else {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [[CheckSetPayPasswordRequest new] request:^BOOL(id request) {

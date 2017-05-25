@@ -639,7 +639,8 @@ arrayByAddingObjectsFromArray:
                                         NSString *token = tempDictionary[@"token"];
                                         NSString *account = tempDictionary[@"account"];
                                         NSString *password = tempDictionary[@"password"];
-                                        [self loginSuccess:account userId:userId token:token password:password];
+                                        [self loginRongCloud:account userId:userId token:token password:password];
+                                        //[self loginSuccess:account userId:userId token:token password:password];
                                     } else if ([object[@"code"] integerValue] == 61003) { //第一次用微信登录
                                         dispatch_async(dispatch_get_main_queue(), ^{
                                             RCDRegisterViewController *temp = [[RCDRegisterViewController alloc] init];
@@ -811,6 +812,11 @@ arrayByAddingObjectsFromArray:
       }
       tokenIncorrect:^{
         NSLog(@"IncorrectToken");
+          dispatch_async(dispatch_get_main_queue(), ^{
+                                [hud hide:YES];
+                                NSLog(@"Token无效");
+                                _errorMsgLb.text = @"无法连接到服务器！";
+                              });
 
 //        if (_loginFailureTimes < 1) {
 //          _loginFailureTimes++;

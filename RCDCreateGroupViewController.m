@@ -259,10 +259,10 @@ preparation before navigation
     self.navigationItem.rightBarButtonItem.enabled = YES;
   }
   //群组名称需要大于2个字
-  else if ([nameStr length] < 2) {
-    [self Alert:@"群组名称过短"];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-  }
+//  else if ([nameStr length] < 1) {
+//    [self Alert:@"群组名称不能为空"];
+//    self.navigationItem.rightBarButtonItem.enabled = YES;
+//  }
   //群组名称需要小于10个字
   else if ([nameStr length] > 10) {
     [self Alert:@"群组名称不能超过10个字"];
@@ -284,108 +284,174 @@ preparation before navigation
     hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
     hud.labelText = @"创建中...";
     [hud show:YES];
+      if (image) {
+          UIImage *scaleImage = [self reSizeImage:image toSize:CGSizeMake(200, 200)];
+          NSData *imageData = UIImageJPEGRepresentation(scaleImage, 0.00001);
+          [RCDHTTPTOOL uploadImageToQiNiu:[RCIM sharedRCIM]
+           .currentUserInfo.userId ImageData:imageData success:^(NSString *url) {
+               [[RCDHttpTool shareInstance] createGroupWithGroupName:nameStr avatar:url GroupMemberList:_GroupMemberIdList complete:^(NSDictionary *groupInformation) {
+                   if (groupInformation) {
+                       NSString *groupId = [NSString stringWithFormat:@"%@", groupInformation[@"groupid"]];
+                       [RCDHTTPTOOL getGroupMembersWithGroupId:groupId
+                                                         Block:^(NSMutableArray *result) {
+                                                             //更新本地数据库中群组成员的信息
+                                                         }];
+                       RCGroup *groupInfo = [RCGroup new];
+                       groupInfo.portraitUri = groupInformation[@"headerico"];
+                       groupInfo.groupId = groupId;
+                       groupInfo.groupName = nameStr;
+                       [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
+                                                    withGroupId:groupId];
+                       [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+                               successCompletion:^(RCDGroupInfo *group) {
+                                   [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+                               }];
+                       [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+                   } else {
+                       [hud hide:YES];
+                       self.navigationItem.rightBarButtonItem.enabled = YES;
+                       [self Alert:@"创建群组失败，请检查你的网络设置。"];
+                   }
+               }];
+           } failure:^(NSError *err) {
+               self.navigationItem.rightBarButtonItem.enabled = YES;
+               [hud hide:YES];
+               [self Alert:@"创建群组失败，请检查你的网络设置。"];
+           }];
+      } else {
+          [[RCDHttpTool shareInstance] createGroupWithGroupName:nameStr avatar:nil GroupMemberList:_GroupMemberIdList complete:^(NSDictionary *groupInformation) {
+              if (groupInformation) {
+                  NSString *groupId = [NSString stringWithFormat:@"%@", groupInformation[@"groupid"]];
+                  [RCDHTTPTOOL getGroupMembersWithGroupId:groupId
+                                                    Block:^(NSMutableArray *result) {
+                                                        //更新本地数据库中群组成员的信息
+                                                    }];
+                  RCGroup *groupInfo = [RCGroup new];
+                  groupInfo.portraitUri =
+                  [self createDefaultPortrait:groupId
+                                    GroupName:nameStr];
+                  groupInfo.groupId = groupId;
+                  groupInfo.groupName = nameStr;
+                  [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
+                                               withGroupId:groupId];
+                  [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+                          successCompletion:^(RCDGroupInfo *group) {
+                              [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+                          }];
+                  [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+                  
+              } else {
+                  [hud hide:YES];
+                  self.navigationItem.rightBarButtonItem.enabled = YES;
+                  [self Alert:@"创建群组失败，请检查你的网络设置。"];
+              }
+          }];
+      }
     
-    [[RCDHttpTool shareInstance]
-     createGroupWithGroupName:nameStr
-     GroupMemberList:_GroupMemberIdList
-     complete:^(NSString *groupId) {
-       
-       if (groupId) {
-         [RCDHTTPTOOL getGroupMembersWithGroupId:groupId
-                                           Block:^(NSMutableArray *result) {
-                                             //更新本地数据库中群组成员的信息
-                                           }];
-         if (image) {
-           [RCDHTTPTOOL
-            uploadImageToQiNiu:[RCIM sharedRCIM]
-            .currentUserInfo.userId
-            ImageData:data
-            success:^(NSString *url) {
-                NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
-              RCGroup *groupInfo = [RCGroup new];
-              groupInfo.portraitUri = url;
-              groupInfo.groupId = groupIdString;
-              groupInfo.groupName = nameStr;
-              dispatch_async(dispatch_get_main_queue(), ^{
-                  [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
-                      request.groupId = groupId;
-                      request.headIco = url;
-                      return YES;
-                  } result:^(id object, NSString *msg) {
-                      if (object) {
-                          [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo withGroupId:groupId];
-                          [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
-                          //关闭HUD
-                          [hud hide:YES];
-                          [RCDHTTPTOOL getGroupByID:groupInfo.groupId
-                                  successCompletion:^(RCDGroupInfo *group) {
-                                      [[RCDataBaseManager shareInstance] insertGroupToDB:group];
-                                  }];
-                      } else {
-                          self.navigationItem.rightBarButtonItem.enabled = YES;
-                          //关闭HUD
-                          [hud hide:YES];
-                          [self Alert:@"创建群组失败，请检查你的网络设置。"];
-                      }
-                  }];
-//                [RCDHTTPTOOL setGroupPortraitUri:url groupId:groupId
-//                 complete:^(BOOL result) {
-//                   [[RCIM sharedRCIM]
-//                    refreshGroupInfoCache:
-//                    groupInfo
-//                    withGroupId:
-//                    groupId];
-//                   if (result == YES) {
-//                     [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
-//                     //关闭HUD
-//                     [hud hide:YES];
-//                     [RCDHTTPTOOL getGroupByID:groupInfo.groupId
-//                             successCompletion:^(RCDGroupInfo *group) {
-//                               [[RCDataBaseManager shareInstance] insertGroupToDB:group];
-//                             }];
-//                   }
-//                   if (result == NO) {
-//                     self.navigationItem
-//                     .rightBarButtonItem
-//                     .enabled =
-//                     YES; //关闭HUD
-//                     [hud hide:YES];
-//                     [self Alert:@"创建群组失败，请检查你的网络设置。"];
-//                   }
-//                 }];
-              });
-              
-            }
-            failure:^(NSError *err) {
-              self.navigationItem.rightBarButtonItem
-              .enabled = YES;
-              //关闭HUD
-              [hud hide:YES];
-              [self Alert:@"创建群组失败，请检查你的网络设置。"];
-            }];
-         } else {
-           RCGroup *groupInfo = [RCGroup new];
-           groupInfo.portraitUri =
-           [self createDefaultPortrait:groupId
-                             GroupName:nameStr];
-             NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
-           groupInfo.groupId = groupIdString;
-           groupInfo.groupName = nameStr;
-           [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
-                                        withGroupId:groupIdString];
-           [RCDHTTPTOOL getGroupByID:groupInfo.groupId
-                   successCompletion:^(RCDGroupInfo *group) {
-                     [[RCDataBaseManager shareInstance] insertGroupToDB:group];
-                   }];
-           [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
-         }
-       } else {
-         [hud hide:YES];
-         self.navigationItem.rightBarButtonItem.enabled =
-         YES;
-         [self Alert:@"创建群组失败，请检查你的网络设置。"];
-       }
-     }];
+//    [[RCDHttpTool shareInstance]
+//     createGroupWithGroupName:nameStr
+//     GroupMemberList:_GroupMemberIdList
+//     complete:^(NSString *groupId) {
+//       
+//       if (groupId) {
+//         [RCDHTTPTOOL getGroupMembersWithGroupId:groupId
+//                                           Block:^(NSMutableArray *result) {
+//                                             //更新本地数据库中群组成员的信息
+//                                           }];
+//         if (image) {
+//           [RCDHTTPTOOL
+//            uploadImageToQiNiu:[RCIM sharedRCIM]
+//            .currentUserInfo.userId
+//            ImageData:data
+//            success:^(NSString *url) {
+//                NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
+//              RCGroup *groupInfo = [RCGroup new];
+//              groupInfo.portraitUri = url;
+//              groupInfo.groupId = groupIdString;
+//              groupInfo.groupName = nameStr;
+//                [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo withGroupId:groupId];
+//              dispatch_async(dispatch_get_main_queue(), ^{
+//                  [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+//                      request.groupId = groupId;
+//                      request.headIco = url;
+//                      return YES;
+//                  } result:^(id object, NSString *msg) {
+//                      if (object) {
+//                          [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo withGroupId:groupId];
+//                          [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+//                                  successCompletion:^(RCDGroupInfo *group) {
+//                                      [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+//                                  }];
+//                          //[[RCDataBaseManager shareInstance] insertGroupToDB:groupInfo];
+//                          [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+//                          //关闭HUD
+//                          [hud hide:YES];
+//                          
+//                      } else {
+//                          self.navigationItem.rightBarButtonItem.enabled = YES;
+//                          //关闭HUD
+//                          [hud hide:YES];
+//                          [self Alert:@"创建群组失败，请检查你的网络设置。"];
+//                      }
+//                  }];
+////                [RCDHTTPTOOL setGroupPortraitUri:url groupId:groupId
+////                 complete:^(BOOL result) {
+////                   [[RCIM sharedRCIM]
+////                    refreshGroupInfoCache:
+////                    groupInfo
+////                    withGroupId:
+////                    groupId];
+////                   if (result == YES) {
+////                     [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+////                     //关闭HUD
+////                     [hud hide:YES];
+////                     [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+////                             successCompletion:^(RCDGroupInfo *group) {
+////                               [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+////                             }];
+////                   }
+////                   if (result == NO) {
+////                     self.navigationItem
+////                     .rightBarButtonItem
+////                     .enabled =
+////                     YES; //关闭HUD
+////                     [hud hide:YES];
+////                     [self Alert:@"创建群组失败，请检查你的网络设置。"];
+////                   }
+////                 }];
+//              });
+//              
+//            }
+//            failure:^(NSError *err) {
+//              self.navigationItem.rightBarButtonItem
+//              .enabled = YES;
+//              //关闭HUD
+//              [hud hide:YES];
+//              [self Alert:@"创建群组失败，请检查你的网络设置。"];
+//            }];
+//         } else {
+//           RCGroup *groupInfo = [RCGroup new];
+//           groupInfo.portraitUri =
+//           [self createDefaultPortrait:groupId
+//                             GroupName:nameStr];
+//             NSString *groupIdString = [NSString stringWithFormat:@"%@", groupId];
+//           groupInfo.groupId = groupIdString;
+//           groupInfo.groupName = nameStr;
+//           [[RCIM sharedRCIM] refreshGroupInfoCache:groupInfo
+//                                        withGroupId:groupIdString];
+//           [RCDHTTPTOOL getGroupByID:groupInfo.groupId
+//                   successCompletion:^(RCDGroupInfo *group) {
+//                     [[RCDataBaseManager shareInstance] insertGroupToDB:group];
+//                   }];
+//           [self gotoChatView:groupInfo.groupId groupName:groupInfo.groupName];
+//         }
+//       } else {
+//         [hud hide:YES];
+//         self.navigationItem.rightBarButtonItem.enabled =
+//         YES;
+//         [self Alert:@"创建群组失败，请检查你的网络设置。"];
+//       }
+//     }];
   }
 }
 
@@ -460,7 +526,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CGRect captureRect = [[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
     UIImage *captureImage = [self getSubImage:originImage Rect:captureRect imageOrientation:originImage.imageOrientation];
     
-    UIImage *scaleImage = [self scaleImage:captureImage toScale:0.8];
+    //UIImage *scaleImage = [self scaleImage:captureImage toScale:0.8];
+      UIImage *scaleImage = [self reSizeImage:captureImage toSize:CGSizeMake(200, 200)];
     data = UIImageJPEGRepresentation(scaleImage, 0.00001);
   }
 
@@ -552,5 +619,13 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                                  error:nil];
   }
   return filePath;
+}
+- (UIImage *)reSizeImage:(UIImage *)targetImage toSize:(CGSize)reSize {
+    UIGraphicsBeginImageContext(CGSizeMake(reSize.width, reSize.height));
+    [targetImage drawInRect:CGRectMake(0, 0, reSize.width, reSize.height)];
+    UIImage *reSizeImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return reSizeImage;
+    
 }
 @end

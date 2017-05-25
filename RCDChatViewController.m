@@ -20,8 +20,10 @@
 #import "RCDRoomSettingViewController.h"
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
+#import "AddFriendMessage.h"
 #import "RCDTestMessageCell.h"
 #import "RedPacketCell.h"
+#import "AddFriendMessageCell.h"
 #import "TakeApartPacketView.h"
 #import "RCDUIBarButtonItem.h"
 #import "RCDUserInfoManager.h"
@@ -97,8 +99,6 @@ NSMutableDictionary *userInputStatus;
   self.enableSaveNewPhotoToLocalSystem = YES;
   [UIApplication sharedApplication].statusBarStyle =
       UIStatusBarStyleLightContent;
-//    NSArray *array = self.conversationDataRepository;
-//    RCMessageModel *model = array[0];
 
   if (self.conversationType != ConversationType_CHATROOM) {
     if (self.conversationType == ConversationType_DISCUSSION) {
@@ -157,6 +157,7 @@ NSMutableDictionary *userInputStatus;
       forMessageClass:[RCDTestMessage class]];
     
     [self registerClass:[RedPacketCell class] forMessageClass:[RedPacketMessage class]];
+    [self registerClass:[AddFriendMessageCell class] forMessageClass:[AddFriendMessage class]];
 
   [self notifyUpdateUnreadMessageCount];
 
@@ -172,9 +173,9 @@ NSMutableDictionary *userInputStatus;
 //                                        tag:PLUGIN_BOARD_ITEM_FILE_TAG];
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
-    
     if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
-        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" atIndex:2 tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
+        //[self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_PERSONALCARD_TAG];
     }
   //    self.chatSessionInputBarControl.hidden = YES;
   //    CGRect intputTextRect = self.conversationMessageCollectionView.frame;
@@ -585,7 +586,7 @@ NSMutableDictionary *userInputStatus;
   }
 }
 - (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note {
-    RedPacketMessage *message = [RedPacketMessage messageWithContent:note redPacketId:packetId];
+    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId];
     [self sendMessage:message pushContent:note];
 }
 - (RealTimeLocationStatusView *)realTimeLocationStatusView {
@@ -794,6 +795,7 @@ NSMutableDictionary *userInputStatus;
                                     }];
                                 }
                             } else {
+                                [MBProgressHUD hideHUDForView:self.view animated:YES];
                                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                                 [alertView show];
                             }
@@ -1017,7 +1019,7 @@ NSMutableDictionary *userInputStatus;
   BOOL isGotoDetailView = NO;
   for (RCDUserInfo *friend in friendList) {
     if ([user.userId isEqualToString:friend.userId] &&
-        [friend.status isEqualToString:@"20"]) {
+        [friend.status isEqualToString:@"1"]) {
       isGotoDetailView = YES;
     } else if ([user.userId
                    isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
@@ -1327,7 +1329,7 @@ NSMutableDictionary *userInputStatus;
                 NSString *targetIdString = [NSString stringWithFormat:@"%@", weakSelf.targetId];
               RCGroup *Group = [[RCGroup alloc] initWithGroupId:targetIdString
                                          groupName:group.groupName
-                                       portraitUri:group.portraitUri];
+                                       portraitUri:@"http://ooc6bq687.bkt.clouddn.com/6963861495529674360553955?imageMogr2/auto-orient/blur/1x0/quality/100%7Cwatermark/1/image/aHR0cDovL29vYzZicTY4Ny5ia3QuY2xvdWRkbi5jb20vZ3JvdXB3YXRlci5wbmc=/dissolve/100/gravity/SouthEast/dx/0/dy/0"/*group.portraitUri*/];
                 
             [[RCIM sharedRCIM] refreshGroupInfoCache:Group withGroupId:targetIdString];
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -1363,6 +1365,9 @@ NSMutableDictionary *userInputStatus;
 }
 
 - (void)refreshTitle{
+//    for (RCMessageModel *model in self.conversationDataRepository) {
+//        
+//    }
   if (self.userName == nil) {
     return;
   }
@@ -1371,7 +1376,11 @@ NSMutableDictionary *userInputStatus;
                 successCompletion:^(RCDGroupInfo *group) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [[RCDataBaseManager shareInstance] insertGroupToDB:group];
-                        self.title = [NSString stringWithFormat:@"%@(%d)",group.groupName, group.number.intValue];
+                        if (group.groupName) {
+                            self.title = [NSString stringWithFormat:@"%@(%d)",group.groupName, group.number.intValue];
+                        } else {
+                            self.title = nil;
+                        }
                     });
                 }];
     }else{

@@ -130,6 +130,9 @@
 //                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 //    [self.contentView.layer addAnimation:hideAnimation forKey:nil];
 }
+- (void)clearPassword {
+    [self.passwordView clearUpPassword];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

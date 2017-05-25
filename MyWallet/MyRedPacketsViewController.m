@@ -10,6 +10,7 @@
 
 #import "MyRedPacketsRequest.h"
 #import "UIImageView+WebCache.h"
+#import "MBProgressHUD.h"
 
 #import <RongIMKit/RongIMKit.h>
 
@@ -69,9 +70,11 @@
 }
 
 - (void)myRedPacketsRecord {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [[MyRedPacketsRequest new] request:^BOOL(id request) {
         return YES;
     } result:^(id object, NSString *msg) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (object) {
             self.informations = [(NSDictionary *)object copy];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -88,6 +91,7 @@
     [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri] placeholderImage:nil];
     self.receivedCountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"receivecount"] integerValue])];
     self.sendCountLabel.text = [NSString stringWithFormat:@"发出红包%@个", @([self.informations[@"sendcount"] integerValue])];
+    self.bestLuckCountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"bestluckcount"] integerValue])];
     if (self.receivedButton.selected) {
         self.nameLabel.text = [NSString stringWithFormat:@"%@共收到", userInfo.name];
         self.amountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"moneyreceive"] integerValue])];

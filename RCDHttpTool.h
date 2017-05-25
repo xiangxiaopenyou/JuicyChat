@@ -32,8 +32,9 @@
 
 //创建群组
 - (void)createGroupWithGroupName:(NSString *)groupName
+                          avatar:(NSString *)avatarUrl
                  GroupMemberList:(NSArray *)groupMemberList
-                        complete:(void (^)(NSString *))userId;
+                        complete:(void (^)(NSDictionary *))groupInfo;
 
 //设置群组头像
 - (void)setGroupPortraitUri:(NSString *)portraitUri

@@ -639,15 +639,23 @@
                               success:^(id response) {
                                   [hud hide:YES];
                                   if ([response[@"code"] intValue] == 200) {
+                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                      [alert show];
                                       ((UILabel *)[self.view viewWithTag:vCodeTimerLabelTag])
                                       .hidden = NO;
                                       ((UIButton *)[self.view viewWithTag:SendCodeButtonTag])
                                       .hidden = YES;
                                       [self CountDown:60];
+                                  } else {
+                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"nil" message:response[@"message"] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                      [alert show];
                                   }
                               }
                               failure:^(NSError *err) {
+                                  [hud hide:YES];
                                   NSLog(@"%@", err);
+                                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"nil" message:@"验证码发送失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                  [alert show];
                               }];
 //    [AFHttpTool checkPhoneNumberAvailable:@"86"
 //        phoneNumber:phoneNumber
@@ -707,6 +715,7 @@
   _errorMsgLb.text = @"";
   if (![self checkContent])
     return;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
   NSString *phone =
       [(UITextField *)[self.view viewWithTag:UserTextFieldTag] text];
   NSString *userPwd =
@@ -714,13 +723,17 @@
   NSString *vCode =
       [(UITextField *)[self.view viewWithTag:VerificationCodeField] text];
     [AFHttpTool resetPassword:userPwd
+                      account:phone
                        vToken:vCode
                       success:^(id response) {
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
                           if ([response[@"code"] intValue] == 200) {
                               _errorMsgLb.text = @"修改成功!";
                               dispatch_after(
                                              dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_MSEC),
                                              dispatch_get_main_queue(), ^{
+                                                 [[NSUserDefaults standardUserDefaults] setObject:userPwd forKey:@"userPwd"];
+                                                 [DEFAULTS synchronize];
                                                  [self.navigationController
                                                   popViewControllerAnimated:YES];
                                              });
@@ -728,7 +741,8 @@
                           
                       }
                       failure:^(NSError *err){
-                          
+                          [MBProgressHUD hideHUDForView:self.view animated:YES];
+                          _errorMsgLb.text = @"修改失败!";
                       }];
 //  [AFHttpTool verifyVerificationCode:@"86"
 //      phoneNumber:phone

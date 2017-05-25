@@ -274,12 +274,14 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 
 // reset password
 + (void)resetPassword:(NSString *)password
+              account:(NSString *)account
                vToken:(NSString *)verification_token
               success:(void (^)(id response))success
               failure:(void (^)(NSError *err))failure {
   NSDictionary *params = @{
-    @"password" : password,
-    @"verification_token" : verification_token
+                           @"account":account,
+                           @"password" : password,
+                           @"code" : verification_token
   };
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
                             url:@"ResetPassword.aspx"
@@ -453,15 +455,19 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 
 // create group
 + (void)createGroupWithGroupName:(NSString *)groupName
+                          avatar:(NSString *)avatarUrl
                  groupMemberList:(NSArray *)groupMemberList
                          success:(void (^)(id response))success
                          failure:(void (^)(NSError *err))failure {
     NSString *token = [DEFAULTS stringForKey:@"userToken"];
-  NSDictionary *params = @{
+  NSMutableDictionary *params = [@{
                            @"token" : token,
                            @"groupName" : groupName,
                            @"userList" : groupMemberList
-  };
+  } mutableCopy];
+    if (avatarUrl) {
+        [params setObject:avatarUrl forKey:@"headico"];
+    }
   [AFHttpTool requestWihtMethod:RequestMethodTypePost
                             url:@"CreateGroup.aspx"
                          params:params

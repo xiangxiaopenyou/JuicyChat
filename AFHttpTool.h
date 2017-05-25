@@ -80,6 +80,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 
 // reset password
 + (void)resetPassword:(NSString *)password
+              account:(NSString *)account
                vToken:(NSString *)verification_token
               success:(void (^)(id response))success
               failure:(void (^)(NSError *err))failure;
@@ -127,6 +128,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
                      Failure:(void (^)(NSError *err))failure;
 // create group
 + (void)createGroupWithGroupName:(NSString *)groupName
+                          avatar:(NSString *)avatarUrl
                  groupMemberList:(NSArray *)groupMemberList
                          success:(void (^)(id response))success
                          failure:(void (^)(NSError *err))failure;

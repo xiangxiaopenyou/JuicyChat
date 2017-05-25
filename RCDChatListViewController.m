@@ -110,7 +110,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+    self.isShowNetworkIndicatorView = NO;
   self.edgesForExtendedLayout = UIRectEdgeNone;
   self.navigationController.navigationBar.translucent = NO;
   self.searchBar.delegate = self;
@@ -489,7 +489,6 @@
           model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
       }
   }
-
   return dataSource;
 }
 
@@ -520,94 +519,79 @@
 - (RCConversationBaseCell *)rcConversationListTableView:(UITableView *)tableView
                                   cellForRowAtIndexPath:
                                       (NSIndexPath *)indexPath {
-  RCConversationModel *model = self.conversationListDataSource[indexPath.row];
+    RCConversationModel *model = self.conversationListDataSource[indexPath.row];
 
-  __block NSString *userName = nil;
-  __block NSString *portraitUri = nil;
-  RCContactNotificationMessage *_contactNotificationMsg = nil;
+    __block NSString *userName = nil;
+    __block NSString *portraitUri = nil;
+    RCContactNotificationMessage *_contactNotificationMsg = nil;
 
-  __weak RCDChatListViewController *weakSelf = self;
+    __weak RCDChatListViewController *weakSelf = self;
   //此处需要添加根据userid来获取用户信息的逻辑，extend字段不存在于DB中，当数据来自db时没有extend字段内容，只有userid
-  if (nil == model.extend) {
+    if (nil == model.extend) {
     // Not finished yet, To Be Continue...
-    if (model.conversationType == ConversationType_SYSTEM &&
-        [model.lastestMessage
-            isMemberOfClass:[RCContactNotificationMessage class]]) {
-      _contactNotificationMsg =
-          (RCContactNotificationMessage *)model.lastestMessage;
-      if (_contactNotificationMsg.sourceUserId == nil) {
-        RCDChatListCell *cell =
-            [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                   reuseIdentifier:@""];
-        cell.lblDetail.text = @"好友请求";
-        [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:portraitUri]
+        if (model.conversationType == ConversationType_SYSTEM && [model.lastestMessage isMemberOfClass:[RCContactNotificationMessage class]]) {
+                _contactNotificationMsg = (RCContactNotificationMessage *)model.lastestMessage;
+                if (_contactNotificationMsg.sourceUserId == nil) {
+                    RCDChatListCell *cell = [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+                    cell.lblDetail.text = @"好友请求";
+                    [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:portraitUri]
                       placeholderImage:[UIImage imageNamed:@"system_notice"]];
-        return cell;
-      }
-      NSDictionary *_cache_userinfo = [[NSUserDefaults standardUserDefaults]
-          objectForKey:_contactNotificationMsg.sourceUserId];
-      if (_cache_userinfo) {
-        userName = _cache_userinfo[@"username"];
-        portraitUri = _cache_userinfo[@"portraitUri"];
-      } else {
-        NSDictionary *emptyDic = @{};
-        [[NSUserDefaults standardUserDefaults]
-            setObject:emptyDic
-               forKey:_contactNotificationMsg.sourceUserId];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        [RCDHTTPTOOL
-            getUserInfoByUserID:_contactNotificationMsg.sourceUserId
+                    return cell;
+                }
+                NSDictionary *_cache_userinfo = [[NSUserDefaults standardUserDefaults] objectForKey:_contactNotificationMsg.sourceUserId];
+                if (_cache_userinfo) {
+                    userName = _cache_userinfo[@"username"];
+                    portraitUri = _cache_userinfo[@"portraitUri"];
+                } else {
+                    NSDictionary *emptyDic = @{};
+                    [[NSUserDefaults standardUserDefaults] setObject:emptyDic forKey:_contactNotificationMsg.sourceUserId];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    [RCDHTTPTOOL getUserInfoByUserID:_contactNotificationMsg.sourceUserId
                      completion:^(RCUserInfo *user) {
-                       if (user == nil) {
-                         return;
-                       }
-                       RCDUserInfo *rcduserinfo_ = [RCDUserInfo new];
-                       rcduserinfo_.name = user.name;
-                       rcduserinfo_.userId = user.userId;
-                       rcduserinfo_.portraitUri = user.portraitUri;
+                        if (user == nil) {
+                            return;
+                        }
+                        RCDUserInfo *rcduserinfo_ = [RCDUserInfo new];
+                        rcduserinfo_.name = user.name;
+                        rcduserinfo_.userId = user.userId;
+                        rcduserinfo_.portraitUri = user.portraitUri;
 
-                       model.extend = rcduserinfo_;
+                        model.extend = rcduserinfo_;
 
                        // local cache for userInfo
-                       NSDictionary *userinfoDic = @{
-                         @"username" : rcduserinfo_.name,
-                         @"portraitUri" : rcduserinfo_.portraitUri
-                       };
-                       [[NSUserDefaults standardUserDefaults]
-                           setObject:userinfoDic
-                              forKey:_contactNotificationMsg.sourceUserId];
-                       [[NSUserDefaults standardUserDefaults] synchronize];
+                        NSDictionary *userinfoDic = @{
+                            @"username" : rcduserinfo_.name,
+                            @"portraitUri" : rcduserinfo_.portraitUri
+                        };
+                        [[NSUserDefaults standardUserDefaults] setObject:userinfoDic
+                                  forKey:_contactNotificationMsg.sourceUserId];
+                        [[NSUserDefaults standardUserDefaults] synchronize];
 
-                       [weakSelf.conversationListTableView
-                           reloadRowsAtIndexPaths:@[ indexPath ]
-                                 withRowAnimation:
-                                     UITableViewRowAnimationAutomatic];
+                        [weakSelf.conversationListTableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                      }];
-      }
-        } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
-            RCDChatListCell *cell =
-            [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                   reuseIdentifier:@""];
-            cell.lblName.text = nil;
-            cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
-            
-            if (model.conversationType == ConversationType_GROUP) {
-                if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
-                    RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
-                    cell.lblDetail.text = message.message;
-                } else {
-                    RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
-                    cell.lblDetail.text = [NSString stringWithFormat:@"[红包]%@", message.content];
                 }
-                if( [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId] ) {
-                    RCDGroupInfo *groupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cell.lblName.text = groupInfo.groupName;
-                        [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:groupInfo.portraitUri]
+            } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
+                RCDChatListCell *cell = [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
+                cell.lblName.text = nil;
+                cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
+            
+                if (model.conversationType == ConversationType_GROUP) {
+                    if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
+                        RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
+                        cell.lblDetail.text = message.message;
+                    } else {
+                        RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
+                        cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    }
+                    if( [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId] ) {
+                        RCDGroupInfo *groupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            cell.lblName.text = groupInfo.groupName;
+                            [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:groupInfo.portraitUri]
                                       placeholderImage:[UIImage imageNamed:@"icon_5"]];
-                    });
-                } else {
-                    [RCDHTTPTOOL getGroupByID:model.targetId
+                        });
+                    } else {
+                        [RCDHTTPTOOL getGroupByID:model.targetId
                             successCompletion:^(RCDGroupInfo *group) {
                                 NSString *targetIdString = [NSString stringWithFormat:@"%@", model.targetId];
                                 RCGroup *Group = [[RCGroup alloc] initWithGroupId:targetIdString
@@ -621,98 +605,72 @@
                                                   placeholderImage:[UIImage imageNamed:@"icon_5"]];
                                 });
                             }];
-                }
-            } else if (model.conversationType == ConversationType_PRIVATE) {
-                if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
-                    RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
-                    cell.lblDetail.text = message.message;
-                } else {
-                    RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
-                    cell.lblDetail.text = [NSString stringWithFormat:@"[红包]%@", message.content];
-                }
-                if ([[RCDataBaseManager shareInstance] getUserByUserId:model.targetId]) {
-                    RCUserInfo *userInfo = [[RCDataBaseManager shareInstance] getUserByUserId:model.targetId];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        cell.lblName.text = userInfo.name;
-                        [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri]
+                    }
+                } else if (model.conversationType == ConversationType_PRIVATE) {
+                    if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
+                        RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
+                        cell.lblDetail.text = message.message;
+                    } else {
+                        RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
+                        cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    }
+                    if ([[RCDataBaseManager shareInstance] getUserByUserId:model.targetId]) {
+                        RCUserInfo *userInfo = [[RCDataBaseManager shareInstance] getUserByUserId:model.targetId];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            cell.lblName.text = userInfo.name;
+                            [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri]
                                       placeholderImage:[UIImage imageNamed:@"icon_person"]];
-                    });
-                } else {
-                    [[RCDHttpTool shareInstance] updateUserInfo:model.targetId success:^(RCDUserInfo *user) {
-                        RCUserInfo *updatedUserInfo = [[RCUserInfo alloc] init];
-                        updatedUserInfo.userId = user.userId;
-                        if (![user.displayName isKindOfClass:[NSNull class]]) {
-                            if (user.displayName.length > 0  ) {
-                                updatedUserInfo.name = user.displayName;
+                        });
+                    } else {
+                        [[RCDHttpTool shareInstance] updateUserInfo:model.targetId success:^(RCDUserInfo *user) {
+                            RCUserInfo *updatedUserInfo = [[RCUserInfo alloc] init];
+                            updatedUserInfo.userId = user.userId;
+                            if (![user.displayName isKindOfClass:[NSNull class]]) {
+                                if (user.displayName.length > 0  ) {
+                                    updatedUserInfo.name = user.displayName;
+                                } else {
+                                    updatedUserInfo.name = user.name;
+                                }
                             } else {
                                 updatedUserInfo.name = user.name;
                             }
-                        } else {
-                            updatedUserInfo.name = user.name;
-                        }
-                        updatedUserInfo.portraitUri = user.portraitUri;
-                        [[RCIM sharedRCIM] refreshUserInfoCache:updatedUserInfo withUserId:updatedUserInfo.userId];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            cell.lblName.text = updatedUserInfo.name;
-                            [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:updatedUserInfo.portraitUri]
+                            updatedUserInfo.portraitUri = user.portraitUri;
+                            [[RCIM sharedRCIM] refreshUserInfoCache:updatedUserInfo withUserId:updatedUserInfo.userId];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                cell.lblName.text = updatedUserInfo.name;
+                                [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:updatedUserInfo.portraitUri]
                                           placeholderImage:[UIImage imageNamed:@"icon_person"]];
-                        });
-                    } failure:^(NSError *err) {
+                            });
+                        } failure:^(NSError *err) {
                         
-                    }];
-                }
-//                [[RCDRCIMDataSource shareInstance] getUserInfoWithUserId:model.targetId completion:^(RCUserInfo *userInfo) {
-//                     [[RCDHttpTool shareInstance] updateUserInfo:model.targetId
-//                      success:^(RCDUserInfo *user) {
-//                          RCUserInfo *updatedUserInfo = [[RCUserInfo alloc] init];
-//                          updatedUserInfo.userId = user.userId;
-//                          if (![user.displayName isKindOfClass:[NSNull class]]) {
-//                              if (user.displayName.length > 0  ) {
-//                                  updatedUserInfo.name = user.displayName;
-//                              } else {
-//                                  updatedUserInfo.name = user.name;
-//                              }
-//                          } else {
-//                              updatedUserInfo.name = user.name;
-//                          }
-//                          updatedUserInfo.portraitUri = user.portraitUri;
-//                          [[RCIM sharedRCIM] refreshUserInfoCache:updatedUserInfo withUserId:updatedUserInfo.userId];
-//                          dispatch_async(dispatch_get_main_queue(), ^{
-//                              cell.lblName.text = updatedUserInfo.name;
-//                              [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:updatedUserInfo.portraitUri]
-//                                            placeholderImage:[UIImage imageNamed:@"icon_person"]];
-//                          });
-//                      }
-//                      failure:^(NSError *err){
-//                          
-//                      }];
-//                 }];
+                        }];
+                    }
             }
             return cell;
         }
 
-  } else {
-    RCDUserInfo *user = (RCDUserInfo *)model.extend;
-    userName = user.name;
-    portraitUri = user.portraitUri;
-  }
+    } else {
+        RCDUserInfo *user = (RCDUserInfo *)model.extend;
+        userName = user.name;
+        portraitUri = user.portraitUri;
+    }
 
-  RCDChatListCell *cell =
-      [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault
-                             reuseIdentifier:@""];
-  NSString *operation = _contactNotificationMsg.operation;
-  NSString *operationContent;
-  if ([operation isEqualToString:@"Request"]) {
-    operationContent = [NSString stringWithFormat:@"来自%@的好友请求", userName];
-  } else if ([operation isEqualToString:@"AcceptResponse"]) {
-    operationContent = [NSString stringWithFormat:@"%@通过了你的好友请求", userName];
-  }
-  cell.lblDetail.text = operationContent;
-  [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:portraitUri]
-                placeholderImage:[UIImage imageNamed:@"system_notice"]];
-  cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
-  cell.model = model;
-  return cell;
+      RCDChatListCell *cell =
+          [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                 reuseIdentifier:@""];
+      NSString *operation = _contactNotificationMsg.operation;
+      NSString *operationContent;
+      if ([operation isEqualToString:@"Request"]) {
+        operationContent = [NSString stringWithFormat:@"来自%@的好友请求", userName];
+      } else if ([operation isEqualToString:@"AcceptResponse"]) {
+        operationContent = [NSString stringWithFormat:@"%@通过了你的好友请求", userName];
+      }
+      cell.lblDetail.text = operationContent;
+      [cell.ivAva sd_setImageWithURL:[NSURL URLWithString:portraitUri]
+                    placeholderImage:[UIImage imageNamed:@"system_notice"]];
+      cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
+      cell.model = model;
+      return cell;
 }
 
 //*********************插入自定义Cell*********************//
@@ -740,6 +698,23 @@
       return;
     }
     //该接口需要替换为从消息体获取好友请求的用户信息
+      if ([_contactNotificationMsg.operation isEqualToString:@"Remove"]) {
+//          NSMutableArray *tempArray = [self.conversationListDataSource mutableCopy];
+//          for (NSInteger i = 0; i < self.conversationListDataSource.count; i ++) {
+//              RCConversationModel *tempModel = self.conversationListDataSource[i];
+//              if ([tempModel.targetId integerValue] == [_contactNotificationMsg.sourceUserId integerValue]) {
+//                  [tempArray removeObjectAtIndex:i];
+//                  continue;
+//              }
+//          }
+//          self.conversationListDataSource = [tempArray mutableCopy];
+          [[RCDataBaseManager shareInstance] deleteFriendFromDB:_contactNotificationMsg.sourceUserId];
+          [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:_contactNotificationMsg.sourceUserId];
+          [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:_contactNotificationMsg.sourceUserId];
+          dispatch_async(dispatch_get_main_queue(), ^{
+              [self refreshConversationTableViewIfNeeded];
+          });
+      }
     [RCDHTTPTOOL
         getUserInfoByUserID:_contactNotificationMsg.sourceUserId
                  completion:^(RCUserInfo *user) {
@@ -786,6 +761,17 @@
                      }
                    });
                  }];
+  } else if ([message.content isMemberOfClass:[RCCommandMessage class]]) {
+      RCCommandMessage *temp = (RCCommandMessage *)message.content;
+      if ([temp.name isEqualToString:@"Kicked"]) {
+          NSString *groupId = temp.data;
+          [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
+          [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:groupId];
+          [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:groupId];
+          dispatch_async(dispatch_get_main_queue(), ^{
+              [self refreshConversationTableViewIfNeeded];
+          });
+      }
   } else {
     //调用父类刷新未读消息数
     [super didReceiveMessageNotification:notification];

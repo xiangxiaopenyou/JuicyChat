@@ -70,6 +70,9 @@
     RedPacketMessage *testMessage = (RedPacketMessage *)self.model.content;
     if (testMessage) {
         NSString *contentString = testMessage.content;
+        if (contentString.length > 4) {
+            contentString = [contentString substringFromIndex:4];
+        }
         self.textLabel.text = contentString;
     }
     

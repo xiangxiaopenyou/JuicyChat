@@ -28,7 +28,7 @@
     self.navigationItem.title = @"安全设置";
     self.navigationItem.leftBarButtonItem = [[RCDUIBarButtonItem alloc] initContainImage:[UIImage imageNamed:@"navigator_btn_back"]
                                                                           imageViewFrame:CGRectMake(-6, 4, 10, 17)
-                                                                             buttonTitle:@"我的钱包"
+                                                                             buttonTitle:@"我的果币"
                                                                               titleColor:[UIColor whiteColor]
                                                                               titleFrame:CGRectMake(9, 4, 85, 17)
                                                                              buttonFrame:CGRectMake(0, 6, 87, 23)
