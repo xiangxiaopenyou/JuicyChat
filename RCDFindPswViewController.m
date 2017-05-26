@@ -734,6 +734,7 @@
                                              dispatch_get_main_queue(), ^{
                                                  [[NSUserDefaults standardUserDefaults] setObject:userPwd forKey:@"userPwd"];
                                                  [DEFAULTS synchronize];
+                                                 [[NSNotificationCenter defaultCenter] postNotificationName:@"PasswordDidFind" object:nil];
                                                  [self.navigationController
                                                   popViewControllerAnimated:YES];
                                              });

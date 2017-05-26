@@ -699,8 +699,8 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
 //获取版本信息
 + (void)getVersionsuccess:(void (^)(id response))success
                     failure:(void (^)(NSError *err))failure {
-  [AFHttpTool requestWihtMethod:RequestMethodTypeGet
-                            url:@"/misc/client_version"
+  [AFHttpTool requestWihtMethod:RequestMethodTypePost
+                            url:@"GetVersion.aspx"
                          params:nil
                         success:success
                         failure:failure];

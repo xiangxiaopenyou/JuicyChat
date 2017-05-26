@@ -20,9 +20,11 @@
 #import "RCDRoomSettingViewController.h"
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
+#import "PersonalCardMessage.h"
 #import "AddFriendMessage.h"
 #import "RCDTestMessageCell.h"
 #import "RedPacketCell.h"
+#import "PersonalCardCell.h"
 #import "AddFriendMessageCell.h"
 #import "TakeApartPacketView.h"
 #import "RCDUIBarButtonItem.h"
@@ -46,6 +48,7 @@
 #import "TakeApartRequest.h"
 #import "RedPacketMembersRequest.h"
 #import "MBProgressHUD.h"
+#import "MyFriendsListTableViewController.h"
 
 @interface RCDChatViewController () <
     UIActionSheetDelegate, RCRealTimeLocationObserver,
@@ -157,6 +160,7 @@ NSMutableDictionary *userInputStatus;
       forMessageClass:[RCDTestMessage class]];
     
     [self registerClass:[RedPacketCell class] forMessageClass:[RedPacketMessage class]];
+    [self registerClass:[PersonalCardCell class] forMessageClass:[PersonalCardMessage class]];
     [self registerClass:[AddFriendMessageCell class] forMessageClass:[AddFriendMessage class]];
 
   [self notifyUpdateUnreadMessageCount];
@@ -171,11 +175,11 @@ NSMutableDictionary *userInputStatus;
 //                                                @"File", @"RongCloudKit", nil)
 //                                    atIndex:3
 //                                        tag:PLUGIN_BOARD_ITEM_FILE_TAG];
-    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
-    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
+//    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:2];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
     if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
-        //[self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_PERSONALCARD_TAG];
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
     }
   //    self.chatSessionInputBarControl.hidden = YES;
   //    CGRect intputTextRect = self.conversationMessageCollectionView.frame;
@@ -580,6 +584,15 @@ NSMutableDictionary *userInputStatus;
           [self presentViewController:navigation animated:YES completion:nil];
       }
           break;
+      case PLUGIN_BOARD_ITEM_CARD_TAG: {
+          MyFriendsListTableViewController *listViewController = [[MyFriendsListTableViewController alloc] init];
+          listViewController.selectBlock = ^(RCDUserInfo *userInfo) {
+              [self sendPersonalCardMessage:userInfo];
+          };
+          UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:listViewController];
+          [self presentViewController:navigation animated:YES completion:nil];
+      }
+          break;
   default:
     [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
     break;
@@ -588,6 +601,14 @@ NSMutableDictionary *userInputStatus;
 - (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note {
     RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId];
     [self sendMessage:message pushContent:note];
+}
+- (void)sendPersonalCardMessage:(RCDUserInfo *)userInfo {
+    RCUserInfo *currentUser = [RCIMClient sharedRCIMClient].currentUserInfo;
+    NSDictionary *myInformations = @{@"id" : currentUser.userId,
+                                     @"name" : currentUser.name,
+                                     @"portrait" : currentUser.portraitUri};
+    PersonalCardMessage *message = [PersonalCardMessage messageWithUserId:userInfo.userId name:userInfo.name portraitUrl:userInfo.portraitUri user:myInformations];
+    [self sendMessage:message pushContent:@"[个人名片]"];
 }
 - (RealTimeLocationStatusView *)realTimeLocationStatusView {
   if (!_realTimeLocationStatusView) {
@@ -954,6 +975,30 @@ NSMutableDictionary *userInputStatus;
                 }];
             }
         }
+    }
+    if ([model.content isKindOfClass:[PersonalCardMessage class]]) {
+        PersonalCardMessage *message = (PersonalCardMessage *)model.content;
+        BOOL isFriend = NO;
+        NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
+        for (RCDUserInfo *friend in friendList) {
+            if ([message.userId isEqualToString:friend.userId] && [friend.status isEqualToString:@"1"]) {
+                isFriend = YES;
+            }
+        }
+        if (isFriend == YES || [message.userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+            RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
+            detailViewController.userId = message.userId;
+                [self.navigationController pushViewController:detailViewController
+                                                     animated:YES];
+        } else {
+            RCDAddFriendViewController *addViewController = [[RCDAddFriendViewController alloc]init];
+            RCUserInfo *userInfo = [[RCUserInfo alloc] initWithUserId:message.userId name:message.name portrait:message.portraitUri];
+            addViewController.targetUserInfo = userInfo;
+            [self.navigationController pushViewController:addViewController
+                 
+                                                     animated:YES];
+        }
+
     }
 }
 
@@ -1329,7 +1374,7 @@ NSMutableDictionary *userInputStatus;
                 NSString *targetIdString = [NSString stringWithFormat:@"%@", weakSelf.targetId];
               RCGroup *Group = [[RCGroup alloc] initWithGroupId:targetIdString
                                          groupName:group.groupName
-                                       portraitUri:@"http://ooc6bq687.bkt.clouddn.com/6963861495529674360553955?imageMogr2/auto-orient/blur/1x0/quality/100%7Cwatermark/1/image/aHR0cDovL29vYzZicTY4Ny5ia3QuY2xvdWRkbi5jb20vZ3JvdXB3YXRlci5wbmc=/dissolve/100/gravity/SouthEast/dx/0/dy/0"/*group.portraitUri*/];
+                                       portraitUri:group.portraitUri];
                 
             [[RCIM sharedRCIM] refreshGroupInfoCache:Group withGroupId:targetIdString];
               dispatch_async(dispatch_get_main_queue(), ^{
@@ -1366,7 +1411,7 @@ NSMutableDictionary *userInputStatus;
 
 - (void)refreshTitle{
 //    for (RCMessageModel *model in self.conversationDataRepository) {
-//        
+        
 //    }
   if (self.userName == nil) {
     return;

@@ -417,6 +417,7 @@ arrayByAddingObjectsFromArray:
          selector:@selector(keyboardWillHide:)
              name:UIKeyboardWillHideNotification
            object:self.view.window];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordDidFind) name:@"PasswordDidFind" object:nil];
   _statusBarView = [[UIView alloc]
       initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 20)];
   _statusBarView.backgroundColor =
@@ -474,7 +475,12 @@ arrayByAddingObjectsFromArray:
   }
   return YES;
 }
-
+- (void)passwordDidFind {
+    UITextField *PhoneNumber = (UITextField *)[self.view viewWithTag:UserTextFieldTag];
+    UITextField *Password = (UITextField *)[self.view viewWithTag:PassWordFieldTag];
+    PhoneNumber.text = [self getDefaultUserName];
+    Password.text = [self getDefaultUserPwd];
+}
 //键盘升起时动画
 - (void)keyboardWillShow:(NSNotification *)notif {
 
@@ -981,6 +987,7 @@ arrayByAddingObjectsFromArray:
       removeObserver:self
                 name:UIKeyboardWillShowNotification
               object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PasswordDidFind" object:nil];
 }
 
 @end

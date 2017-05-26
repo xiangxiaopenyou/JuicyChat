@@ -730,24 +730,29 @@
 - (void)getVersioncomplete:(void (^)(NSDictionary *))versionInfo {
   [AFHttpTool getVersionsuccess:^(id response) {
     if (response) {
-      NSDictionary *iOSResult = response[@"iOS"];
-      NSString *sealtalkBuild = iOSResult[@"build"];
-      NSString *applistURL = iOSResult[@"url"];
+        if ([response[@"code"] integerValue] == 200) {
+            versionInfo(response[@"data"]);
+        } else {
+            versionInfo(nil);
+        }
+//      NSDictionary *iOSResult = response[@"iOS"];
+//      NSString *sealtalkBuild = iOSResult[@"build"];
+//      NSString *applistURL = iOSResult[@"url"];
       
-      NSDictionary *result;
-      NSString *currentBuild = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+//      NSDictionary *result;
+//      NSString *currentBuild = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
       
-      NSDate *currentBuildDate = [self stringToDate:currentBuild];
-      NSDate *buildDtate = [self stringToDate:sealtalkBuild];
-      NSTimeInterval secondsInterval= [currentBuildDate timeIntervalSinceDate:buildDtate];
-      if (secondsInterval < 0) {
-        result = [NSDictionary dictionaryWithObjectsAndKeys:@"YES",@"isNeedUpdate",applistURL,@"applist", nil];
-      }
-      else
-      {
-        result = [NSDictionary dictionaryWithObjectsAndKeys:@"NO",@"isNeedUpdate", nil];
-      }
-      versionInfo(result);
+//      NSDate *currentBuildDate = [self stringToDate:currentBuild];
+//      NSDate *buildDtate = [self stringToDate:sealtalkBuild];
+//      NSTimeInterval secondsInterval= [currentBuildDate timeIntervalSinceDate:buildDtate];
+//      if (secondsInterval < 0) {
+//        result = [NSDictionary dictionaryWithObjectsAndKeys:@"YES",@"isNeedUpdate",applistURL,@"applist", nil];
+//      }
+//      else
+//      {
+//        result = [NSDictionary dictionaryWithObjectsAndKeys:@"NO",@"isNeedUpdate", nil];
+//      }
+//      versionInfo(result);
     }
   } failure:^(NSError *err) {
     versionInfo(nil);

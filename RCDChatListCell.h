@@ -15,5 +15,6 @@
 @property(nonatomic, strong) UILabel *lblDetail;
 @property(nonatomic, copy) NSString *userName;
 @property(nonatomic, strong) UILabel *labelTime;
+@property (strong, nonatomic) UILabel *unreadLabel;
 
 @end

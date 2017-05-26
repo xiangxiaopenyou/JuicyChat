@@ -155,6 +155,17 @@
                          attribute:NSLayoutAttributeRight
                          multiplier:1.0
                          constant:-30]];
+      self.unreadLabel = [[UILabel alloc] initWithFrame:CGRectMake(48, 3, 16, 16)];
+      //self.unreadLabel = [[UILabel alloc] initWithFrame:CGRectMake(41, 3, 24, 16)];
+      self.unreadLabel.layer.masksToBounds = YES;
+      self.unreadLabel.layer.cornerRadius = 8;
+      self.unreadLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:28/255.0 blue:27/255.0 alpha:1];
+      self.unreadLabel.textAlignment = NSTextAlignmentCenter;
+      self.unreadLabel.font = [UIFont systemFontOfSize:11];
+      self.unreadLabel.textColor = [UIColor whiteColor];
+      [self.contentView addSubview:self.unreadLabel];
+      self.unreadLabel.hidden = YES;
+      
   }
   return self;
 }

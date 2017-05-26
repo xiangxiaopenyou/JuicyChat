@@ -528,7 +528,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
     //UIImage *scaleImage = [self scaleImage:captureImage toScale:0.8];
       UIImage *scaleImage = [self reSizeImage:captureImage toSize:CGSizeMake(200, 200)];
-    data = UIImageJPEGRepresentation(scaleImage, 0.00001);
+      scaleImage = [self addImageLogo:scaleImage text:[UIImage imageNamed:@"group_icon"]];
+    data = UIImageJPEGRepresentation(scaleImage, 0.5);
   }
 
   image = [UIImage imageWithData:data];
@@ -627,5 +628,23 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIGraphicsEndImageContext();
     return reSizeImage;
     
+}
+- (UIImage *)addImageLogo:(UIImage *)img text:(UIImage *)logo {
+    //get image width and height
+    int w = img.size.width;
+    int h = img.size.height;
+    int logoWidth = logo.size.width;
+    int logoHeight = logo.size.height;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    //create a graphic context with CGBitmapContextCreate
+    CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
+    CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
+    CGContextDrawImage(context, CGRectMake(w-logoWidth, 0, logoWidth, logoHeight), [logo CGImage]);
+    CGImageRef imageMasked = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    return [UIImage imageWithCGImage:imageMasked];
+    //  CGContextDrawImage(contextRef, CGRectMake(100, 50, 200, 80), [smallImg CGImage]);
 }
 @end

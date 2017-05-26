@@ -30,6 +30,8 @@
 #import "AppealCenterViewController.h"
 #import <OpenShareHeader.h>
 #import "ShareRewardRequest.h"
+#import "FetchSharePictureRequest.h"
+#import "MBProgressHUD.h"
 
 /* RedPacket_FTR */
 #import <JrmfWalletKit/JrmfWalletKit.h>
@@ -410,30 +412,42 @@
 
 - (void)shareAction:(UIButton *)button {
     [self closeAction];
-    OSMessage *message = [[OSMessage alloc] init];
-    message.title = @"果聊";
-    message.desc = @"果聊";
-    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://ooc6bq687.bkt.clouddn.com/share1.png"]];
-    //message.image = UIImageJPEGRepresentation(image, 1);
-    message.image = imageData;
-    //message.thumbnail = UIImageJPEGRepresentation(image, 0.1);
-    message.thumbnail = imageData;
-    
-    if (button == self.wechatButton) {
-        [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
-            [self fetchShareReward];
-        } Fail:^(OSMessage *message, NSError *error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[FetchSharePictureRequest new] request:^BOOL(id request) {
+        return YES;
+    } result:^(id object, NSString *msg) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if (object) {
+            NSString *urlString = object[@"url"];
+            OSMessage *message = [[OSMessage alloc] init];
+            message.title = @"果聊";
+            message.desc = @"果聊";
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
+            //message.image = UIImageJPEGRepresentation(image, 1);
+            message.image = imageData;
+            //message.thumbnail = UIImageJPEGRepresentation(image, 0.1);
+            message.thumbnail = imageData;
+            
+            if (button == self.wechatButton) {
+                [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
+                    [self fetchShareReward];
+                } Fail:^(OSMessage *message, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                }];
+            } else {
+                [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
+                    [self fetchShareReward];
+                } Fail:^(OSMessage *message, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
+                }];
+            }
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败，请检查网络" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
-        }];
-    } else {
-        [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
-            [self fetchShareReward];
-        } Fail:^(OSMessage *message, NSError *error) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }];
-    }
+        }
+    }];
 }
 - (void)fetchShareReward {
     [[ShareRewardRequest new] request:^BOOL(id request) {

@@ -227,7 +227,6 @@
   } else {
     title.text = self.resultDic[@"allKeys"][section - 1];
   }
-  
   return view;
 }
 

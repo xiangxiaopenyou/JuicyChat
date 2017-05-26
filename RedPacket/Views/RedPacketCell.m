@@ -39,6 +39,7 @@
     self.redpacketLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.redpacketLabel.textColor = [UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1];
     self.redpacketLabel.font = [UIFont systemFontOfSize:10];
+    self.redpacketLabel.text = @"果聊红包";
     [self.redPacketImageView addSubview:self.redpacketLabel];
     
     self.redPacketImageView.userInteractionEnabled = YES;
@@ -83,7 +84,8 @@
     if (MessageDirection_RECEIVE == self.messageDirection) {
         self.redPacketImageView.frame = CGRectMake(0, 0, 225, 100);
         self.textLabel.frame = CGRectMake(60, 24, 150, 30);
-        self.redPacketImageView.image = [UIImage imageNamed:@"bg_to_hongbao"];
+        self.redpacketLabel.frame = CGRectMake(12, 78, 70, 20);
+        self.redPacketImageView.image = [UIImage imageNamed:@"red_packet_to"];
         //messageContentViewRect.size.width = bubbleBackgroundViewSize.width;
         //self.messageContentView.frame = messageContentViewRect;
         
@@ -100,7 +102,8 @@
         //CGFloat x = [UIScreen mainScreen].bounds.size.width - 350;
         self.redPacketImageView.frame = CGRectMake(0, 0, 225, 100);
         self.textLabel.frame = CGRectMake(54, 24, 140, 30);
-        self.redPacketImageView.image = [UIImage imageNamed:@"bg_from_hongbao"];
+        self.redpacketLabel.frame = CGRectMake(7, 78, 70, 20);
+        self.redPacketImageView.image = [UIImage imageNamed:@"red_packet_from"];
         
         messageContentViewRect.size.width = 225;
         messageContentViewRect.size.height = 100;

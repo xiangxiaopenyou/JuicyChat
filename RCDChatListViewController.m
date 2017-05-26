@@ -29,9 +29,11 @@
 #import "RCDSearchViewController.h"
 #import "RCDCommonDefine.h"
 #import "RedPacketMessage.h"
+#import "PersonalCardMessage.h"
 #import "RCDataBaseManager.h"
+#import "UpdateUrlRequest.h"
 
-@interface RCDChatListViewController ()<UISearchBarDelegate,RCDSearchViewDelegate>
+@interface RCDChatListViewController ()<UISearchBarDelegate,RCDSearchViewDelegate, UIAlertViewDelegate>
 @property (nonatomic,strong)UINavigationController *searchNavigationController;
 @property (nonatomic,strong)UIView *headerView;
 @property (nonatomic,strong)RCDSearchBar *searchBar;
@@ -170,7 +172,7 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   self.navigationController.navigationBar.translucent = NO;
-  
+    //NSArray *array = self.conversationListDataSource;
   _isClick = YES;
   //自定义rightBarButtonItem
   RCDUIBarButtonItem *rightBtn =
@@ -184,7 +186,7 @@
                                         action:@selector(showMenu:)];
   self.tabBarController.navigationItem.rightBarButtonItems = [rightBtn setTranslation:rightBtn translation:-6];
   
-  self.tabBarController.navigationItem.title = @"会话";
+  self.tabBarController.navigationItem.title = @"果聊";
 
 //  [self notifyUpdateUnreadMessageCount];
   [[NSNotificationCenter defaultCenter]
@@ -305,7 +307,7 @@
           RCDAddressBookViewController * addressBookVC= [RCDAddressBookViewController addressBookViewController];
         [self.navigationController pushViewController:addressBookVC
                                              animated:YES];
-      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"]) {
+      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"] || [model.objectName isEqualToString:@"RCD:CardMsg"]) {
           RCDChatViewController *_conversationVC =
           [[RCDChatViewController alloc] init];
           _conversationVC.conversationType = model.conversationType;
@@ -488,6 +490,9 @@
       if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
           model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
       }
+      if ([model.lastestMessage isKindOfClass:[PersonalCardMessage class]]) {
+          model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
+      }
   }
   return dataSource;
 }
@@ -570,18 +575,31 @@
                         [weakSelf.conversationListTableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                      }];
                 }
-            } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
+            } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]] || [model.lastestMessage isKindOfClass:[PersonalCardMessage class]]) {
                 RCDChatListCell *cell = [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
                 cell.lblName.text = nil;
                 cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
-            
                 if (model.conversationType == ConversationType_GROUP) {
+                    if (model.unreadMessageCount > 0) {
+                        cell.unreadLabel.hidden = NO;
+                        if (model.unreadMessageCount >= 10) {
+                            cell.unreadLabel.frame = CGRectMake(41, 3, 24, 16);
+                        } else {
+                            cell.unreadLabel.frame = CGRectMake(48, 3, 16, 16);
+                        }
+                        cell.unreadLabel.text = [NSString stringWithFormat:@"%@", @(model.unreadMessageCount)];
+                    } else {
+                        cell.unreadLabel.hidden = YES;
+                    }
                     if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
                         RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
                         cell.lblDetail.text = message.message;
-                    } else {
+                    } else if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
                         RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
                         cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    } else {
+                        //PersonalCardMessage *message = (PersonalCardMessage *)model.lastestMessage;
+                        cell.lblDetail.text = @"[个人名片]";
                     }
                     if( [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId] ) {
                         RCDGroupInfo *groupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:model.targetId];
@@ -607,12 +625,25 @@
                             }];
                     }
                 } else if (model.conversationType == ConversationType_PRIVATE) {
+                    if (model.unreadMessageCount > 0) {
+                        cell.unreadLabel.hidden = NO;
+                        if (model.unreadMessageCount >= 10) {
+                            cell.unreadLabel.frame = CGRectMake(41, 3, 24, 16);
+                        } else {
+                            cell.unreadLabel.frame = CGRectMake(48, 3, 16, 16);
+                        }
+                        cell.unreadLabel.text = [NSString stringWithFormat:@"%@", @(model.unreadMessageCount)];
+                    } else {
+                        cell.unreadLabel.hidden = YES;
+                    }
                     if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]]) {
                         RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)model.lastestMessage;
                         cell.lblDetail.text = message.message;
-                    } else {
+                    } else if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
                         RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
                         cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    } else {
+                        cell.lblDetail.text = @"[个人名片]";
                     }
                     if ([[RCDataBaseManager shareInstance] getUserByUserId:model.targetId]) {
                         RCUserInfo *userInfo = [[RCDataBaseManager shareInstance] getUserByUserId:model.targetId];
@@ -874,25 +905,26 @@ atIndexPath:(NSIndexPath *)indexPath
 {
   [RCDHTTPTOOL getVersioncomplete:^(NSDictionary *versionInfo) {
     if (versionInfo) {
-      NSString *isNeedUpdate = [versionInfo objectForKey:@"isNeedUpdate"];
-      NSString *finalURL;
-      if ([isNeedUpdate isEqualToString:@"YES"]) {
-        __weak typeof(self) __weakSelf = self;
-        [__weakSelf.tabBarController.tabBar showBadgeOnItemIndex:3];
-        //获取系统当前的时间戳
-        NSDate *dat = [NSDate dateWithTimeIntervalSinceNow:0];
-        NSTimeInterval now = [dat timeIntervalSince1970] * 1000;
-        NSString *timeString = [NSString stringWithFormat:@"%f", now];
-        //为html增加随机数，避免缓存。
-        NSString *applist = [versionInfo objectForKey:@"applist"];
-        applist = [NSString stringWithFormat:@"%@?%@",applist,timeString];
-        finalURL = [NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@",applist];
-      }
-      [[NSUserDefaults standardUserDefaults] setObject:finalURL forKey:@"applistURL"];
-      [[NSUserDefaults standardUserDefaults] setObject:isNeedUpdate forKey:@"isNeedUpdate"];
-      [[NSUserDefaults standardUserDefaults] synchronize];
+        NSString *recentVersion = versionInfo[@"ios_version"];
+      NSString *cuVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        if ([recentVersion compare:cuVersion options:NSNumericSearch] == NSOrderedDescending) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
+            [alert show];
+        }
     }
   }];
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[UpdateUrlRequest new] request:^BOOL(id request) {
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                NSString *urlString = object[@"url"];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+            }
+        }];
+    }
 }
 
 - (void)pushToCreateDiscussion:(id)sender {

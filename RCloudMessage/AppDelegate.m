@@ -16,6 +16,7 @@
 #import "RCDRCIMDataSource.h"
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
+#import "PersonalCardMessage.h"
 #import "RCDataBaseManager.h"
 #import "RCWKNotifier.h"
 #import "RCWKRequestHandler.h"
@@ -135,6 +136,9 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
     
     //注册自定义红包消息
     [[RCIM sharedRCIM] registerMessageType:[RedPacketMessage class]];
+    
+    //注册自定义名片消息
+    [[RCIM sharedRCIM] registerMessageType:[PersonalCardMessage class]];
 
   //设置会话列表头像和会话页面头像
 

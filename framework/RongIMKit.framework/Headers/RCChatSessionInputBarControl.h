@@ -23,7 +23,7 @@
 #define PLUGIN_BOARD_ITEM_FILE_TAG       1006
 #define PLUGIN_BOARD_ITEM_REDPACKET_TAG  1007
 #define PLUGIN_BOARD_ITEM_EVA_TAG        1103
-
+#define PLUGIN_BOARD_ITEM_CARD_TAG       1104
 
 /*!
  输入工具栏的显示布局
