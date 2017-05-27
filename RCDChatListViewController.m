@@ -172,7 +172,6 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   self.navigationController.navigationBar.translucent = NO;
-    //NSArray *array = self.conversationListDataSource;
   _isClick = YES;
   //自定义rightBarButtonItem
   RCDUIBarButtonItem *rightBtn =
@@ -198,6 +197,21 @@
                                                           name:@""
                                                       portrait:nil];
   [[RCIM sharedRCIM] refreshUserInfoCache:groupNotify withUserId:@"__system__"];
+    NSArray *array = self.conversationListDataSource;
+    for (RCConversationModel *model in array) {
+        if ([model.lastestMessage isKindOfClass:[RCGroupNotificationMessage class]]) {
+            RCGroupNotificationMessage *message = (RCGroupNotificationMessage *)model.lastestMessage;
+            if ([message.operation isEqualToString:@"Dismiss"]) {
+                [[RCDataBaseManager shareInstance] deleteGroupToDB:model.targetId];
+                [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:model.targetId];
+                [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:model.targetId];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self refreshConversationTableViewIfNeeded];
+                });
+            }
+        }
+        
+    }
 }
 
 //由于demo使用了tabbarcontroller，当切换到其它tab时，不能更改tabbarcontroller的标题。
@@ -803,6 +817,18 @@
               [self refreshConversationTableViewIfNeeded];
           });
       }
+  } else if ([message.content isMemberOfClass:[RCGroupNotificationMessage class]]) {
+      RCGroupNotificationMessage *temp = (RCGroupNotificationMessage *)message.content;
+      if ([temp.operation isEqualToString:@"Dismiss"]) {
+          NSString *groupId = message.targetId;
+          [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
+          [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:groupId];
+          [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:groupId];
+          dispatch_async(dispatch_get_main_queue(), ^{
+              [self refreshConversationTableViewIfNeeded];
+          });
+      }
+      
   } else {
     //调用父类刷新未读消息数
     [super didReceiveMessageNotification:notification];

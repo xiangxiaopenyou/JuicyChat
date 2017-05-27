@@ -745,8 +745,6 @@
       [AFHttpTool getVerificationCode:phone
           success:^(id response) {
             [hud hide:YES];
-              UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-              [alert show];
             _getVerificationCodeBt.hidden = YES;
             _countDownLable.hidden = NO;
             [self CountDown:60];

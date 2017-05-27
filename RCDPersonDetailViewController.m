@@ -286,12 +286,16 @@
 clickedButtonAtIndex:(NSInteger)buttonIndex {
   switch (buttonIndex) {
       case 0: {
+          [MBProgressHUD showHUDAddedTo:self.view animated:YES];
           [[DeleteFriendRequest new] request:^BOOL(DeleteFriendRequest *request) {
               request.friendId = self.userId;
               return YES;
           } result:^(id object, NSString *msg) {
+              [MBProgressHUD hideHUDForView:self.view animated:YES];
               if (object) {
                   [[RCDataBaseManager shareInstance] deleteFriendFromDB:self.userId];
+                  [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:self.userId];
+                  [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:self.userId];
                   [self.navigationController popViewControllerAnimated:YES];
               } else {
                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
@@ -550,13 +554,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                   attribute:NSLayoutAttributeCenterY
                   multiplier:1
                   constant:0]];
-    if (!_userIdLabel) {
-        _userIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 110, 36, 100, 30)];
-        _userIdLabel.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
-        _userIdLabel.font = [UIFont systemFontOfSize:14];
-    }
-    _userIdLabel.text = [NSString stringWithFormat:@"ID：%@", [RCIM sharedRCIM].currentUserInfo.userId];
-    [self.infoView addSubview:_userIdLabel];
+//    if (!_userIdLabel) {
+//        _userIdLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 110, 36, 100, 30)];
+//        _userIdLabel.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
+//        _userIdLabel.font = [UIFont systemFontOfSize:14];
+//    }
+//    _userIdLabel.text = [NSString stringWithFormat:@"ID：%@", [RCIM sharedRCIM].currentUserInfo.userId];
+//    [self.infoView addSubview:_userIdLabel];
 }
 
 - (void)setLayoutForSelf
@@ -646,7 +650,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     self.displayNameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.displayNameLabel.font = [UIFont systemFontOfSize:16.f];
     self.displayNameLabel.textColor = [UIColor colorWithHexString:@"000000" alpha:1.f];
-    self.displayNameLabel.text = self.friendInfo.displayName;
+    //self.displayNameLabel.text = [NSString stringWithFormat:@"%@(ID%@)", self.friendInfo.displayName, self.friendInfo.userId];
+      NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@（ID%@）", self.friendInfo.displayName, self.friendInfo.userId]];
+      [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(self.friendInfo.displayName.length, self.friendInfo.userId.length + 4)];
+      [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"999999" alpha:1] range:NSMakeRange(self.friendInfo.displayName.length, self.friendInfo.userId.length + 4)];
+      self.displayNameLabel.attributedText = attributedString;
     [self.infoView addSubview:self.displayNameLabel];
     
     
@@ -689,9 +697,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
   } else {
     self.displayNameLabel.hidden = YES;
     
-    self.lblName.text = self.friendInfo.name;
+    //self.lblName.text = [NSString stringWithFormat:@"%@(ID%@)", self.friendInfo.name, self.friendInfo.userId] ;
     self.lblName.font = [UIFont systemFontOfSize:16.f];
     self.lblName.textColor = [UIColor colorWithHexString:@"000000" alpha:1.f];
+      NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@（ID%@）", self.friendInfo.name, self.friendInfo.userId]];
+      [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(self.friendInfo.name.length, self.friendInfo.userId.length + 4)];
+      [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"999999" alpha:1] range:NSMakeRange(self.friendInfo.name.length, self.friendInfo.userId.length + 4)];
+      self.lblName.attributedText = attributedString;
+      
       
     self.subViews = NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName);
     [self.infoView

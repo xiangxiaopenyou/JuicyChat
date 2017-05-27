@@ -402,9 +402,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     CGRect captureRect = [[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
     UIImage *captureImage = [self getSubImage:originImage Rect:captureRect imageOrientation:originImage.imageOrientation];
     
-    UIImage *scaleImage = [self reSizeImage:captureImage toSize:CGSizeMake(200, 200)];
+      UIImage *scaleImage = [self reSizeImage:captureImage toSize:CGSizeMake(200, 200)];
       scaleImage = [self addImageLogo:scaleImage text:[UIImage imageNamed:@"group_icon"]];
-    data = UIImageJPEGRepresentation(scaleImage, 0.5);
+      data = UIImageJPEGRepresentation(scaleImage, 0.5);
   }
 
   image = [UIImage imageWithData:data];

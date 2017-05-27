@@ -45,7 +45,12 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)submitAction {
-    [self unlockRequest];
+    if (_selectedUserIds.count > 0) {
+        [self unlockRequest];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 - (void)unlockRequest {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -77,7 +82,7 @@
             NSArray *tempArray = [object copy];
             [tempArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSDictionary *temp = [obj copy];
-                RCUserInfo *model = [[RCUserInfo alloc] initWithUserId:temp[@"userid"] name:temp[@"nickname"] portrait:@"userheadico"];
+                RCUserInfo *model = [[RCUserInfo alloc] initWithUserId:temp[@"userid"] name:temp[@"nickname"] portrait:temp[@"userheadico"]];
                 [self.users addObject:model];
             }];
             [self dealWithFriendList];

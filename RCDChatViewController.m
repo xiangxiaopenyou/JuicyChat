@@ -1030,14 +1030,31 @@ NSMutableDictionary *userInputStatus;
 - (void)didTapCellPortrait:(NSString *)userId {
   if (self.conversationType == ConversationType_GROUP ||
       self.conversationType == ConversationType_DISCUSSION) {
+      BOOL isFriend = NO;
+      NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
+      for (RCDUserInfo *friend in friendList) {
+          if ([userId isEqualToString:friend.userId] &&
+              [friend.status isEqualToString:@"1"]) {
+              isFriend = YES;
+          }
+      }
     if (![userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-      [[RCDUserInfoManager shareInstance]
-          getFriendInfo:userId
+        if (isFriend) {
+            [[RCDUserInfoManager shareInstance]
+             getFriendInfo:userId
              completion:^(RCUserInfo *user) {
-               [[RCIM sharedRCIM] refreshUserInfoCache:user
-                                            withUserId:user.userId];
-               [self gotoNextPage:user];
+                 [[RCIM sharedRCIM] refreshUserInfoCache:user
+                                              withUserId:user.userId];
+                 [self gotoNextPage:user];
              }];
+        } else {
+            RCUserInfo *userInfo = [[RCIM sharedRCIM] getUserInfoCache:userId];
+            RCDAddFriendViewController *addViewController = [[RCDAddFriendViewController alloc]init];
+            addViewController.targetUserInfo = userInfo;
+            [self.navigationController pushViewController:addViewController
+             
+                                                 animated:YES];
+        }
     } else {
       [[RCDUserInfoManager shareInstance]
           getUserInfo:userId

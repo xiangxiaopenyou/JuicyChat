@@ -639,8 +639,6 @@
                               success:^(id response) {
                                   [hud hide:YES];
                                   if ([response[@"code"] intValue] == 200) {
-                                      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"验证码发送成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                                      [alert show];
                                       ((UILabel *)[self.view viewWithTag:vCodeTimerLabelTag])
                                       .hidden = NO;
                                       ((UIButton *)[self.view viewWithTag:SendCodeButtonTag])

@@ -102,12 +102,13 @@
 		3D8E20991ED6BA7D008E6C29 /* RCDataBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20961ED6BA7D008E6C29 /* RCDataBaseManager.m */; };
 		3D8E209A1ED6BA7D008E6C29 /* RCDHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20981ED6BA7D008E6C29 /* RCDHttpTool.m */; };
 		3D8E209D1ED6BAE8008E6C29 /* RCDCreateGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E209C1ED6BAE8008E6C29 /* RCDCreateGroupViewController.m */; };
-		3D8E20A01ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E209F1ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.m */; };
 		3D8E20A31ED6C538008E6C29 /* FetchSharePictureRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20A21ED6C538008E6C29 /* FetchSharePictureRequest.m */; };
 		3D8E20A71ED6D0A6008E6C29 /* MyFriendsListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20A61ED6D0A6008E6C29 /* MyFriendsListTableViewController.m */; };
 		3D8E20AA1ED7C384008E6C29 /* PersonalCardMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20A91ED7C384008E6C29 /* PersonalCardMessage.m */; };
 		3D8E20AD1ED7CCCE008E6C29 /* PersonalCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8E20AC1ED7CCCE008E6C29 /* PersonalCardCell.m */; };
 		3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */; };
+		3DA417DF1ED8190300613FBD /* RCDPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */; };
+		3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */; };
 		3DE932971ECD9D0D00C89762 /* ChangePayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */; };
 		3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */; };
 		3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */; };
@@ -295,7 +296,6 @@
 		E4E939CA1AD65E1E001E0AC6 /* UIColor+RCColor.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E939C51AD65E1E001E0AC6 /* UIColor+RCColor.m */; };
 		E4E939CB1AD65E1E001E0AC6 /* UIImage+RCImage.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E939C71AD65E1E001E0AC6 /* UIImage+RCImage.m */; };
 		E4E939CC1AD65E1E001E0AC6 /* UITextFiled+Shake.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E939C91AD65E1E001E0AC6 /* UITextFiled+Shake.m */; };
-		E4E939D21AD6805E001E0AC6 /* RCDPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E939D11AD6805E001E0AC6 /* RCDPersonDetailViewController.m */; };
 		E4FCD7C41AD69DFB00915650 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4FCD7C31AD69DFB00915650 /* ImageIO.framework */; };
 		F821B7F51BE75BFD00F0D14C /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F821B7F41BE75BFD00F0D14C /* libMobClickLibrary.a */; };
 		F82B55401DE03E40007392BD /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82B553F1DE03E40007392BD /* SafariServices.framework */; };
@@ -499,8 +499,6 @@
 		3D8E20981ED6BA7D008E6C29 /* RCDHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDHttpTool.m; sourceTree = SOURCE_ROOT; };
 		3D8E209B1ED6BAE8008E6C29 /* RCDCreateGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDCreateGroupViewController.h; sourceTree = SOURCE_ROOT; };
 		3D8E209C1ED6BAE8008E6C29 /* RCDCreateGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDCreateGroupViewController.m; sourceTree = SOURCE_ROOT; };
-		3D8E209E1ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDGroupSettingsTableViewController.h; sourceTree = SOURCE_ROOT; };
-		3D8E209F1ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDGroupSettingsTableViewController.m; sourceTree = SOURCE_ROOT; };
 		3D8E20A11ED6C538008E6C29 /* FetchSharePictureRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchSharePictureRequest.h; sourceTree = "<group>"; };
 		3D8E20A21ED6C538008E6C29 /* FetchSharePictureRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchSharePictureRequest.m; sourceTree = "<group>"; };
 		3D8E20A51ED6D0A6008E6C29 /* MyFriendsListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFriendsListTableViewController.h; sourceTree = "<group>"; };
@@ -511,6 +509,10 @@
 		3D8E20AC1ED7CCCE008E6C29 /* PersonalCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCardCell.m; sourceTree = "<group>"; };
 		3DA417D91ED80B4300613FBD /* UpdateUrlRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUrlRequest.h; sourceTree = "<group>"; };
 		3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUrlRequest.m; sourceTree = "<group>"; };
+		3DA417DD1ED8190300613FBD /* RCDPersonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDPersonDetailViewController.h; sourceTree = SOURCE_ROOT; };
+		3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDPersonDetailViewController.m; sourceTree = SOURCE_ROOT; };
+		3DA417E01ED819F900613FBD /* RCDGroupSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDGroupSettingsTableViewController.h; sourceTree = SOURCE_ROOT; };
+		3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDGroupSettingsTableViewController.m; sourceTree = SOURCE_ROOT; };
 		3DA8046F1EA5C4480087DF1F /* SealTalk.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SealTalk.entitlements; sourceTree = "<group>"; };
 		3DA804711EA5D87D0087DF1F /* RCloudMessage.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = RCloudMessage.entitlements; path = RCloudMessage/RCloudMessage.entitlements; sourceTree = SOURCE_ROOT; };
 		3DE932951ECD9D0D00C89762 /* ChangePayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePayPasswordRequest.h; sourceTree = "<group>"; };
@@ -877,8 +879,6 @@
 		E4E939C71AD65E1E001E0AC6 /* UIImage+RCImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RCImage.m"; sourceTree = "<group>"; };
 		E4E939C81AD65E1E001E0AC6 /* UITextFiled+Shake.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextFiled+Shake.h"; sourceTree = "<group>"; };
 		E4E939C91AD65E1E001E0AC6 /* UITextFiled+Shake.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextFiled+Shake.m"; sourceTree = "<group>"; };
-		E4E939D01AD6805E001E0AC6 /* RCDPersonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDPersonDetailViewController.h; sourceTree = SOURCE_ROOT; };
-		E4E939D11AD6805E001E0AC6 /* RCDPersonDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDPersonDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		E4FCD7C31AD69DFB00915650 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		F821B7F21BE75BF500F0D14C /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = UMAnalytics/MobClick.h; sourceTree = "<group>"; };
 		F821B7F31BE75BF500F0D14C /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClickSocialAnalytics.h; path = UMAnalytics/MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -1048,8 +1048,8 @@
 			children = (
 				9B447DD11CF82926005D3ED5 /* RCDGroupSettingsTableViewCell.h */,
 				9B447DD21CF82926005D3ED5 /* RCDGroupSettingsTableViewCell.m */,
-				3D8E209E1ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.h */,
-				3D8E209F1ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.m */,
+				3DA417E01ED819F900613FBD /* RCDGroupSettingsTableViewController.h */,
+				3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */,
 			);
 			name = GroupSetting;
 			sourceTree = "<group>";
@@ -1548,8 +1548,8 @@
 				E4E939751AD65AC7001E0AC6 /* RCDAddressBookTableViewCell.m */,
 				E4BFAE631A1219EA007165B1 /* RCDAddressBookViewController.h */,
 				E4BFAE641A1219EA007165B1 /* RCDAddressBookViewController.m */,
-				E4E939D01AD6805E001E0AC6 /* RCDPersonDetailViewController.h */,
-				E4E939D11AD6805E001E0AC6 /* RCDPersonDetailViewController.m */,
+				3DA417DD1ED8190300613FBD /* RCDPersonDetailViewController.h */,
+				3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */,
 				9B447DBF1CF82926005D3ED5 /* RCDContactSelectedTableViewCell.h */,
 				9B447DC01CF82926005D3ED5 /* RCDContactSelectedTableViewCell.m */,
 				9B447DC11CF82926005D3ED5 /* RCDContactSelectedTableViewController.h */,
@@ -2196,7 +2196,7 @@
 					E4D40F271A031F460045097C = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = B4258LX29S;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 0;
@@ -2416,7 +2416,6 @@
 				3D3F8CC81EC6FE460040C0D5 /* CheckLockMoneyRequest.m in Sources */,
 				3DFF52851EBC828F00CDF351 /* View+MASAdditions.m in Sources */,
 				3D8E20AD1ED7CCCE008E6C29 /* PersonalCardCell.m in Sources */,
-				E4E939D21AD6805E001E0AC6 /* RCDPersonDetailViewController.m in Sources */,
 				A677D69B1B81EBB9007D5D90 /* RCAnnotationView.m in Sources */,
 				E4E939671AD65A95001E0AC6 /* SDWebImageDecoder.m in Sources */,
 				3D8E20301ED6B408008E6C29 /* UnlockMoneyRequest.m in Sources */,
@@ -2436,6 +2435,7 @@
 				A65C1C8F1C7C13F400EBB601 /* RCDCustomerServiceViewController.m in Sources */,
 				A6827BE41B16AC39000B9862 /* AddAppKeyViewController.m in Sources */,
 				A677D69A1B81EBB9007D5D90 /* RCAnnotation.m in Sources */,
+				3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */,
 				E4E939791AD65AEB001E0AC6 /* RCDChatRoomInfo.m in Sources */,
 				E4E939421AD65A95001E0AC6 /* AFHTTPRequestOperation.m in Sources */,
 				E4E9394B1AD65A95001E0AC6 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -2528,6 +2528,7 @@
 				980235881D227F8100BCB1DD /* RCDPrivacyTableViewController.m in Sources */,
 				E4E939521AD65A95001E0AC6 /* UIWebView+AFNetworking.m in Sources */,
 				E4E939641AD65A95001E0AC6 /* NSData+ImageContentType.m in Sources */,
+				3DA417DF1ED8190300613FBD /* RCDPersonDetailViewController.m in Sources */,
 				E4E9394C1AD65A95001E0AC6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				E4E939811AD65B27001E0AC6 /* RCDDiscussSettingCell.m in Sources */,
 				3D8E20541ED6B747008E6C29 /* RedPacketCommonCell.m in Sources */,
@@ -2570,7 +2571,6 @@
 				E4E939CB1AD65E1E001E0AC6 /* UIImage+RCImage.m in Sources */,
 				E4E939711AD65A95001E0AC6 /* UIImageView+WebCache.m in Sources */,
 				3D8E20391ED6B50E008E6C29 /* RCDMeTableViewController.m in Sources */,
-				3D8E20A01ED6BB17008E6C29 /* RCDGroupSettingsTableViewController.m in Sources */,
 				3D3F8D291ECAE2840040C0D5 /* RedPacketMembersRequest.m in Sources */,
 				3D8E20A71ED6D0A6008E6C29 /* MyFriendsListTableViewController.m in Sources */,
 				9B447DEC1CF82926005D3ED5 /* RCDEditGroupNameViewController.m in Sources */,
@@ -2826,8 +2826,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "a08bd05b-f043-4e8c-92e1-14e4fcebe4d5";
-				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = AutoDebug;
@@ -2945,7 +2945,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2976,8 +2976,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
-				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = AutoRelease;
@@ -3284,8 +3284,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "a08bd05b-f043-4e8c-92e1-14e4fcebe4d5";
-				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Debug;
@@ -3299,7 +3299,7 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = NO;
 				CODE_SIGN_ENTITLEMENTS = SealTalk.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = B4258LX29S;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3329,8 +3329,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "21da8fb5-0418-4846-9767-d27aaa48203c";
-				PROVISIONING_PROFILE_SPECIFIER = guoliao_dis;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
 			};
 			name = Release;

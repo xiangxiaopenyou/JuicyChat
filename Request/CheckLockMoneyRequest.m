@@ -14,7 +14,7 @@
         return;
     }
     [self.params setObject:self.groupId forKey:@"groupId"];
-    [[RequestManager sharedInstance] POST:@"SendRedPacket.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[RequestManager sharedInstance] POST:@"CheckLockMoney.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
         !resultHandler ?: resultHandler(responseObject, nil);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         !resultHandler ?: resultHandler(nil, error.description);

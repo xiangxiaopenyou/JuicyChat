@@ -58,14 +58,19 @@
                 break;
         }
     } else if (indexPath.section == 2) {
-        [self setCellStyle:DefaultStyle_RightLabel];
         self.rightArrow.hidden = YES;
         if (indexPath.row == 0) {
+            [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"红包下限";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", groupInfo.redPacketLimit];
-        } else {
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", @(groupInfo.redPacketLimit.integerValue)];
+        } else if (indexPath.row == 1) {
+            [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"冻结金额";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", groupInfo.lockLimit];
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", @(groupInfo.lockLimit.integerValue)];
+        } else {
+            [self setCellStyle:DefaultStyle];
+            self.leftLabel.text = @"解除冻结";
+            self.rightArrow.hidden = NO;
         }
     } else if(indexPath.section == 3){
       [self setCellStyle:DefaultStyle];
