@@ -704,23 +704,48 @@ NSMutableDictionary *userInputStatus;
     }];
 }
 - (void)packetViewDidClickGoDetail {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        RedPacketDetailViewController *packetDetailViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RedPacketDetail"];
-        packetDetailViewController.redPacketId = _packetId;
-        packetDetailViewController.nickname = _redPacketInformations[@"fromnickname"];
-        packetDetailViewController.avatarUrl = _redPacketInformations[@"fromheadico"];
-        packetDetailViewController.noteString = _redPacketInformations[@"note"];
-        packetDetailViewController.informations = _redPacketInformations;
-        packetDetailViewController.membersArray = _tempMembersArray;
-        NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
-        for (NSDictionary *temp in _tempMembersArray) {
-            if ([temp[@"userId" ] integerValue] == userId. integerValue) {
-                packetDetailViewController.redPacketNumber = [temp[@"unpackmoney"] integerValue];
-            }
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    [[RedPacketRequest new] request:^BOOL(RedPacketRequest *request) {
+        request.redPacketId = _packetId;
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            NSDictionary *temp = [object copy];
+            [[RedPacketMembersRequest new] request:^BOOL(RedPacketMembersRequest *request) {
+                request.redPacketId = _packetId;
+                return YES;
+            } result:^(id object, NSString *msg) {
+                if (object) {
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                    NSArray *tempArray = [(NSArray *)object copy];
+                    _tempMembersArray = [tempArray copy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        RedPacketDetailViewController *packetDetailViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RedPacketDetail"];
+                        packetDetailViewController.redPacketId = _packetId;
+                        packetDetailViewController.nickname = _redPacketInformations[@"fromnickname"];
+                        packetDetailViewController.avatarUrl = _redPacketInformations[@"fromheadico"];
+                        packetDetailViewController.noteString = _redPacketInformations[@"note"];
+                        packetDetailViewController.informations = temp;
+                        packetDetailViewController.membersArray = _tempMembersArray;
+                        if (self.conversationType == ConversationType_PRIVATE) {
+                            packetDetailViewController.isPrivateChat = YES;
+                            packetDetailViewController.membersArray = nil;
+                        }
+                        [self.navigationController pushViewController:packetDetailViewController animated:YES];
+                        [self.packetView dismiss];
+                    });
+                } else {
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alertView show];
+                }
+            }];
+        } else {
+            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alertView show];
         }
-        [self.navigationController pushViewController:packetDetailViewController animated:YES];
-        [self.packetView dismiss];
-    });
+    }];
 }
 
 #pragma mark override
@@ -917,21 +942,32 @@ NSMutableDictionary *userInputStatus;
                 } result:^(id object, NSString *msg) {
                     if (object) {
                         if ([object[@"code"] integerValue] == 200) {
-                            [[RedPacketRequest new] request:^BOOL(RedPacketRequest *request) {
+                            [[FetchRemainingPacketAmountRequest new] request:^BOOL(FetchRemainingPacketAmountRequest *request) {
                                 request.redPacketId = message.redpacketId;
                                 return YES;
                             } result:^(id object, NSString *msg) {
                                 if (object) {
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                    NSDictionary *temp = [object copy];
-                                    _packetId = message.redpacketId;
-                                    [self.packetView show];
-                                    _redPacketInformations = temp;
-                                    [self.packetView setInformations:temp];
-                                    [self.packetView setIsPrivateChat:YES];
+                                    [[RedPacketRequest new] request:^BOOL(RedPacketRequest *request) {
+                                        request.redPacketId = message.redpacketId;
+                                        return YES;
+                                    } result:^(id object, NSString *msg) {
+                                        if (object) {
+                                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                            NSDictionary *temp = [object copy];
+                                            _packetId = message.redpacketId;
+                                            [self.packetView show];
+                                            _redPacketInformations = temp;
+                                            [self.packetView setInformations:temp];
+                                            [self.packetView setIsPrivateChat:YES];
+                                        } else {
+                                            [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                            [alertView show];
+                                        }
+                                    }];
                                 } else {
                                     [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                                     [alertView show];
                                 }
                             }];

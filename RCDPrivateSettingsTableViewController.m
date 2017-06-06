@@ -188,15 +188,24 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
         portraitUrl = self.userInfo.portraitUri;
         if (self.userInfo.displayName.length > 0) {
           infoCell = [[RCDPrivateSettingsUserInfoCell alloc] initWithIsHaveDisplayName:YES];
-          infoCell.NickNameLabel.text = self.userInfo.displayName;
+          //infoCell.NickNameLabel.text = self.userInfo.displayName;
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@（ID%@）", self.userInfo.displayName, self.userInfo.userId]];
+            [attributedString setAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14], NSForegroundColorAttributeName : [UIColor colorWithHexString:@"999999" alpha:1]} range:NSMakeRange(self.userInfo.displayName.length, self.userInfo.userId.length + 4)];
+            infoCell.NickNameLabel.attributedText = attributedString;
           infoCell.displayNameLabel.text = [NSString stringWithFormat:@"昵称: %@",self.userInfo.name];
         } else {
           infoCell = [[RCDPrivateSettingsUserInfoCell alloc] initWithIsHaveDisplayName:NO];
-          infoCell.NickNameLabel.text = self.userInfo.name;
+          //infoCell.NickNameLabel.text = self.userInfo.name;
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@（ID%@）", self.userInfo.name, self.userInfo.userId]];
+            [attributedString setAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14], NSForegroundColorAttributeName : [UIColor colorWithHexString:@"999999" alpha:1]} range:NSMakeRange(self.userInfo.name.length, self.userInfo.userId.length + 4)];
+            infoCell.NickNameLabel.attributedText = attributedString;
         }
       } else {
         infoCell = [[RCDPrivateSettingsUserInfoCell alloc] initWithIsHaveDisplayName:NO];
-        infoCell.NickNameLabel.text = [RCIM sharedRCIM].currentUserInfo.name;
+        //infoCell.NickNameLabel.text = [RCIM sharedRCIM].currentUserInfo.name;
+          NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@（ID%@）", [RCIM sharedRCIM].currentUserInfo.name, self.userInfo.userId]];
+          [attributedString setAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14], NSForegroundColorAttributeName : [UIColor colorWithHexString:@"999999" alpha:1]} range:NSMakeRange([RCIM sharedRCIM].currentUserInfo.name.length, self.userInfo.userId.length + 4)];
+          infoCell.NickNameLabel.attributedText = attributedString;
         portraitUrl = [RCIM sharedRCIM].currentUserInfo.portraitUri;
       }
       if ([portraitUrl isEqualToString:@""]) {

@@ -430,7 +430,9 @@
             
             if (button == self.wechatButton) {
                 [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
-                    [self fetchShareReward];
+                    //[self fetchShareReward];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                    [alert show];
                 } Fail:^(OSMessage *message, NSError *error) {
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
                     [alert show];
@@ -493,7 +495,7 @@
 - (UIButton *)wechatButton {
     if (!_wechatButton) {
         _wechatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _wechatButton.frame = CGRectMake(0, 0, 100, 100);
+        _wechatButton.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) / 2.0 - 100, 0, 100, 100);
         [_wechatButton setImage:[UIImage imageNamed:@"wechat"] forState:UIControlStateNormal];
         [_wechatButton setTitle:@"微信好友" forState:UIControlStateNormal];
         [_wechatButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -507,7 +509,7 @@
 - (UIButton *)circleButton {
     if (!_circleButton) {
         _circleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _circleButton.frame = CGRectMake(100, 0, 100, 100);
+        _circleButton.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) / 2.0, 0, 100, 100);
         [_circleButton setImage:[UIImage imageNamed:@"wechat_circle"] forState:UIControlStateNormal];
         [_circleButton setTitle:@"朋友圈" forState:UIControlStateNormal];
         [_circleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

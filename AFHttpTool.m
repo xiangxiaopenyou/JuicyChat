@@ -386,7 +386,7 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
   [AFHttpTool getUploadImageTokensuccess:^(id response) {
     if ([response[@"code"] integerValue] == 200) {
       NSDictionary *result = response[@"data"];
-      NSString *defaultDomain = @"ooc6bq687.bkt.clouddn.com";
+      NSString *defaultDomain = @"http://juicy.lel78.cn";
       [DEFAULTS setObject:defaultDomain forKey:@"QiNiuDomain"];
       [DEFAULTS synchronize];
 
