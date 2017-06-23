@@ -13,7 +13,8 @@
 #import "RCDContactViewController.h"
 #import "RCDGroupViewController.h"
 #import "RCDHttpTool.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 #import "RCDPublicServiceListViewController.h"
 #import "RCDRCIMDataSource.h"
 #import "RCDSearchFriendViewController.h"
@@ -332,11 +333,12 @@
 //    } break;
 
     case 2: {
-        RCDPersonDetailViewController *detailViewController =
-        [[RCDPersonDetailViewController alloc]init];
+        //RCDPersonDetailViewController *detailViewController =
+        //[[RCDPersonDetailViewController alloc]init];
+        WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+        detailViewController.userId = [RCIM sharedRCIM].currentUserInfo.userId;
       [self.navigationController pushViewController:detailViewController
                                            animated:YES];
-      detailViewController.userId = [RCIM sharedRCIM].currentUserInfo.userId;
       return;
     }
 
@@ -355,8 +357,10 @@
   userInfo.portraitUri = user.portraitUri;
   userInfo.name = user.name;
 
-    RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
-  detailViewController.userId = user.userId;
+//    RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
+//  detailViewController.userId = user.userId;
+    WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+    detailViewController.userId = user.userId;
   [self.navigationController pushViewController:detailViewController
                                        animated:YES];
 }

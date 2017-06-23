@@ -127,6 +127,12 @@
 		3DFF52841EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52761EBC828F00CDF351 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		3DFF52851EBC828F00CDF351 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF52781EBC828F00CDF351 /* View+MASAdditions.m */; };
 		3DFF52861EBC828F00CDF351 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFF527B1EBC828F00CDF351 /* ViewController+MASAdditions.m */; };
+		3DFFB8D51EFA5B13003A2ABF /* Additional.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DFFB8D41EFA5B13003A2ABF /* Additional.storyboard */; };
+		3DFFB8D81EFA61DF003A2ABF /* WCUserDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8D71EFA61DF003A2ABF /* WCUserDetailsViewController.m */; };
+		3DFFB8DC1EFA62E4003A2ABF /* JCDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8DB1EFA62E4003A2ABF /* JCDetailsCell.m */; };
+		3DFFB8DF1EFA73AD003A2ABF /* JCSignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8DE1EFA73AD003A2ABF /* JCSignCell.m */; };
+		3DFFB8E21EFB5CA9003A2ABF /* JCMySignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8E11EFB5CA9003A2ABF /* JCMySignCell.m */; };
+		3DFFB8E51EFCE11A003A2ABF /* JCEditSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8E41EFCE11A003A2ABF /* JCEditSignViewController.m */; };
 		466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */; };
 		466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684261B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m */; };
 		4666842A1B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684291B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m */; };
@@ -555,6 +561,17 @@
 		3DFF52791EBC828F00CDF351 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
 		3DFF527A1EBC828F00CDF351 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		3DFF527B1EBC828F00CDF351 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		3DFFB8D41EFA5B13003A2ABF /* Additional.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Additional.storyboard; sourceTree = "<group>"; };
+		3DFFB8D61EFA61DF003A2ABF /* WCUserDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCUserDetailsViewController.h; sourceTree = "<group>"; };
+		3DFFB8D71EFA61DF003A2ABF /* WCUserDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCUserDetailsViewController.m; sourceTree = "<group>"; };
+		3DFFB8DA1EFA62E4003A2ABF /* JCDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCDetailsCell.h; sourceTree = "<group>"; };
+		3DFFB8DB1EFA62E4003A2ABF /* JCDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCDetailsCell.m; sourceTree = "<group>"; };
+		3DFFB8DD1EFA73AD003A2ABF /* JCSignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCSignCell.h; sourceTree = "<group>"; };
+		3DFFB8DE1EFA73AD003A2ABF /* JCSignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCSignCell.m; sourceTree = "<group>"; };
+		3DFFB8E01EFB5CA9003A2ABF /* JCMySignCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCMySignCell.h; sourceTree = SOURCE_ROOT; };
+		3DFFB8E11EFB5CA9003A2ABF /* JCMySignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMySignCell.m; sourceTree = SOURCE_ROOT; };
+		3DFFB8E31EFCE11A003A2ABF /* JCEditSignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCEditSignViewController.h; sourceTree = SOURCE_ROOT; };
+		3DFFB8E41EFCE11A003A2ABF /* JCEditSignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCEditSignViewController.m; sourceTree = SOURCE_ROOT; };
 		466684221B5DEA10000B7504 /* RCDSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDSettingBaseViewController.h; path = RCloudMessage/RCDSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = RCDSettingBaseViewController.m; path = RCloudMessage/RCDSettingBaseViewController.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		466684251B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDConversationSettingBaseViewController.h; path = RCloudMessage/RCDConversationSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1285,6 +1302,28 @@
 			path = Masonry;
 			sourceTree = "<group>";
 		};
+		3DFFB8D31EFA5AF5003A2ABF /* Additional */ = {
+			isa = PBXGroup;
+			children = (
+				3DFFB8D91EFA62AF003A2ABF /* Views */,
+				3DFFB8D41EFA5B13003A2ABF /* Additional.storyboard */,
+				3DFFB8D61EFA61DF003A2ABF /* WCUserDetailsViewController.h */,
+				3DFFB8D71EFA61DF003A2ABF /* WCUserDetailsViewController.m */,
+			);
+			path = Additional;
+			sourceTree = SOURCE_ROOT;
+		};
+		3DFFB8D91EFA62AF003A2ABF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3DFFB8DA1EFA62E4003A2ABF /* JCDetailsCell.h */,
+				3DFFB8DB1EFA62E4003A2ABF /* JCDetailsCell.m */,
+				3DFFB8DD1EFA73AD003A2ABF /* JCSignCell.h */,
+				3DFFB8DE1EFA73AD003A2ABF /* JCSignCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		46A831B81AC014B2001A533F /* FindPsw */ = {
 			isa = PBXGroup;
 			children = (
@@ -1425,6 +1464,10 @@
 				A61647871BE9BF7C00E90813 /* RCDMeInfoTableViewController.m */,
 				A61647891BE9D97D00E90813 /* RCDEditUserNameViewController.h */,
 				A616478A1BE9D97D00E90813 /* RCDEditUserNameViewController.m */,
+				3DFFB8E31EFCE11A003A2ABF /* JCEditSignViewController.h */,
+				3DFFB8E41EFCE11A003A2ABF /* JCEditSignViewController.m */,
+				3DFFB8E01EFB5CA9003A2ABF /* JCMySignCell.h */,
+				3DFFB8E11EFB5CA9003A2ABF /* JCMySignCell.m */,
 			);
 			name = PersonalInfor;
 			sourceTree = "<group>";
@@ -1635,6 +1678,7 @@
 				E4C4E7D11A09FD5B00140067 /* Me */,
 				3D3F8C9E1EC193AD0040C0D5 /* RedPacket */,
 				3D8E20A41ED6D07E008E6C29 /* MyFriendsList */,
+				3DFFB8D31EFA5AF5003A2ABF /* Additional */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -2271,6 +2315,7 @@
 				8C55EB511B2A8CE5004285F4 /* Emoji.plist in Resources */,
 				E42A2E5A1AAEE76800F4C3AB /* Main.storyboard in Resources */,
 				5111B07D1AE6A11A00317E71 /* RongCloud.bundle in Resources */,
+				3DFFB8D51EFA5B13003A2ABF /* Additional.storyboard in Resources */,
 				3D8E203B1ED6B569008E6C29 /* Images.xcassets in Resources */,
 				2E7A36E21E03A876005231BE /* jrmf.cer in Resources */,
 				A6CF8A351BD4CB6E00F3EA1A /* RCConfig.plist in Resources */,
@@ -2372,6 +2417,7 @@
 				98BC0E0D1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewController.m in Sources */,
 				9B447DEE1CF82926005D3ED5 /* RCDGroupMembersTableViewController.m in Sources */,
 				3D8E20521ED6B747008E6C29 /* EntryPasswordView.m in Sources */,
+				3DFFB8E51EFCE11A003A2ABF /* JCEditSignViewController.m in Sources */,
 				3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */,
 				4666842A1B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m in Sources */,
 				E4E9396A1AD65A95001E0AC6 /* SDWebImageManager.m in Sources */,
@@ -2391,6 +2437,7 @@
 				4666842D1B5DEC25000B7504 /* RCDConversationSettingTableViewCell.m in Sources */,
 				E4E939461AD65A95001E0AC6 /* AFSecurityPolicy.m in Sources */,
 				17F7A8741DAFBFF100E27D25 /* RCDSearchHistoryMessageController.m in Sources */,
+				3DFFB8E21EFB5CA9003A2ABF /* JCMySignCell.m in Sources */,
 				46E17CC91B0EC32A001AC57A /* FMDatabasePool.m in Sources */,
 				3D8E20531ED6B747008E6C29 /* LockDetailCell.m in Sources */,
 				E475A3371AE6981B009C31D7 /* RCDPrivateSettingViewController.m in Sources */,
@@ -2532,6 +2579,7 @@
 				E4E9394C1AD65A95001E0AC6 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				E4E939811AD65B27001E0AC6 /* RCDDiscussSettingCell.m in Sources */,
 				3D8E20541ED6B747008E6C29 /* RedPacketCommonCell.m in Sources */,
+				3DFFB8D81EFA61DF003A2ABF /* WCUserDetailsViewController.m in Sources */,
 				E4E939BB1AD65D18001E0AC6 /* RCDChatRoomTableViewCell.m in Sources */,
 				3D8E20761ED6B876008E6C29 /* AppDelegate.m in Sources */,
 				3DFF527F1EBC828F00CDF351 /* MASConstraintMaker.m in Sources */,
@@ -2544,6 +2592,7 @@
 				3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */,
 				E4E9396C1AD65A95001E0AC6 /* UIButton+WebCache.m in Sources */,
 				3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */,
+				3DFFB8DF1EFA73AD003A2ABF /* JCSignCell.m in Sources */,
 				A677D69E1B81EBB9007D5D90 /* RealTimeLocationEndCell.m in Sources */,
 				3D8E202A1ED6B3DD008E6C29 /* LockMoneyDetailRequest.m in Sources */,
 				3D8E20861ED6B955008E6C29 /* MyRedPacketsViewController.m in Sources */,
@@ -2560,6 +2609,7 @@
 				3D3F8CCE1EC72B390040C0D5 /* CheckTakeApartStateRequest.m in Sources */,
 				3DFF52801EBC828F00CDF351 /* MASLayoutConstraint.m in Sources */,
 				E4E939701AD65A95001E0AC6 /* UIImageView+HighlightedWebCache.m in Sources */,
+				3DFFB8DC1EFA62E4003A2ABF /* JCDetailsCell.m in Sources */,
 				E4BFAE6E1A121A22007165B1 /* RCDChatRoomViewController.m in Sources */,
 				E4E939621AD65A95001E0AC6 /* RCUnderlineTextField.m in Sources */,
 				E4E939681AD65A95001E0AC6 /* SDWebImageDownloader.m in Sources */,

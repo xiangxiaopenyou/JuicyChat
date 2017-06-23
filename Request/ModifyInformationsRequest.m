@@ -22,6 +22,9 @@
     if (self.sex) {
         [self.params setObject:self.sex forKey:@"sex"];
     }
+    if (self.signString) {
+        [self.params setObject:self.signString forKey:@"whatsup"];
+    }
     [[RequestManager sharedInstance] POST:@"UpdateMyInfo.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
             !resultHandler ?: resultHandler(responseObject[@"data"], nil);

@@ -31,6 +31,7 @@
 @property(nonatomic, strong) UILabel *phoneNumberLabel;
 @property(nonatomic, strong) UILabel *onlineStatusLabel;
 @property (strong, nonatomic) UILabel *userIdLabel;
+@property (strong, nonatomic) UILabel *signLabel;
 @property(nonatomic, strong) NSString *phonenumber;
 @end
 
@@ -60,6 +61,7 @@
   self.phoneNumberLabel = [[UILabel alloc]init];
   self.phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = NO;
   [self.infoView addSubview:self.phoneNumberLabel];
+    self.phoneNumberLabel.hidden = YES;
   
   self.onlineStatusLabel = [[UILabel alloc] init];
   self.onlineStatusLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -665,7 +667,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
       
     
-    self.subViews = NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName);
+    //self.subViews = NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName);
+      self.subViews = NSDictionaryOfVariableBindings(_displayNameLabel, _lblName);
     
       
       [self.infoView
@@ -679,18 +682,19 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                       constant:0]];
 
    
-      [self.infoView
-       addConstraint:[NSLayoutConstraint
-                      constraintWithItem:self.phoneNumberLabel
-                      attribute:NSLayoutAttributeLeft
-                      relatedBy:NSLayoutRelationEqual
-                      toItem:self.lblName
-                      attribute:NSLayoutAttributeLeft
-                      multiplier:1
-                      constant:0]];
+//      [self.infoView
+//       addConstraint:[NSLayoutConstraint
+//                      constraintWithItem:self.phoneNumberLabel
+//                      attribute:NSLayoutAttributeLeft
+//                      relatedBy:NSLayoutRelationEqual
+//                      toItem:self.lblName
+//                      attribute:NSLayoutAttributeLeft
+//                      multiplier:1
+//                      constant:0]];
 
       
-      self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-14-[_displayNameLabel]-5-[_phoneNumberLabel]-3-[_lblName]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName)];
+//      self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_displayNameLabel]-5-[_phoneNumberLabel]-3-[_lblName]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName)];
+      self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_displayNameLabel]-3-[_lblName]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel, _lblName)];
 
       [self.infoView addConstraints:self.constraintdisplayNameLabel];
 
@@ -716,7 +720,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                       attribute:NSLayoutAttributeLeft
                       multiplier:1
                       constant:0]];
-      self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_lblName(16)]-8-[_phoneNumberLabel(14)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName)];
+      //self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-20-[_lblName(16)]-8-[_phoneNumberLabel(14)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName)];
+      self.constraintdisplayNameLabel = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-35-[_lblName(16)]-8-[_phoneNumberLabel(14)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_displayNameLabel,_phoneNumberLabel,_lblName)];
       
       
       [self.infoView addConstraints:self.constraintdisplayNameLabel];

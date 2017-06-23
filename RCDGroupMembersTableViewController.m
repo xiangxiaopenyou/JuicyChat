@@ -11,7 +11,8 @@
 #import "RCDAddFriendViewController.h"
 #import "RCDContactTableViewCell.h"
 #import "RCDMeInfoTableViewController.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
 #import <RongIMKit/RongIMKit.h>
@@ -115,13 +116,14 @@
     }
   }
   if (isFriend == YES || [user.userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-      RCDPersonDetailViewController *detailViewController =
-      [[RCDPersonDetailViewController alloc]init];
-
+      WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+//      RCDPersonDetailViewController *detailViewController =
+//      [[RCDPersonDetailViewController alloc]init];
+      RCUserInfo *user = _GroupMembers[indexPath.row];
+      detailViewController.userId = user.userId;
     [self.navigationController pushViewController:detailViewController
                                          animated:YES];
-    RCUserInfo *user = _GroupMembers[indexPath.row];
-    detailViewController.userId = user.userId;
+    
   } else {
       RCDAddFriendViewController *addViewController = [[RCDAddFriendViewController alloc]init];
     addViewController.targetUserInfo = _GroupMembers[indexPath.row];

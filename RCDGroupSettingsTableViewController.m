@@ -16,7 +16,8 @@
 #import "RCDEditGroupNameViewController.h"
 #import "RCDGroupMembersTableViewController.h"
 #import "RCDHttpTool.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
 #import <RongIMLib/RongIMLib.h>
@@ -1156,7 +1157,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       return;
     }
   } else {
-    if (indexPath.row == collectionViewResource.count) {
+    if (indexPath.row == collectionViewResource.count - 1) {
       NSLog(@"点加号");
       contactSelectedVC.titleStr = @"选择联系人";
       contactSelectedVC.addGroupMembers = membersId;
@@ -1177,8 +1178,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
   if (isFriend == YES ||
       [selectedUser.userId
        isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-        RCDPersonDetailViewController *detailViewController =
-          [[RCDPersonDetailViewController alloc]init];
+          
+        //RCDPersonDetailViewController *detailViewController =
+         // [[RCDPersonDetailViewController alloc]init];
+          WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
         [self.navigationController pushViewController:detailViewController
                                              animated:YES];
         RCUserInfo *user = [collectionViewResource objectAtIndex:indexPath.row];
@@ -1294,6 +1297,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       [collectionViewResource addObject:addImage];
     UIImage *delImage = [UIImage imageNamed:@"delete_member"];
     [collectionViewResource addObject:delImage];
+  } else {
+      UIImage *addImage = [UIImage imageNamed:@"add_member"];
+      [collectionViewResource addObject:addImage];
   }
   dispatch_async(dispatch_get_main_queue(), ^{
     [headerView reloadData];

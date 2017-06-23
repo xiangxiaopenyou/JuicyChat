@@ -19,7 +19,8 @@
 #import "UIImageView+WebCache.h"
 #import "RCDUserInfoManager.h"
 #import "RCDataBaseManager.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 
 @interface RCDSearchFriendViewController () <
 UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate,
@@ -160,7 +161,8 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath {
         }
       }
       if (isFriend == YES) {
-        RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
+        //RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
+          WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
         detailViewController.userId = user.userId;
         [self.navigationController pushViewController:detailViewController
                                              animated:YES];

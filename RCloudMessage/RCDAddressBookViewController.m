@@ -12,7 +12,6 @@
 #import "RCDAddressBookTableViewCell.h"
 #import "RCDChatViewController.h"
 #import "RCDHttpTool.h"
-#import "RCDPersonDetailViewController.h"
 #import "RCDRCIMDataSource.h"
 #import "RCDUserInfo.h"
 #import "RCDataBaseManager.h"

@@ -13,7 +13,8 @@
 #import "RCDDiscussGroupSettingViewController.h"
 #import "RCDGroupSettingsTableViewController.h"
 #import "RCDHttpTool.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 #import "RCDPrivateSettingViewController.h"
 #import "RCDPrivateSettingsTableViewController.h"
 #import "RCDRCIMDataSource.h"
@@ -1022,7 +1023,8 @@ NSMutableDictionary *userInputStatus;
             }
         }
         if (isFriend == YES || [message.userId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
-            RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
+            WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+            //RCDPersonDetailViewController *detailViewController = [[RCDPersonDetailViewController alloc]init];
             detailViewController.userId = message.userId;
                 [self.navigationController pushViewController:detailViewController
                                                      animated:YES];
@@ -1125,11 +1127,12 @@ NSMutableDictionary *userInputStatus;
     }
   }
   if (isGotoDetailView == YES) {
-      RCDPersonDetailViewController *temp =
-      [[RCDPersonDetailViewController alloc]init];
-    temp.userId = user.userId;
+      WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+      //RCDPersonDetailViewController *temp =
+      //[[RCDPersonDetailViewController alloc]init];
+    detailViewController.userId = user.userId;
     dispatch_async(dispatch_get_main_queue(), ^{
-      [self.navigationController pushViewController:temp animated:YES];
+      [self.navigationController pushViewController:detailViewController animated:YES];
     });
   } else {
     RCDAddFriendViewController *vc = [[RCDAddFriendViewController alloc] init];

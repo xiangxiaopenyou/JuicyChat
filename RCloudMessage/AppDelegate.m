@@ -875,6 +875,8 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
             [RCIM sharedRCIM].currentUserInfo = user;
             [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
             [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
+            [DEFAULTS setObject:result[@"whatsup"] forKey:@"whatsUp"];
             [DEFAULTS synchronize];
         }
     }];

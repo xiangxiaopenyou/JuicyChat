@@ -21,8 +21,10 @@
 #import <RongIMLib/RongIMLib.h>
 #import "RCDUIBarButtonItem.h"
 #import "RCDBaseSettingTableViewCell.h"
+#import "JCMySignCell.h"
 #import "RCDUtilities.h"
 #import "ModifyInformationsRequest.h"
+#import "JCEditSignViewController.h"
 
 @interface RCDMeInfoTableViewController ()
 
@@ -75,7 +77,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return 5;
+  return 6;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -144,6 +146,16 @@
               return cell;
           }
               break;
+          case 5:{
+              JCMySignCell *signCell = [tableView dequeueReusableCellWithIdentifier:@"MySignCell"];
+              if (!signCell) {
+                  signCell = [[JCMySignCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"MySignCell"];
+              }
+              NSString *signString = [DEFAULTS stringForKey:@"whatsUp"];
+              signCell.signLabel.text = signString ? signString : @"暂未设置";
+              return signCell;
+          }
+              break;
         default:
           break;
       }
@@ -165,7 +177,18 @@
         case 0:
           height = 88.f;
           break;
-          
+          case 5: {
+              NSString *signString = [DEFAULTS stringForKey:@"whatsUp"];
+              if (signString) {
+                  CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds);
+                  CGSize size = [signString boundingRectWithSize:CGSizeMake(width - 128, MAXFLOAT) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14]} context:nil].size;
+                  height = 26.f + size.height;
+              } else {
+                  height = 44.f;
+              }
+              
+          }
+              break;
         default:
           height = 44.f;
           break;
@@ -218,6 +241,11 @@
           [alertController addAction:cancelAlert];
           [self presentViewController:alertController animated:YES completion:nil];
       };
+          break;
+      case 5: {
+          JCEditSignViewController *signViewController = [[JCEditSignViewController alloc] init];
+          [self.navigationController pushViewController:signViewController animated:YES];
+      }
           break;
     default:
       break;

@@ -12,7 +12,8 @@
 #import <RongIMKit/RongIMKit.h>
 #import "RCDataBaseManager.h"
 #import "RCDUIBarButtonItem.h"
-#import "RCDPersonDetailViewController.h"
+//#import "RCDPersonDetailViewController.h"
+#import "WCUserDetailsViewController.h"
 #import "RCDAddFriendViewController.h"
 #import "RCDCommonDefine.h"
 
@@ -300,9 +301,10 @@
 - (void)clickPortrait:(NSString *)userId {
   RCDUserInfo *user = [[RCDataBaseManager shareInstance] getFriendInfo:userId];
   if (user != nil) {
-    RCDPersonDetailViewController *vc = [[RCDPersonDetailViewController alloc] init];
-    vc.userId = userId;
-    [self.navigationController pushViewController:vc animated:YES];
+    //RCDPersonDetailViewController *vc = [[RCDPersonDetailViewController alloc] init];
+      WCUserDetailsViewController *detailViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"UserDetails"];
+    detailViewController.userId = userId;
+    [self.navigationController pushViewController:detailViewController animated:YES];
   } else {
     for (RCUserInfo *user in self.groupMemberList) {
       if ([user.userId isEqualToString:userId]) {

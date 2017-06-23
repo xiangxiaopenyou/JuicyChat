@@ -47,7 +47,7 @@
         if (object) {
             self.pocketMoneyLabel.text = [NSString stringWithFormat:@"%@", @([object[@"money"] integerValue])];
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
         }
     }];

@@ -92,19 +92,19 @@
   nameStr = [nameStr
       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-  //群组名称需要大于2位
+  //群组名称不能为空
   if ([nameStr length] == 0) {
     [self Alert:@"群组名称不能为空"];
     return;
   }
   //群组名称需要大于2个字
-  if ([nameStr length] < 2) {
-    [self Alert:@"群组名称过短"];
-    return;
-  }
+//  if ([nameStr length] < 2) {
+//    [self Alert:@"群组名称过短"];
+//    return;
+//  }
   //群组名称需要小于10个字
-  if ([nameStr length] > 10) {
-    [self Alert:@"群组名称不能超过10个字"];
+  if ([nameStr length] > 20) {
+    [self Alert:@"群组名称不能超过20个字"];
     return;
   }
     [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {

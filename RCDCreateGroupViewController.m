@@ -263,9 +263,9 @@ preparation before navigation
 //    [self Alert:@"群组名称不能为空"];
 //    self.navigationItem.rightBarButtonItem.enabled = YES;
 //  }
-  //群组名称需要小于10个字
-  else if ([nameStr length] > 10) {
-    [self Alert:@"群组名称不能超过10个字"];
+  //群组名称需要小于20个字
+  else if ([nameStr length] > 20) {
+    [self Alert:@"群组名称不能超过20个字"];
     self.navigationItem.rightBarButtonItem.enabled = YES;
   } else {
 //    BOOL isAddedcurrentUserID = false;
