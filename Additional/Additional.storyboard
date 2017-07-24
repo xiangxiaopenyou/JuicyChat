@@ -179,5 +179,38 @@
             </objects>
             <point key="canvasLocation" x="168.80000000000001" y="130.88455772113943"/>
         </scene>
+        <!--Big Avatar View Controller-->
+        <scene sceneID="OYu-3g-2bo">
+            <objects>
+                <viewController storyboardIdentifier="BigAvatar" id="j9Z-B8-Evc" customClass="JCBigAvatarViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Dbg-JZ-IbY"/>
+                        <viewControllerLayoutGuide type="bottom" id="cys-pM-VVM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3lf-RG-vbz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cjY-U9-vcA">
+                                <rect key="frame" x="0.0" y="50" width="375" height="587"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="cjY-U9-vcA" firstAttribute="top" secondItem="Dbg-JZ-IbY" secondAttribute="bottom" constant="30" id="ASp-Pm-6FM"/>
+                            <constraint firstItem="cys-pM-VVM" firstAttribute="top" secondItem="cjY-U9-vcA" secondAttribute="bottom" constant="30" id="BTW-lG-kGD"/>
+                            <constraint firstItem="cjY-U9-vcA" firstAttribute="leading" secondItem="3lf-RG-vbz" secondAttribute="leading" id="KIU-mh-Ae1"/>
+                            <constraint firstAttribute="trailing" secondItem="cjY-U9-vcA" secondAttribute="trailing" id="aVs-4d-tOf"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="avatarImageView" destination="cjY-U9-vcA" id="8gp-PF-EQm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BZa-Zt-sOJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="940" y="25"/>
+        </scene>
     </scenes>
 </document>

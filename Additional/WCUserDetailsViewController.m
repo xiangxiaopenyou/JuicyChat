@@ -8,6 +8,7 @@
 
 #import "WCUserDetailsViewController.h"
 #import "RCDFrienfRemarksViewController.h"
+#import "JCBigAvatarViewController.h"
 #import "RCDChatViewController.h"
 #import "JCDetailsCell.h"
 #import "JCSignCell.h"
@@ -100,6 +101,18 @@
     NSString *blackString = self.inBlackList ? @"取消黑名单" : @"加入黑名单";
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除好友" otherButtonTitles:blackString, nil];
     [actionSheet showInView:self.view];
+}
+- (void)avatarAction {
+    NSString *portraitUrl;
+    if ([self isMyself]) {
+        portraitUrl = [RCIM sharedRCIM].currentUserInfo.portraitUri;
+    } else {
+        self.friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.userId];
+        portraitUrl = self.friendInfo.portraitUri;
+    }
+    JCBigAvatarViewController *avatarViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"BigAvatar"];
+    avatarViewController.urlString = portraitUrl;
+    [self presentViewController:avatarViewController animated:NO completion:nil];
 }
 
 #pragma mark - private methods
@@ -240,6 +253,8 @@
             } else {
                 [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:portraitUrl] placeholderImage:[UIImage imageNamed:@"icon_person"]];
             }
+            cell.avatarImageView.userInteractionEnabled = YES;
+            [cell.avatarImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarAction)]];
             if ([self isMyself]) {
                 cell.nameLabelCenterConstraint.constant = 0;
                 cell.nameLabel.text = [RCIM sharedRCIM].currentUserInfo.name;

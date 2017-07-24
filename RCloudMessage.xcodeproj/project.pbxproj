@@ -33,14 +33,6 @@
 		27D6FF9F1DFE4D2C00053F69 /* RCDSettingUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D6FF9E1DFE4D2C00053F69 /* RCDSettingUserDefaults.m */; };
 		2E29FF3C1DC1BE8400AF2DF0 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2E29FF3A1DC1BE8400AF2DF0 /* AlipaySDK.bundle */; };
 		2E29FF3D1DC1BE8400AF2DF0 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E29FF3B1DC1BE8400AF2DF0 /* AlipaySDK.framework */; };
-		2E6B9A1A1E127BF7006EA6B4 /* JrmfInfo.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B9A181E127BF7006EA6B4 /* JrmfInfo.strings */; };
-		2E6B9A1E1E127C0C006EA6B4 /* JrmfInfo.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E6B9A1C1E127C0C006EA6B4 /* JrmfInfo.strings */; };
-		2E7A36E11E03A876005231BE /* JResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2E7A36DB1E03A876005231BE /* JResource.bundle */; };
-		2E7A36E21E03A876005231BE /* jrmf.cer in Resources */ = {isa = PBXBuildFile; fileRef = 2E7A36DC1E03A876005231BE /* jrmf.cer */; };
-		2E7A36E31E03A876005231BE /* JrmfPacketKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7A36DD1E03A876005231BE /* JrmfPacketKit.framework */; };
-		2E7A36E41E03A876005231BE /* JrmfWalletKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7A36DE1E03A876005231BE /* JrmfWalletKit.framework */; };
-		2E7A36E51E03A876005231BE /* JYangToolKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E7A36DF1E03A876005231BE /* JYangToolKit.framework */; };
-		2E7A36E61E03A876005231BE /* WalletResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2E7A36E01E03A876005231BE /* WalletResource.bundle */; };
 		3D0E5F0C1EADCE3100B41F9E /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F071EADCE3100B41F9E /* BaseRequest.m */; };
 		3D0E5F0D1EADCE3100B41F9E /* RequestCacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F091EADCE3100B41F9E /* RequestCacher.m */; };
 		3D0E5F0E1EADCE3100B41F9E /* RequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F0B1EADCE3100B41F9E /* RequestManager.m */; };
@@ -133,6 +125,7 @@
 		3DFFB8DF1EFA73AD003A2ABF /* JCSignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8DE1EFA73AD003A2ABF /* JCSignCell.m */; };
 		3DFFB8E21EFB5CA9003A2ABF /* JCMySignCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8E11EFB5CA9003A2ABF /* JCMySignCell.m */; };
 		3DFFB8E51EFCE11A003A2ABF /* JCEditSignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB8E41EFCE11A003A2ABF /* JCEditSignViewController.m */; };
+		3DFFB9461F00D5A2003A2ABF /* JCBigAvatarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DFFB9451F00D5A2003A2ABF /* JCBigAvatarViewController.m */; };
 		466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */; };
 		466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684261B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m */; };
 		4666842A1B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 466684291B5DEC04000B7504 /* RCDConversationSettingClearMessageCell.m */; };
@@ -379,14 +372,6 @@
 		27D6FF9E1DFE4D2C00053F69 /* RCDSettingUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDSettingUserDefaults.m; sourceTree = SOURCE_ROOT; };
 		2E29FF3A1DC1BE8400AF2DF0 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		2E29FF3B1DC1BE8400AF2DF0 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
-		2E6B9A191E127BF7006EA6B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = JrmfInfo.strings; sourceTree = "<group>"; };
-		2E6B9A1D1E127C0C006EA6B4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = JrmfInfo.strings; sourceTree = "<group>"; };
-		2E7A36DB1E03A876005231BE /* JResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = JResource.bundle; sourceTree = "<group>"; };
-		2E7A36DC1E03A876005231BE /* jrmf.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = jrmf.cer; sourceTree = "<group>"; };
-		2E7A36DD1E03A876005231BE /* JrmfPacketKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JrmfPacketKit.framework; sourceTree = "<group>"; };
-		2E7A36DE1E03A876005231BE /* JrmfWalletKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JrmfWalletKit.framework; sourceTree = "<group>"; };
-		2E7A36DF1E03A876005231BE /* JYangToolKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = JYangToolKit.framework; sourceTree = "<group>"; };
-		2E7A36E01E03A876005231BE /* WalletResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WalletResource.bundle; sourceTree = "<group>"; };
 		3D0E5F061EADCE3100B41F9E /* BaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRequest.h; sourceTree = SOURCE_ROOT; };
 		3D0E5F071EADCE3100B41F9E /* BaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseRequest.m; sourceTree = SOURCE_ROOT; };
 		3D0E5F081EADCE3100B41F9E /* RequestCacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCacher.h; sourceTree = SOURCE_ROOT; };
@@ -572,6 +557,8 @@
 		3DFFB8E11EFB5CA9003A2ABF /* JCMySignCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCMySignCell.m; sourceTree = SOURCE_ROOT; };
 		3DFFB8E31EFCE11A003A2ABF /* JCEditSignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCEditSignViewController.h; sourceTree = SOURCE_ROOT; };
 		3DFFB8E41EFCE11A003A2ABF /* JCEditSignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCEditSignViewController.m; sourceTree = SOURCE_ROOT; };
+		3DFFB9441F00D5A2003A2ABF /* JCBigAvatarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JCBigAvatarViewController.h; sourceTree = "<group>"; };
+		3DFFB9451F00D5A2003A2ABF /* JCBigAvatarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JCBigAvatarViewController.m; sourceTree = "<group>"; };
 		466684221B5DEA10000B7504 /* RCDSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDSettingBaseViewController.h; path = RCloudMessage/RCDSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		466684231B5DEA10000B7504 /* RCDSettingBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = RCDSettingBaseViewController.m; path = RCloudMessage/RCDSettingBaseViewController.m; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		466684251B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = RCDConversationSettingBaseViewController.h; path = RCloudMessage/RCDConversationSettingBaseViewController.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -952,14 +939,12 @@
 				3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */,
 				E4C4E7E41A0A2F2800140067 /* CoreGraphics.framework in Frameworks */,
 				27AADC281DDC4DD800E1AE31 /* Foundation.framework in Frameworks */,
-				2E7A36E31E03A876005231BE /* JrmfPacketKit.framework in Frameworks */,
 				E4C4E7E61A0A2F2E00140067 /* UIKit.framework in Frameworks */,
 				27AADC271DDC4DCE00E1AE31 /* QuartzCore.framework in Frameworks */,
 				E4C3310E1A0C72A000E31B9A /* SystemConfiguration.framework in Frameworks */,
 				E4C330F41A0C722300E31B9A /* AudioToolbox.framework in Frameworks */,
 				27AADC261DDC4DB800E1AE31 /* AddressBook.framework in Frameworks */,
 				E4C330F21A0C721D00E31B9A /* AVFoundation.framework in Frameworks */,
-				2E7A36E51E03A876005231BE /* JYangToolKit.framework in Frameworks */,
 				E4C330FC1A0C724A00E31B9A /* CoreTelephony.framework in Frameworks */,
 				27C42ED51DE2FD7B003E2306 /* RongiFlyKit.framework in Frameworks */,
 				E4C497211A24849E00098C8A /* CoreLocation.framework in Frameworks */,
@@ -985,7 +970,6 @@
 				5111B07B1AE6A11A00317E71 /* RongIMKit.framework in Frameworks */,
 				F8B7DBD21BAC189700E9F9BD /* libopencore-amrnb.a in Frameworks */,
 				E4C330FE1A0C725200E31B9A /* CoreVideo.framework in Frameworks */,
-				2E7A36E41E03A876005231BE /* JrmfWalletKit.framework in Frameworks */,
 				27C42EEC1DE30637003E2306 /* iflyMSC.framework in Frameworks */,
 				E4C330F81A0C723A00E31B9A /* CoreAudio.framework in Frameworks */,
 				A6BD04181B1EEA6B00ACAF17 /* RongIMLib.framework in Frameworks */,
@@ -1020,14 +1004,6 @@
 			);
 			name = SearchView;
 			sourceTree = "<group>";
-		};
-		27579B631E10D28700A30A62 /* PTT */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = PTT;
-			path = framework/PTT;
-			sourceTree = SOURCE_ROOT;
 		};
 		27C02B7C1D8E4B730082728C /* GroupCreate */ = {
 			isa = PBXGroup;
@@ -1082,22 +1058,6 @@
 			path = framework/ifly;
 			sourceTree = SOURCE_ROOT;
 		};
-		2E29FF2E1DC1BE7300AF2DF0 /* JrmfIMLib */ = {
-			isa = PBXGroup;
-			children = (
-				2E6B9A171E127BF7006EA6B4 /* en.lproj */,
-				2E7A36DB1E03A876005231BE /* JResource.bundle */,
-				2E7A36DC1E03A876005231BE /* jrmf.cer */,
-				2E7A36DD1E03A876005231BE /* JrmfPacketKit.framework */,
-				2E7A36DE1E03A876005231BE /* JrmfWalletKit.framework */,
-				2E7A36DF1E03A876005231BE /* JYangToolKit.framework */,
-				2E7A36E01E03A876005231BE /* WalletResource.bundle */,
-				2E6B9A1B1E127C0C006EA6B4 /* zh-Hans.lproj */,
-			);
-			name = JrmfIMLib;
-			path = framework/JrmfIMLib;
-			sourceTree = SOURCE_ROOT;
-		};
 		2E29FF391DC1BE8400AF2DF0 /* AlipaySDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -1106,23 +1066,6 @@
 			);
 			name = AlipaySDK;
 			path = framework/AlipaySDK;
-			sourceTree = SOURCE_ROOT;
-		};
-		2E6B9A171E127BF7006EA6B4 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				2E6B9A181E127BF7006EA6B4 /* JrmfInfo.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		2E6B9A1B1E127C0C006EA6B4 /* zh-Hans.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				2E6B9A1C1E127C0C006EA6B4 /* JrmfInfo.strings */,
-			);
-			name = "zh-Hans.lproj";
-			path = "framework/JrmfIMLib/zh-Hans.lproj";
 			sourceTree = SOURCE_ROOT;
 		};
 		3D0E5F0F1EADCF7F00B41F9E /* Request */ = {
@@ -1309,6 +1252,8 @@
 				3DFFB8D41EFA5B13003A2ABF /* Additional.storyboard */,
 				3DFFB8D61EFA61DF003A2ABF /* WCUserDetailsViewController.h */,
 				3DFFB8D71EFA61DF003A2ABF /* WCUserDetailsViewController.m */,
+				3DFFB9441F00D5A2003A2ABF /* JCBigAvatarViewController.h */,
+				3DFFB9451F00D5A2003A2ABF /* JCBigAvatarViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -1677,7 +1622,6 @@
 				E4C4E7D21A0A125D00140067 /* Service */,
 				E4C4E7D11A09FD5B00140067 /* Me */,
 				3D3F8C9E1EC193AD0040C0D5 /* RedPacket */,
-				3D8E20A41ED6D07E008E6C29 /* MyFriendsList */,
 				3DFFB8D31EFA5AF5003A2ABF /* Additional */,
 			);
 			name = ViewControllers;
@@ -1760,6 +1704,7 @@
 		E4C4E7D11A09FD5B00140067 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				3D8E20A41ED6D07E008E6C29 /* MyFriendsList */,
 				9891E8D91D82638400E874AB /* HomePage */,
 				98F7B0A21D825F61005B2E42 /* PersonalInfor */,
 				3DF1D4711ECD38D7005B494D /* MyWallet */,
@@ -1788,13 +1733,11 @@
 			children = (
 				3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */,
 				3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */,
-				27579B631E10D28700A30A62 /* PTT */,
 				F894EC361DF7E3A200EFD084 /* BQMM */,
 				27C42EE91DE30637003E2306 /* ifly */,
 				27AADC251DDC4DB800E1AE31 /* AddressBook.framework */,
 				F82B553F1DE03E40007392BD /* SafariServices.framework */,
 				2E29FF391DC1BE8400AF2DF0 /* AlipaySDK */,
-				2E29FF2E1DC1BE7300AF2DF0 /* JrmfIMLib */,
 				17B181861D587B0F0061E02B /* Foundation.framework */,
 				F880EA781D0808B300FD5CC4 /* VideoToolbox.framework */,
 				A68AFAFC1CCF1ECE00F16B3D /* AgoraRtcEngineKit.framework */,
@@ -2309,18 +2252,13 @@
 				3D8E20661ED6B776008E6C29 /* RedPacket.storyboard in Resources */,
 				2E29FF3C1DC1BE8400AF2DF0 /* AlipaySDK.bundle in Resources */,
 				27C42EED1DE30637003E2306 /* RongCloudiFly.bundle in Resources */,
-				2E6B9A1E1E127C0C006EA6B4 /* JrmfInfo.strings in Resources */,
-				2E6B9A1A1E127BF7006EA6B4 /* JrmfInfo.strings in Resources */,
-				2E7A36E11E03A876005231BE /* JResource.bundle in Resources */,
 				8C55EB511B2A8CE5004285F4 /* Emoji.plist in Resources */,
 				E42A2E5A1AAEE76800F4C3AB /* Main.storyboard in Resources */,
 				5111B07D1AE6A11A00317E71 /* RongCloud.bundle in Resources */,
 				3DFFB8D51EFA5B13003A2ABF /* Additional.storyboard in Resources */,
 				3D8E203B1ED6B569008E6C29 /* Images.xcassets in Resources */,
-				2E7A36E21E03A876005231BE /* jrmf.cer in Resources */,
 				A6CF8A351BD4CB6E00F3EA1A /* RCConfig.plist in Resources */,
 				510624851AD63A9E00348452 /* RongCloudKit.strings in Resources */,
-				2E7A36E61E03A876005231BE /* WalletResource.bundle in Resources */,
 				987653631D796C5B008A6BF0 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2569,6 +2507,7 @@
 				3D8E206A1ED6B776008E6C29 /* SetupPayPasswordViewController.m in Sources */,
 				17F7A8471DAE187200E27D25 /* RCDSearchBar.m in Sources */,
 				17D7D2021D5355A0000AEC54 /* pinyin.c in Sources */,
+				3DFFB9461F00D5A2003A2ABF /* JCBigAvatarViewController.m in Sources */,
 				3D8E20411ED6B728008E6C29 /* RedPacketCell.m in Sources */,
 				46B831611D8FCAFC00FCD97A /* RCDCustomerEmoticonTab.m in Sources */,
 				466684301B5DEC57000B7504 /* RCDConversationSettingTableViewHeader.m in Sources */,
@@ -2661,22 +2600,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2E6B9A181E127BF7006EA6B4 /* JrmfInfo.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E6B9A191E127BF7006EA6B4 /* en */,
-			);
-			name = JrmfInfo.strings;
-			sourceTree = "<group>";
-		};
-		2E6B9A1C1E127C0C006EA6B4 /* JrmfInfo.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2E6B9A1D1E127C0C006EA6B4 /* zh-Hans */,
-			);
-			name = JrmfInfo.strings;
-			sourceTree = "<group>";
-		};
 		510624831AD63A9E00348452 /* RongCloudKit.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2876,7 +2799,7 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "a08bd05b-f043-4e8c-92e1-14e4fcebe4d5";
+				PROVISIONING_PROFILE = "305aba90-eefa-4027-8ef8-67ccc76f1586";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3336,7 +3259,7 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yong.JuicyChat;
 				PRODUCT_NAME = SealTalk;
-				PROVISIONING_PROFILE = "a08bd05b-f043-4e8c-92e1-14e4fcebe4d5";
+				PROVISIONING_PROFILE = "305aba90-eefa-4027-8ef8-67ccc76f1586";
 				PROVISIONING_PROFILE_SPECIFIER = guoliao_dev;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";

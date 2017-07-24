@@ -433,7 +433,9 @@ NSMutableDictionary *userInputStatus;
     } else {
       settingsVC.Group = _groupInfo;
     }
-    [self.navigationController pushViewController:settingsVC animated:YES];
+      if (settingsVC.Group) {
+          [self.navigationController pushViewController:settingsVC animated:YES];
+      }
   }
   //客服设置
   else if (self.conversationType == ConversationType_CUSTOMERSERVICE ||

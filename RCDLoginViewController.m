@@ -717,60 +717,42 @@ arrayByAddingObjectsFromArray:
     [DEFAULTS synchronize];
   }];
 
-//  [AFHttpTool getUserInfo:userId
-//      success:^(id response) {
-//        if ([response[@"code"] intValue] == 200) {
-//          NSDictionary *result = response[@"result"];
-//          NSString *nickname = result[@"nickname"];
-//          NSString *portraitUri = result[@"portraitUri"];
-//          RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId
-//                                                           name:nickname
-//                                                       portrait:portraitUri];
-//          if (!user.portraitUri || user.portraitUri.length <= 0) {
-//            user.portraitUri = [RCDUtilities defaultUserPortrait:user];
-//          }
-//          [[RCDataBaseManager shareInstance] insertUserToDB:user];
-//          [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
-//          [RCIM sharedRCIM].currentUserInfo = user;
-//          [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
-//          [DEFAULTS setObject:user.name forKey:@"userNickName"];
-//          [DEFAULTS synchronize];
-//        }
-//      }
-//      failure:^(NSError *err){
-//
-//      }];
-    [[FetchInformationsRequest new] request:^BOOL(id request) {
-        return YES;
-    } result:^(id object, NSString *msg) {
-        if (object) {
-            NSDictionary *result = (NSDictionary *)object;
-            NSString *nickname = result[@"nickname"];
-            NSString *portraitUri = result[@"headico"];
-            RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId name:nickname portrait:portraitUri];
-            if (!user.portraitUri || user.portraitUri.length <= 0) {
-                user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+  [AFHttpTool getUserInfo:userId
+      success:^(id response) {
+        if ([response[@"code"] intValue] == 200) {
+          NSDictionary *result = response[@"data"];
+          NSString *nickname = result[@"nickname"];
+          NSString *portraitUri = result[@"headico"];
+          RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId
+                                                           name:nickname
+                                                       portrait:portraitUri];
+          if (!user.portraitUri || user.portraitUri.length <= 0) {
+            user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+          }
+          [[RCDataBaseManager shareInstance] insertUserToDB:user];
+          [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+          [RCIM sharedRCIM].currentUserInfo = user;
+          [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+          [DEFAULTS setObject:user.name forKey:@"userNickName"];
+            if (result[@"sex"]) {
+                [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
             }
-            [[RCDataBaseManager shareInstance] insertUserToDB:user];
-            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
-            [RCIM sharedRCIM].currentUserInfo = user;
-            [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
-            [DEFAULTS setObject:user.name forKey:@"userNickName"];
-            [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
-            [DEFAULTS setObject:result[@"whatsup"] forKey:@"whatsUp"];
-            [DEFAULTS synchronize];
+          [DEFAULTS synchronize];
         }
-    }];
+      }
+      failure:^(NSError *err){
+
+      }];
   //同步群组
-  [RCDDataSource syncGroups];
-  [RCDDataSource syncFriendList:userId
-                       complete:^(NSMutableArray *friends){
-                       }];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    RCDMainTabBarViewController *mainTabBarVC = [[RCDMainTabBarViewController alloc] init];
-    RCDNavigationViewController *rootNavi = [[RCDNavigationViewController alloc] initWithRootViewController:mainTabBarVC];
-    [UIApplication sharedApplication].delegate.window.rootViewController = rootNavi;
-  });
+    [RCDDataSource syncGroups];
+    [RCDDataSource syncFriendList:userId
+                         complete:^(NSMutableArray *friends){
+                         }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        RCDMainTabBarViewController *mainTabBarVC = [[RCDMainTabBarViewController alloc] init];
+        RCDNavigationViewController *rootNavi = [[RCDNavigationViewController alloc] initWithRootViewController:mainTabBarVC];
+        [UIApplication sharedApplication].delegate.window.rootViewController = rootNavi;
+    });
 }
 /**
  *  登录融云服务器
@@ -796,6 +778,7 @@ arrayByAddingObjectsFromArray:
               nil);
         self.loginUserId = userId;
         [self loginSuccess:self.loginUserName userId:self.loginUserId token:self.loginToken password:self.loginPassword];
+        
       }
       error:^(RCConnectErrorCode status) {
         //关闭HUD

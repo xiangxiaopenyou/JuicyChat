@@ -84,7 +84,7 @@
     CGFloat groupNameY = CGRectGetMaxY(self.GroupPortrait.frame)+120;
     self.GroupName = [[UITextField alloc]initWithFrame:CGRectMake(groupNameX, groupNameY, groupNameWidth, groupNameHeight)];
     self.GroupName.font = [UIFont systemFontOfSize:14];
-    self.GroupName.placeholder = @"填写群名称（2-10个字符）";
+    self.GroupName.placeholder = @"填写群名称（2-20个字符）";
     self.GroupName.textAlignment = NSTextAlignmentCenter;
     self.GroupName.delegate = self;
     self.GroupName.returnKeyType = UIReturnKeyDone;
@@ -254,18 +254,18 @@ preparation before navigation
       stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
   //群组名称需要大于2位
-  if ([nameStr length] == 0) {
-    [self Alert:@"群组名称不能为空"];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-  }
+//  if ([nameStr length] == 0) {
+//    [self Alert:@"群组名称不能为空"];
+//    self.navigationItem.rightBarButtonItem.enabled = YES;
+//  }
   //群组名称需要大于2个字
 //  else if ([nameStr length] < 1) {
 //    [self Alert:@"群组名称不能为空"];
 //    self.navigationItem.rightBarButtonItem.enabled = YES;
 //  }
   //群组名称需要小于20个字
-  else if ([nameStr length] > 20) {
-    [self Alert:@"群组名称不能超过20个字"];
+  if ([nameStr length] < 2 || [nameStr length] > 20) {
+    [self Alert:@"群组名称要求2-20个字"];
     self.navigationItem.rightBarButtonItem.enabled = YES;
   } else {
 //    BOOL isAddedcurrentUserID = false;

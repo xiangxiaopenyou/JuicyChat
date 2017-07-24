@@ -17,6 +17,7 @@
 #import "UIColor+RCColor.h"
 #import "RCDSearchHistoryMessageController.h"
 #import "RCDSettingBaseViewController.h"
+#import "JCBigAvatarViewController.h"
 static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 
 @interface RCDPrivateSettingsTableViewController ()
@@ -91,6 +92,11 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 - (void)didReceiveMemoryWarning {
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
+}
+- (void)avatarAction {
+    JCBigAvatarViewController *avatarViewController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"BigAvatar"];
+    avatarViewController.urlString = portraitUrl;
+    [self presentViewController:avatarViewController animated:NO completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -222,6 +228,8 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
       infoCell.PortraitImageView.layer.masksToBounds = YES;
       infoCell.PortraitImageView.layer.cornerRadius = 5.f;
       infoCell.PortraitImageView.contentMode = UIViewContentModeScaleAspectFill;
+        infoCell.PortraitImageView.userInteractionEnabled = YES;
+        [infoCell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarAction)]];
       infoCell.selectionStyle = UITableViewCellSelectionStyleNone;
       return infoCell;
     }

@@ -181,7 +181,8 @@
         }
     }
     if (textField == textField1) {
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", @([textField1.text integerValue])];
+        self.amountLabel.text = [self amountStringFromNumber:@([textField1.text
+                                                                integerValue])];
     }
 }
 - (void)closeAction {
@@ -301,6 +302,17 @@
         _entryView = [[EntryPasswordView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     }
     return _entryView;
+}
+
+- (NSString *)amountStringFromNumber:(NSNumber *)amount {
+    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
+    NSMutableString *mutableString = [amountString mutableCopy];
+    if (amountString.length > 2) {
+        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
+            [mutableString insertString:@"," atIndex:i];
+        }
+    }
+    return mutableString;
 }
 
 @end

@@ -21,8 +21,8 @@
 #define PrivateCloudDemoServer @"http://139.217.26.223/" //私有云测试
 
 //#define DemoServer @"http://api.sealtalk.im/" //线上正式环境
-//#define DemoServer @"http://121.43.184.230:7654/API/"
-#define DemoServer @"http://47.92.72.63:5689/API/"
+#define DemoServer @"http://121.43.184.230:7654/API/"
+//#define DemoServer @"http://47.92.72.63:5689/API/"
 //#define DemoServer @"http://apiqa.rongcloud.net/" //线上非正式环境
 //#define DemoServer @"http://api.hitalk.im/" //测试环境
 

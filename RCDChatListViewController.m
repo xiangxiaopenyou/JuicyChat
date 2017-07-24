@@ -32,6 +32,8 @@
 #import "PersonalCardMessage.h"
 #import "RCDataBaseManager.h"
 #import "UpdateUrlRequest.h"
+#import "FetchInformationsRequest.h"
+#import "RCDUtilities.h"
 
 @interface RCDChatListViewController ()<UISearchBarDelegate,RCDSearchViewDelegate, UIAlertViewDelegate>
 @property (nonatomic,strong)UINavigationController *searchNavigationController;
@@ -167,6 +169,28 @@
 
   
   [self checkVersion];
+//    [[FetchInformationsRequest new] request:^BOOL(id request) {
+//        return YES;
+//    } result:^(id object, NSString *msg) {
+//        if (object) {
+//            NSDictionary *result = (NSDictionary *)object;
+//            NSString *nickname = result[@"nickname"];
+//            NSString *portraitUri = result[@"headico"];
+//            NSString *userId = [DEFAULTS stringForKey:@"userId"];
+//            RCUserInfo *user = [[RCUserInfo alloc] initWithUserId:userId name:nickname portrait:portraitUri];
+//            if (!user.portraitUri || user.portraitUri.length <= 0) {
+//                user.portraitUri = [RCDUtilities defaultUserPortrait:user];
+//            }
+//            [[RCDataBaseManager shareInstance] insertUserToDB:user];
+//            [[RCIM sharedRCIM] refreshUserInfoCache:user withUserId:userId];
+//            [RCIM sharedRCIM].currentUserInfo = user;
+//            [DEFAULTS setObject:user.portraitUri forKey:@"userPortraitUri"];
+//            [DEFAULTS setObject:user.name forKey:@"userNickName"];
+//            [DEFAULTS setObject:result[@"sex"] forKey:@"userSex"];
+//            [DEFAULTS setObject:result[@"whatsup"] forKey:@"whatsUp"];
+//            [DEFAULTS synchronize];
+//        }
+//    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -824,6 +848,10 @@
           [[RCDataBaseManager shareInstance] deleteGroupToDB:groupId];
           [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_GROUP targetId:groupId];
           [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_GROUP targetId:groupId];
+          dispatch_async(dispatch_get_main_queue(), ^{
+              [self refreshConversationTableViewIfNeeded];
+          });
+      } else if ([temp.operation isEqualToString:@"Add"]) {
           dispatch_async(dispatch_get_main_queue(), ^{
               [self refreshConversationTableViewIfNeeded];
           });

@@ -37,7 +37,8 @@
     if (self.redPacketNumber) {
         self.amountLabel.hidden = NO;
         self.unitLabel.hidden = NO;
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", @(self.redPacketNumber)];
+        NSString *numberString = [self amountStringFromNumber:@(self.redPacketNumber)];
+        self.amountLabel.text = numberString;
     }
     if (self.avatarUrl) {
         [self.senderAvatarImageView sd_setImageWithURL:[NSURL URLWithString:self.avatarUrl]];
@@ -183,7 +184,9 @@
     NSDictionary *temp = _membersArray[indexPath.row];
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:temp[@"headico"]]];
     cell.nicknameLabel.text = [NSString stringWithFormat:@"%@", temp[@"nickname"]];
-    cell.amountLabel.text = [NSString stringWithFormat:@"%@", temp[@"unpackmoney"]];
+//    cell.amountLabel.text = [NSString stringWithFormat:@"%@", temp[@"unpackmoney"]];
+    NSNumber *tempAmount = @([temp[@"unpackmoney"] integerValue]);
+    cell.amountLabel.text = [self amountStringFromNumber:tempAmount];
     if ([temp[@"userid"] integerValue] == [self.informations[@"bestluckuserid"] integerValue]) {
         cell.bestLuckLabel.hidden = NO;
     } else {
@@ -209,5 +212,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (NSString *)amountStringFromNumber:(NSNumber *)amount {
+    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
+    NSMutableString *mutableString = [amountString mutableCopy];
+    if (amountString.length > 2) {
+        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
+            [mutableString insertString:@"," atIndex:i];
+        }
+    }
+    return mutableString;
+}
 
 @end

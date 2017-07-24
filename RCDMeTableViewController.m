@@ -34,7 +34,7 @@
 #import "MBProgressHUD.h"
 
 /* RedPacket_FTR */
-#import <JrmfWalletKit/JrmfWalletKit.h>
+//#import <JrmfWalletKit/JrmfWalletKit.h>
 
 #define SERVICE_ID @"KEFU146001495753714"
 #define SERVICE_ID_XIAONENG1 @"kf_4029_1483495902343"

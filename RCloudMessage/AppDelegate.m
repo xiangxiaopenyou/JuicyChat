@@ -128,7 +128,7 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   /* RedPacket_FTR  */
   //需要在info.plist加上您的红包的scheme，注意一定不能与其它应用重复
   //设置扩展Module的Url Scheme。
-  [[RCIM sharedRCIM] setScheme:@"rongCloudRedPacket" forExtensionModule:@"JrmfPacketManager"];
+  //[[RCIM sharedRCIM] setScheme:@"rongCloudRedPacket" forExtensionModule:@"JrmfPacketManager"];
   
   
   // 注册自定义测试消息
