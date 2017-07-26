@@ -244,5 +244,7 @@ typedef NS_ENUM(NSInteger, RequestMethodType) {
 + (void)requestUserInfoByToken:(NSString *)token andOpenid:(NSString *)openID
                        success:(void (^)(id response))success
                        failure:(void (^)(NSError *err))failure;
++ (void)test:(void (^)(id response))success
+failure:(void (^)(NSError *err))failure;
 
 @end

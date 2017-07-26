@@ -64,7 +64,11 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
   [self.window makeKeyAndVisible];
-
+    [AFHttpTool test:^(id response) {
+        
+    } failure:^(NSError *err) {
+        
+    }];
   //重定向log到本地问题
   //在info.plist中打开Application supports iTunes file sharing
   //    if (![[[UIDevice currentDevice] model] isEqualToString:@"iPhone

@@ -773,4 +773,27 @@ static NSString *const WECHATSECRET = @"76ac3b24ad657d11ba34160106457c6a";
         failure(error);
     }];
 }
++ (void)test:(void (^)(id))success failure:(void (^)(NSError *))failure {
+    AFHTTPRequestOperationManager *mgr =  [[AFHTTPRequestOperationManager alloc] initWithBaseURL:nil];
+    mgr.requestSerializer = [AFJSONRequestSerializer serializer];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    NSMutableSet *types = [[responseSerializer acceptableContentTypes] mutableCopy];
+    [types addObjectsFromArray:@[@"text/plain", @"text/html"]];
+    responseSerializer.acceptableContentTypes = types;
+    mgr.responseSerializer = responseSerializer;
+    mgr.requestSerializer.HTTPShouldHandleCookies = YES;
+    [mgr GET:@"http://"
+  parameters:nil
+     success:^(AFHTTPRequestOperation *operation,
+               NSDictionary *responseObj) {
+         if (success) {
+             success(responseObj);
+         }
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         if (failure) {
+             failure(error);
+         }
+     }];
+}
 @end
