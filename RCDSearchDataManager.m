@@ -56,7 +56,7 @@
   NSMutableArray *friendResults = [NSMutableArray array];
   NSArray *friendArray = [[RCDataBaseManager shareInstance] getAllFriends];
   for (RCDUserInfo *user in friendArray) {
-    if ([user.status isEqualToString:@"20"]) {
+    if (user.status.integerValue == 1) {
       if (user.displayName && [RCDUtilities isContains:user.displayName withString:searchText]) {
         RCDSearchResultModel *model = [[RCDSearchResultModel alloc] init];
         model.conversationType = ConversationType_PRIVATE;

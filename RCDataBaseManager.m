@@ -76,7 +76,7 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
           @"CREATE TABLE GROUPTABLEV2 (id integer PRIMARY KEY autoincrement, "
           @"groupId text,name text, portraitUri text,inNumber text,maxNumber "
           @"text ,introduce text ,creatorId text,creatorTime text, isJoin "
-          @"text, isDismiss text, redPacketLimit text, lockLimit text)";
+          @"text, isDismiss text, redPacketLimit text, lockLimit text, gonggao text)";
       [db executeUpdate:createTableSQL];
       NSString *createIndexSQL =
           @"CREATE unique INDEX idx_groupid ON GROUPTABLEV2(groupId);";
@@ -257,8 +257,8 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
     
     NSString *insertSql = @"REPLACE INTO GROUPTABLEV2 (groupId, "
     @"name,portraitUri,inNumber,maxNumber,introduce,"
-    @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit) VALUES "
-    @"(?,?,?,?,?,?,?,?,?,?,?,?)";
+    @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit, gonggao) VALUES "
+    @"(?,?,?,?,?,?,?,?,?,?,?,?,?)";
     
     
     [self.dbQueue inDatabase:^(FMDatabase *db) {
@@ -266,7 +266,7 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
          group.portraitUri, group.number, group.maxNumber,
          group.introduce, group.creatorId, group.creatorTime,
          [NSString stringWithFormat:@"%d", group.isJoin],
-         group.isDismiss, group.redPacketLimit, group.lockLimit];
+         group.isDismiss, group.redPacketLimit, group.lockLimit, group.gonggao];
     }];
 }
 
@@ -279,13 +279,13 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
       for (RCDGroupInfo *group in groupList) {
         NSString *insertSql = @"REPLACE INTO GROUPTABLEV2 (groupId, "
         @"name,portraitUri,inNumber,maxNumber,introduce,"
-        @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit) VALUES "
-        @"(?,?,?,?,?,?,?,?,?,?,?,?)";
+        @"creatorId,creatorTime,isJoin,isDismiss,redPacketLimit,lockLimit,gonggao) VALUES "
+        @"(?,?,?,?,?,?,?,?,?,?,?,?,?)";
         [db executeUpdate:insertSql, group.groupId, group.groupName,
          group.portraitUri, group.number, group.maxNumber,
          group.introduce, group.creatorId, group.creatorTime,
          [NSString stringWithFormat:@"%d", group.isJoin],
-         group.isDismiss, group.redPacketLimit, group.lockLimit];
+         group.isDismiss, group.redPacketLimit, group.lockLimit, group.gonggao];
       }
     }];
     result (YES);
@@ -313,6 +313,7 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
             model.isDismiss = [rs stringForColumn:@"isDismiss"];
             model.redPacketLimit = [rs stringForColumn:@"redPacketLimit"];
             model.lockLimit = [rs stringForColumn:@"lockLimit"];
+            model.gonggao = [rs stringForColumn:@"gonggao"];
         }
         [rs close];
     }];
@@ -364,6 +365,7 @@ static NSString *const groupMemberTableName = @"GROUPMEMBERTABLE";
       model.isJoin = [rs boolForColumn:@"isJoin"];
         model.redPacketLimit = [rs stringForColumn:@"redPacketLimit"];
         model.lockLimit = [rs stringForColumn:@"lockLimit"];
+        model.gonggao = [rs stringForColumn:@"gonggao"];
         
       [allGroups addObject:model];
     }

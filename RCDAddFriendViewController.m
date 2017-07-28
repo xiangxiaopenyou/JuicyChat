@@ -178,7 +178,7 @@
     BOOL isFriend = NO;
     for (RCDUserInfo *user in cacheList) {
         if ([user.userId isEqualToString:self.targetUserInfo.userId] &&
-            [user.status isEqualToString:@"20"]) {
+            user.status.integerValue == 1) {
             isFriend = YES;
             break;
         }

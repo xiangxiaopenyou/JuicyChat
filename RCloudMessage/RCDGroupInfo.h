@@ -26,7 +26,8 @@
 /** 是否解散 */
 @property(nonatomic, strong) NSString *isDismiss;
 
-@property (strong, nonatomic) NSString *redPacketLimit;
-@property (strong, nonatomic) NSString *lockLimit;
+@property (copy, nonatomic) NSString *redPacketLimit;
+@property (copy, nonatomic) NSString *lockLimit;
+@property (copy, nonatomic) NSString *gonggao;
 
 @end

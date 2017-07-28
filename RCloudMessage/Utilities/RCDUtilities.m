@@ -257,5 +257,15 @@
   UIGraphicsEndImageContext();
   return img;
 }
++ (NSString *)amountStringFromNumber:(NSNumber *)amount {
+    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
+    NSMutableString *mutableString = [amountString mutableCopy];
+    if (amountString.length > 2) {
+        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
+            [mutableString insertString:@"," atIndex:i];
+        }
+    }
+    return mutableString;
+}
 
 @end

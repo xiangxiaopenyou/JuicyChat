@@ -53,6 +53,7 @@
 - (RCDSearchBar *)searchBar{
   if (!_searchBar) {
     _searchBar = [[RCDSearchBar alloc] initWithFrame:CGRectMake(0, 0, self.conversationListTableView.frame.size.width, 44)];
+      _searchBar.placeholder = @"搜索联系人/群组/聊天记录";
     
   }
   return _searchBar;

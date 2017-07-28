@@ -9,6 +9,7 @@
 #import "EntryPasswordView.h"
 #import "SYPasswordView.h"
 #import "Masonry.h"
+#import "RCDUtilities.h"
 @interface EntryPasswordView ()
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UIButton *closeButton;
@@ -197,10 +198,10 @@
     return _balanceLabel;
 }
 - (void)setAmount:(NSInteger)amount {
-    self.amountLabel.text = [NSString stringWithFormat:@"%@", @(amount)];
+    self.amountLabel.text = [RCDUtilities amountStringFromNumber:@(amount)];
 }
 - (void)setBalance:(NSInteger)balance {
-    self.balanceLabel.text = [NSString stringWithFormat:@"%@", @(balance)];
+    self.balanceLabel.text = [RCDUtilities amountStringFromNumber:@(balance)];
 }
 
 @end

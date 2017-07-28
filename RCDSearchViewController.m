@@ -102,6 +102,7 @@
   _searchBars.tintColor=[UIColor blueColor];
   [_searchBars becomeFirstResponder];
   _searchBars.frame = CGRectMake( 0, 0,self.searchView.frame.size.width-65, 44);
+    _searchBars.placeholder = @"搜索联系人/群组/聊天记录";
   [self.searchView addSubview:self.searchBars];
   
   _cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_searchBars.frame)-3, CGRectGetMinY(self.searchBars.frame),55, 44)];

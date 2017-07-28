@@ -120,7 +120,7 @@
   searchField.layer.borderWidth = 0.5f;
   searchField.layer.borderColor = [HEXCOLOR(0xdfdfdf) CGColor];
   searchField.layer.cornerRadius = 5.f;
-  self.searchFriendsBar.placeholder = @"搜索";
+  self.searchFriendsBar.placeholder = @"搜索通讯录";
 
   self.defaultCellsTitle = [NSArray
       arrayWithObjects:@"新朋友", @"群组", nil];

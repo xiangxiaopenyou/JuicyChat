@@ -40,6 +40,7 @@ UISearchControllerDelegate>
     self.searchBar.delegate = self;
     [self.searchBar setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     [self.searchBar sizeToFit];
+    self.searchBar.placeholder = @"搜索用户";
     
     UIColor *color = self.navigationController.navigationBar.barTintColor;
     [self.navigationController.view setBackgroundColor:color];

@@ -11,6 +11,7 @@
 #import "RedPacketRequest.h"
 #import "RedPacketMembersRequest.h"
 #import "RedPacketMemberCell.h"
+#import "RCDUtilities.h"
 
 @interface RedPacketDetailViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -37,7 +38,7 @@
     if (self.redPacketNumber) {
         self.amountLabel.hidden = NO;
         self.unitLabel.hidden = NO;
-        NSString *numberString = [self amountStringFromNumber:@(self.redPacketNumber)];
+        NSString *numberString = [RCDUtilities amountStringFromNumber:@(self.redPacketNumber)];
         self.amountLabel.text = numberString;
     }
     if (self.avatarUrl) {
@@ -186,7 +187,7 @@
     cell.nicknameLabel.text = [NSString stringWithFormat:@"%@", temp[@"nickname"]];
 //    cell.amountLabel.text = [NSString stringWithFormat:@"%@", temp[@"unpackmoney"]];
     NSNumber *tempAmount = @([temp[@"unpackmoney"] integerValue]);
-    cell.amountLabel.text = [self amountStringFromNumber:tempAmount];
+    cell.amountLabel.text = [RCDUtilities amountStringFromNumber:tempAmount];
     if ([temp[@"userid"] integerValue] == [self.informations[@"bestluckuserid"] integerValue]) {
         cell.bestLuckLabel.hidden = NO;
     } else {
@@ -212,15 +213,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (NSString *)amountStringFromNumber:(NSNumber *)amount {
-    NSString *amountString = [NSString stringWithFormat:@"%@", amount];
-    NSMutableString *mutableString = [amountString mutableCopy];
-    if (amountString.length > 2) {
-        for (NSInteger i = amountString.length - 2; i > 0; i -= 4) {
-            [mutableString insertString:@"," atIndex:i];
-        }
-    }
-    return mutableString;
-}
 
 @end

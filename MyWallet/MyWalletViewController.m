@@ -15,6 +15,7 @@
 #import "CheckSetPayPasswordRequest.h"
 #import "FetchBalanceRequest.h"
 #import "MBProgressHUD.h"
+#import "RCDUtilities.h"
 
 @interface MyWalletViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *pocketMoneyLabel;
@@ -45,7 +46,7 @@
         return YES;
     } result:^(id object, NSString *msg) {
         if (object) {
-            self.pocketMoneyLabel.text = [NSString stringWithFormat:@"%@", @([object[@"money"] integerValue])];
+            self.pocketMoneyLabel.text = [RCDUtilities amountStringFromNumber:@([object[@"money"] integerValue])];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
