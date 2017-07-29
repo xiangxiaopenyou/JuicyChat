@@ -391,6 +391,27 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
   actionSheet.tag = 102;
 }
 
+#pragma mark - Setting request
+- (void)addUserSettingRequest:(NSInteger)isON {
+    [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+        request.groupId = _Group.groupId;
+        request.redPacketLimit = @(_Group.redPacketLimit.integerValue);
+        request.lockLimit = @(_Group.lockLimit.integerValue);
+        request.iscanadduser = isON;
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            RCDGroupInfo *tempGroupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:_Group.groupId];
+            tempGroupInfo.iscanadduser = isON;
+            [[RCDataBaseManager shareInstance] insertGroupToDB:tempGroupInfo];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                            message:@"设置失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker
 didFinishPickingMediaWithInfo:(NSDictionary *)info {
   [UIApplication sharedApplication].statusBarHidden = NO;
@@ -782,7 +803,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     break;
       
   case 4:
-    rows = 3;
+    rows = isCreator ? 4 : 3;
     break;
       
   default:
@@ -798,10 +819,20 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
             cell = [[RCDGroupSettingsTableViewCell alloc]initWithIndexPath:indexPath andGroupInfo:_Group];
     }
     //设置switchbutton的开关状态
-    if(indexPath.section == 4 && indexPath.row == 0){
-        cell.switchButton.on = !enableNotification;
-    }else if (indexPath.section == 4 && indexPath.row == 1){
-        cell.switchButton.on = currentConversation.isTop;
+    if (isCreator) {
+        if (indexPath.section == 4 && indexPath.row == 0) {
+            cell.switchButton.on = _Group.iscanadduser == 0 ? NO : YES;
+        } else if(indexPath.section == 4 && indexPath.row == 1){
+            cell.switchButton.on = !enableNotification;
+        }else if (indexPath.section == 4 && indexPath.row == 2){
+            cell.switchButton.on = currentConversation.isTop;
+        }
+    } else {
+        if(indexPath.section == 4 && indexPath.row == 0){
+            cell.switchButton.on = !enableNotification;
+        }else if (indexPath.section == 4 && indexPath.row == 1){
+            cell.switchButton.on = currentConversation.isTop;
+        }
     }
     cell.baseSettingTableViewDelegate = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -865,6 +896,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
               if (isCreator == YES) {
                   RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
                   vc.GroupId = _Group.groupId;
+                  vc.groupInfo = _Group;
                   [self.navigationController pushViewController:vc animated:YES];
               }
               else
@@ -878,6 +910,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
         {
           RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
           vc.GroupId = _Group.groupId;
+            vc.groupInfo = _Group;
           [self.navigationController pushViewController:vc animated:YES];
           /*
           if (isCreator == YES) {
@@ -1024,24 +1057,45 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       break;
       case 4:
     {
-      switch (indexPath.row) {
-        case 2:
-        {
-          UIActionSheet *actionSheet =
-          [[UIActionSheet alloc] initWithTitle:@"确定清除聊天记录？"
-                                      delegate:self
-                             cancelButtonTitle:@"取消"
-                        destructiveButtonTitle:@"确定"
-                             otherButtonTitles:nil];
-          
-          [actionSheet showInView:self.view];
-          actionSheet.tag = 100;
-        }break;
-          
-        default:
-          break;
-      }
-    }break;
+        if (isCreator) {
+            switch (indexPath.row) {
+                case 3: {
+                    UIActionSheet *actionSheet =
+                    [[UIActionSheet alloc] initWithTitle:@"确定清除聊天记录？"
+                                                delegate:self
+                                       cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:@"确定"
+                                       otherButtonTitles:nil];
+                    
+                    [actionSheet showInView:self.view];
+                    actionSheet.tag = 100;
+                }break;
+                    
+                default:
+                    break;
+            }
+        } else {
+            switch (indexPath.row) {
+                case 2: {
+                    UIActionSheet *actionSheet =
+                    [[UIActionSheet alloc] initWithTitle:@"确定清除聊天记录？"
+                                                delegate:self
+                                       cancelButtonTitle:@"取消"
+                                  destructiveButtonTitle:@"确定"
+                                       otherButtonTitles:nil];
+                    
+                    [actionSheet showInView:self.view];
+                    actionSheet.tag = 100;
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+      
+    }
+        break;
       
     default:
       break;
@@ -1298,8 +1352,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *delImage = [UIImage imageNamed:@"delete_member"];
     [collectionViewResource addObject:delImage];
   } else {
-      UIImage *addImage = [UIImage imageNamed:@"add_member"];
-      [collectionViewResource addObject:addImage];
+      if (_Group.iscanadduser == 1) {
+          UIImage *addImage = [UIImage imageNamed:@"add_member"];
+          [collectionViewResource addObject:addImage];
+      }
   }
   dispatch_async(dispatch_get_main_queue(), ^{
     [headerView reloadData];
@@ -1322,7 +1378,15 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
 - (void)onClickSwitchButton:(id)sender {
     UISwitch *switchBtn = (UISwitch *)sender;
     //如果是“消息免打扰”的switch点击
-    if(switchBtn.tag == SwitchButtonTag){
+    if (switchBtn.tag == SwitchButtonTag - 1) {
+        if (switchBtn.on) {
+            _Group.iscanadduser = 1;
+            
+        } else {
+            _Group.iscanadduser = 0;
+        }
+        [self addUserSettingRequest:_Group.iscanadduser];
+    } else if(switchBtn.tag == SwitchButtonTag){
         [self clickNotificationBtn:sender];
     }else { //否则是“会话置顶”的switch点击
         [self clickIsTopBtn:sender];

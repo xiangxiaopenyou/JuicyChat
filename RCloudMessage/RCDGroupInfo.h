@@ -29,5 +29,6 @@
 @property (copy, nonatomic) NSString *redPacketLimit;
 @property (copy, nonatomic) NSString *lockLimit;
 @property (copy, nonatomic) NSString *gonggao;
+@property (nonatomic) NSInteger iscanadduser;
 
 @end

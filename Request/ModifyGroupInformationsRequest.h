@@ -14,5 +14,7 @@
 @property (copy, nonatomic) NSString *headIco;
 @property (strong, nonatomic) NSNumber *redPacketLimit;
 @property (strong, nonatomic) NSNumber *lockLimit;
+@property (copy, nonatomic) NSString *gonggao;
+@property (nonatomic) NSInteger iscanadduser;
 
 @end

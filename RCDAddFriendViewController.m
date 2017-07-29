@@ -9,6 +9,7 @@
 #import "RCDAddFriendViewController.h"
 #import "DefaultPortraitView.h"
 #import "RCDChatViewController.h"
+#import "WCTransferViewController.h"
 #import "RCDHttpTool.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
@@ -117,7 +118,7 @@
                 forControlEvents:UIControlEventTouchUpInside];
     
     self.startChat = [[UIButton alloc]initWithFrame:CGRectMake(10,30,self.view.bounds.size.width, 86)];
-    [self.startChat setTitle:@"发起会话" forState:UIControlStateNormal];
+    [self.startChat setTitle:@"转账" forState:UIControlStateNormal];
     [self.startChat setTintColor:[UIColor blackColor]];
     [self.startChat setBackgroundColor:[UIColor colorWithHexString:@"0099ff" alpha:1.0]];
     self.startChat.layer.masksToBounds = YES;
@@ -168,7 +169,7 @@
                                                                      metrics:nil
                                                                        views:views2]];
     
-    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-15-[_startChat(43)]"
+    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-70-[_startChat(43)]"
                                                                  options:kNilOptions
                                                                  metrics:nil
                                                                    views:views2]];
@@ -185,8 +186,6 @@
     }
     if (isFriend == YES) {
         _addFriendBtn.hidden = YES;
-    } else {
-        _startChat.hidden = YES;
     }
     
     
@@ -237,12 +236,16 @@
 }
 
 - (void)actionStartChat:(id)sender {
-  RCDChatViewController *conversationVC = [[RCDChatViewController alloc] init];
-  conversationVC.conversationType = ConversationType_PRIVATE;
-  conversationVC.targetId = self.targetUserInfo.userId;
-  conversationVC.title = self.targetUserInfo.name;
-  conversationVC.displayUserNameInCell = NO;
-  [self.navigationController pushViewController:conversationVC animated:YES];
+    WCTransferViewController *transferController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"Transfer"];
+    transferController.userInfo = self.targetUserInfo;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:transferController];
+    [self presentViewController:navigationController animated:YES completion:nil];
+//  RCDChatViewController *conversationVC = [[RCDChatViewController alloc] init];
+//  conversationVC.conversationType = ConversationType_PRIVATE;
+//  conversationVC.targetId = self.targetUserInfo.userId;
+//  conversationVC.title = self.targetUserInfo.name;
+//  conversationVC.displayUserNameInCell = NO;
+//  [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 @end

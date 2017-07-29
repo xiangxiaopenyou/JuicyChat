@@ -9,6 +9,8 @@
 #import "RCDGroupAnnouncementViewController.h"
 #import "UIColor+RCColor.h"
 #import "MBProgressHUD.h"
+#import "ModifyGroupInformationsRequest.h"
+#import "RCDataBaseManager.h"
 #import <RongIMKit/RongIMKit.h>
 
 @interface RCDGroupAnnouncementViewController ()
@@ -81,6 +83,12 @@
   
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    self.AnnouncementContent.text = self.groupInfo.gonggao;
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.AnnouncementContent becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -242,38 +250,55 @@
           self.hud.color = [UIColor colorWithHexString:@"343637" alpha:0.5];
           self.hud.margin = 0;
           [self.hud show:YES];
-          //发布成功后，使用自定义图片
-          NSString *txt = [NSString stringWithFormat: @"@所有人\n%@",self.AnnouncementContent.text];
-          //去除收尾的空格
-          txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-          //去除收尾的换行
-          txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-          RCTextMessage *announcementMsg = [RCTextMessage messageWithContent:txt];
-          announcementMsg.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
-          [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP
-                                targetId:self.GroupId
-                                 content:announcementMsg
-                             pushContent:nil
-                                pushData:nil
-                                 success:^(long messageId) {
-                                   dispatch_after(
-                                                  dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
-                                                    self.hud.mode = MBProgressHUDModeCustomView;
-                                                    UIImageView *customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Complete"]];
-                                                    customView.frame = CGRectMake(0, 0, 80, 80);
-                                                    self.hud.customView = customView;
-                                                    dispatch_after(
-                                                                   dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
-                                                    //显示成功的图片后返回
-                                                              [self.navigationController popViewControllerAnimated:YES];
-                                                                     });
-                                                  });
-                                 } error:^(RCErrorCode nErrorCode, long messageId) {
-                                   [self.hud hide:YES];
-                                   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                                                   message:@"群公告发送失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                                   [alert show];
-                                 }];
+            [[ModifyGroupInformationsRequest new] request:^BOOL(ModifyGroupInformationsRequest *request) {
+                request.groupId = self.groupInfo.groupId;
+                request.gonggao = self.AnnouncementContent.text;
+                request.redPacketLimit = @(self.groupInfo.redPacketLimit.integerValue);
+                request.lockLimit = @(self.groupInfo.lockLimit.integerValue);
+                return YES;
+            } result:^(id object, NSString *msg) {
+                if (object) {
+                    RCDGroupInfo *tempGroupInfo = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.groupInfo.groupId];
+                    tempGroupInfo.gonggao = self.AnnouncementContent.text;
+                    [[RCDataBaseManager shareInstance] insertGroupToDB:tempGroupInfo];
+                    //发布成功后，使用自定义图片
+                    NSString *txt = [NSString stringWithFormat: @"@所有人\n%@",self.AnnouncementContent.text];
+                    //去除收尾的空格
+                    txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                    //去除收尾的换行
+                    txt = [txt stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    RCTextMessage *announcementMsg = [RCTextMessage messageWithContent:txt];
+                    announcementMsg.mentionedInfo = [[RCMentionedInfo alloc] initWithMentionedType:RC_Mentioned_All userIdList:nil mentionedContent:nil];
+                    [[RCIM sharedRCIM] sendMessage:ConversationType_GROUP
+                                          targetId:self.GroupId
+                                           content:announcementMsg
+                                       pushContent:nil
+                                          pushData:nil
+                                           success:^(long messageId) {
+                                               dispatch_after(
+                                                              dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
+                                                                  self.hud.mode = MBProgressHUDModeCustomView;
+                                                                  UIImageView *customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Complete"]];
+                                                                  customView.frame = CGRectMake(0, 0, 80, 80);
+                                                                  self.hud.customView = customView;
+                                                                  dispatch_after(
+                                                                                 dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
+                                                                                     //显示成功的图片后返回
+                                                                                     [self.navigationController popViewControllerAnimated:YES];
+                                                                                 });
+                                                              });
+                                           } error:^(RCErrorCode nErrorCode, long messageId) {
+                                               [self.hud hide:YES];
+                                               UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                                               message:@"群公告发送失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                                               [alert show];
+                                           }];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                                    message:@"群公告发送失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                    [alert show];
+                }
+            }];
           
         }
           break;

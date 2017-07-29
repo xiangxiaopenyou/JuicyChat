@@ -20,6 +20,7 @@
 @interface MyWalletViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *pocketMoneyLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 
 @end
 
@@ -47,6 +48,8 @@
     } result:^(id object, NSString *msg) {
         if (object) {
             self.pocketMoneyLabel.text = [RCDUtilities amountStringFromNumber:@([object[@"money"] integerValue])];
+            self.tipLabel.text = [self countingString:[object[@"money"] integerValue]];
+            //self.tipLabel.text = [self countingString:9111000];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
@@ -119,6 +122,33 @@
         }];
     }
          
+}
+- (NSString *)countingString:(NSInteger)count {
+    NSInteger yi = 0;
+    NSInteger wan = 0;
+    if (count / 100000000 > 0) {
+        yi = count / 100000000;
+        count = count - yi * 100000000;
+    }
+    if (count / 10000 > 0) {
+        wan = count / 10000;
+        count = count - wan * 10000;
+    }
+    NSString *countingString = @"";
+    if (yi > 0) {
+        countingString = [NSString stringWithFormat:@"%@%@亿", countingString, @(yi)];
+    }
+    if (wan > 0) {
+        countingString = [NSString stringWithFormat:@"%@%@万", countingString, @(wan)];
+    }
+    if (count > 0) {
+        countingString = [NSString stringWithFormat:@"%@%@", countingString, @(count)];
+    }
+    if (countingString.length < 5 && yi == 0 && wan == 0) {
+        return nil;
+    } else {
+        return countingString;
+    }
 }
 
 /*

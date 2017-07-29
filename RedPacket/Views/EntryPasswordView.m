@@ -130,6 +130,7 @@
 //                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
 //                                      [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
 //    [self.contentView.layer addAnimation:hideAnimation forKey:nil];
+    [self clearPassword];
 }
 - (void)clearPassword {
     [self.passwordView clearUpPassword];

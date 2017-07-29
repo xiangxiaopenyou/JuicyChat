@@ -9,6 +9,7 @@
 #import "RCDGroupSettingsTableViewCell.h"
 #import "RCDGroupInfo.h"
 #import "RCDUtilities.h"
+#import <RongIMKit/RongIMKit.h>
 
 @implementation RCDGroupSettingsTableViewCell
 
@@ -51,8 +52,9 @@
                 self.rightLabel.text = groupInfo.groupName;
                 break;
             case 2:
-                [self setCellStyle:DefaultStyle];
+                [self setCellStyle:DefaultStyle_RightLabel];
                 self.leftLabel.text = @"群公告";
+                self.rightLabel.text = groupInfo.gonggao;
                 break;
             default:
                 break;
@@ -76,23 +78,56 @@
       [self setCellStyle:DefaultStyle];
       self.leftLabel.text = @"查找聊天记录";
     } else{
-        switch (indexPath.row) {
-            case 0:
-                [self setCellStyle:SwitchStyle];
-                self.leftLabel.text = @"消息免打扰";
-                self.switchButton.tag = SwitchButtonTag;
-                break;
-            case 1:
-                [self setCellStyle:SwitchStyle];
-                self.leftLabel.text = @"会话置顶";
-                self.switchButton.tag = SwitchButtonTag + 1;
-                break;
-            case 2:
-                [self setCellStyle:DefaultStyle];
-                self.leftLabel.text= @"清除聊天记录";
-                break;
-            default:
-                break;
+        if ([groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+            switch (indexPath.row) {
+                case 0: {
+                    [self setCellStyle:SwitchStyle];
+                    self.leftLabel.text = @"群成员拉人";
+                    self.switchButton.tag = SwitchButtonTag - 1;
+                }
+                    break;
+                case 1: {
+                    [self setCellStyle:SwitchStyle];
+                    self.leftLabel.text = @"消息免打扰";
+                    self.switchButton.tag = SwitchButtonTag;
+                }
+                    break;
+                case 2: {
+                    [self setCellStyle:SwitchStyle];
+                    self.leftLabel.text = @"会话置顶";
+                    self.switchButton.tag = SwitchButtonTag + 1;
+                }
+                    break;
+                case 3: {
+                    [self setCellStyle:DefaultStyle];
+                    self.leftLabel.text= @"清除聊天记录";
+                }
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (indexPath.row) {
+                case 0: {
+                    [self setCellStyle:SwitchStyle];
+                    self.leftLabel.text = @"消息免打扰";
+                    self.switchButton.tag = SwitchButtonTag;
+                }
+                    break;
+                case 1: {
+                    [self setCellStyle:SwitchStyle];
+                    self.leftLabel.text = @"会话置顶";
+                    self.switchButton.tag = SwitchButtonTag + 1;
+                }
+                    break;
+                case 2: {
+                    [self setCellStyle:DefaultStyle];
+                    self.leftLabel.text= @"清除聊天记录";
+                }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

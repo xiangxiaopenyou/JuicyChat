@@ -101,6 +101,8 @@
 //          }
             group.redPacketLimit = [NSString stringWithFormat:@"%@", result[@"redpacketlimit"]];
             group.lockLimit = [NSString stringWithFormat:@"%@", result[@"locklimit"]];
+            group.gonggao = [NSString stringWithFormat:@"%@", result[@"gonggao"]];
+            group.iscanadduser = [result[@"iscanadduser"] integerValue];
           [[RCDataBaseManager shareInstance] insertGroupToDB:group];
           if (group.groupId.integerValue == groupID.integerValue && completion) {
             completion(group);

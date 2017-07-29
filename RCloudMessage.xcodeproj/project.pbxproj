@@ -49,6 +49,8 @@
 		3D3F8CE61EC9923B0040C0D5 /* RedPacketRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CE51EC9923B0040C0D5 /* RedPacketRequest.m */; };
 		3D3F8CEC1EC9AE630040C0D5 /* TakeApartRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CEB1EC9AE630040C0D5 /* TakeApartRequest.m */; };
 		3D3F8D291ECAE2840040C0D5 /* RedPacketMembersRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8D281ECAE2840040C0D5 /* RedPacketMembersRequest.m */; };
+		3D4F32B11F2AFEE6005D9015 /* WCTransferRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F32B01F2AFEE6005D9015 /* WCTransferRequest.m */; };
+		3D4F32B41F2B07B6005D9015 /* WCTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F32B31F2B07B6005D9015 /* WCTransferViewController.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
@@ -404,6 +406,10 @@
 		3D3F8CEB1EC9AE630040C0D5 /* TakeApartRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakeApartRequest.m; sourceTree = "<group>"; };
 		3D3F8D271ECAE2840040C0D5 /* RedPacketMembersRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedPacketMembersRequest.h; sourceTree = "<group>"; };
 		3D3F8D281ECAE2840040C0D5 /* RedPacketMembersRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedPacketMembersRequest.m; sourceTree = "<group>"; };
+		3D4F32AF1F2AFEE6005D9015 /* WCTransferRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferRequest.h; sourceTree = "<group>"; };
+		3D4F32B01F2AFEE6005D9015 /* WCTransferRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCTransferRequest.m; sourceTree = "<group>"; };
+		3D4F32B21F2B07B6005D9015 /* WCTransferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCTransferViewController.h; sourceTree = "<group>"; };
+		3D4F32B31F2B07B6005D9015 /* WCTransferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCTransferViewController.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -1125,6 +1131,8 @@
 				3D8E20A21ED6C538008E6C29 /* FetchSharePictureRequest.m */,
 				3DA417D91ED80B4300613FBD /* UpdateUrlRequest.h */,
 				3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */,
+				3D4F32AF1F2AFEE6005D9015 /* WCTransferRequest.h */,
+				3D4F32B01F2AFEE6005D9015 /* WCTransferRequest.m */,
 			);
 			path = Request;
 			sourceTree = SOURCE_ROOT;
@@ -1144,6 +1152,8 @@
 				3D8E20641ED6B776008E6C29 /* SetupPayPasswordViewController.m */,
 				3D8E205A1ED6B776008E6C29 /* LockedMembersViewController.h */,
 				3D8E205B1ED6B776008E6C29 /* LockedMembersViewController.m */,
+				3D4F32B21F2B07B6005D9015 /* WCTransferViewController.h */,
+				3D4F32B31F2B07B6005D9015 /* WCTransferViewController.m */,
 			);
 			path = RedPacket;
 			sourceTree = SOURCE_ROOT;
@@ -2347,6 +2357,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D4F32B41F2B07B6005D9015 /* WCTransferViewController.m in Sources */,
 				98BC0E0B1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewCell.m in Sources */,
 				3DF1D47D1ECD7FA4005B494D /* MyRedPacketsRequest.m in Sources */,
 				3D8E20871ED6B955008E6C29 /* MyWalletViewController.m in Sources */,
@@ -2481,6 +2492,7 @@
 				3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */,
 				E4E939451AD65A95001E0AC6 /* AFNetworkReachabilityManager.m in Sources */,
 				E4E939481AD65A95001E0AC6 /* AFURLRequestSerialization.m in Sources */,
+				3D4F32B11F2AFEE6005D9015 /* WCTransferRequest.m in Sources */,
 				9B447DF51CF82926005D3ED5 /* RCDPrivateSettingsTableViewController.m in Sources */,
 				3D8E20591ED6B747008E6C29 /* UnlockMemberCell.m in Sources */,
 				E4E939821AD65B27001E0AC6 /* RCDDiscussSettingSwitchCell.m in Sources */,

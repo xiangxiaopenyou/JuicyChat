@@ -20,6 +20,10 @@
     if (self.headIco) {
         [self.params setObject:self.headIco forKey:@"headIco"];
     }
+    if (self.gonggao) {
+        [self.params setObject:self.gonggao forKey:@"gonggao"];
+    }
+    [self.params setObject:@(self.iscanadduser) forKey:@"iscanadduser"];
     [self.params setObject:@(self.redPacketLimit.integerValue) forKey:@"redPacketLimit"];
     [self.params setObject:@(self.lockLimit.integerValue) forKey:@"lockLimit"];
     [[RequestManager sharedInstance] POST:@"UpdateGroup.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
