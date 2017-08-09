@@ -235,13 +235,13 @@
             self.openButton.hidden = NO;
             self.tipLabel.hidden = NO;
             self.noteLabel.text = informations[@"note"];
-            NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
-            NSString *ownerId = [NSString stringWithFormat:@"%@", informations[@"fromuserid"]];
-            if ([userId isEqualToString:ownerId]) {
-                self.goDetailButton.hidden = NO;
-            } else {
-                self.goDetailButton.hidden = YES;
-            }
+        }
+        NSString *ownerId = [NSString stringWithFormat:@"%@", informations[@"fromuserid"]];
+        NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+        if ([userId isEqualToString:ownerId]) {
+            self.goDetailButton.hidden = NO;
+        } else {
+            self.goDetailButton.hidden = YES;
         }
     }
 }

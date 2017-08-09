@@ -144,7 +144,7 @@
 */
 - (UIView *)contentView {
     if (!_contentView) {
-        _contentView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(UIScreen.mainScreen.bounds) / 2 - 140, 120, 270, 220)];
+        _contentView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetWidth(UIScreen.mainScreen.bounds) / 2 - 140, 120, 280, 220)];
         _contentView.backgroundColor = [UIColor whiteColor];
         _contentView.clipsToBounds = YES;
         _contentView.layer.masksToBounds = YES;

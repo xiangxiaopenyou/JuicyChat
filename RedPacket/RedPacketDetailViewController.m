@@ -182,6 +182,7 @@
     RedPacketMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberCell" forIndexPath:indexPath];
     cell.avatarImage.layer.masksToBounds = YES;
     cell.avatarImage.layer.cornerRadius = 5.0;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *temp = _membersArray[indexPath.row];
     [cell.avatarImage sd_setImageWithURL:[NSURL URLWithString:temp[@"headico"]]];
     cell.nicknameLabel.text = [NSString stringWithFormat:@"%@", temp[@"nickname"]];

@@ -36,7 +36,7 @@
     self.AnnouncementContent.delegate = self;
     self.AnnouncementContent.font = [UIFont systemFontOfSize:16.f];
     self.AnnouncementContent.textColor = [UIColor colorWithHexString:@"000000" alpha:1.0];
-    self.AnnouncementContent.myPlaceholder = @"请编辑群公告";
+    //self.AnnouncementContent.myPlaceholder = @"请编辑群公告";
     self.AnnouncementContent.frame = CGRectMake(4.5, 8, self.view.frame.size.width - 5, self.view.frame.size.height - self.navigationController.navigationBar.frame.size.height - 90);
     self.heigh = self.AnnouncementContent.frame.size.height;
     [self.view addSubview:self.AnnouncementContent];
@@ -84,7 +84,6 @@
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.AnnouncementContent.text = self.groupInfo.gonggao;
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -156,19 +155,23 @@
 -(void)clickLeftBtn:(id)sender
 {
   [self navigationButtonIsCanClick:NO];
-  if (self.AnnouncementContent.text.length > 0) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
-                                                    message:@"退出本次编辑"
-                                                   delegate:self
-                                          cancelButtonTitle:@"继续编辑"
-                                          otherButtonTitles:@"退出",nil];
-    alert.tag = 101;
-    [alert show];
-  }
-  else
-  {
-    [self.navigationController popViewControllerAnimated:YES];
-  }
+    if (![self.groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+        [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        if (self.AnnouncementContent.text.length > 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil
+                                                            message:@"退出本次编辑"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"继续编辑"
+                                                  otherButtonTitles:@"退出",nil];
+            alert.tag = 101;
+            [alert show];
+        }
+        else
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 -(void)clickRightBtn:(id)sender
@@ -208,8 +211,8 @@
     CGFloat height = [self.AnnouncementContent.text boundingRectWithSize:maxSize options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : self.AnnouncementContent.font} context:nil].size.height;
     frame.size.height = height;
   }
-  if (number > 500) {
-    textView.text = [textView.text substringToIndex:500];
+  if (number > 200) {
+    textView.text = [textView.text substringToIndex:200];
   }
 }
 
@@ -332,6 +335,20 @@
       return NO;
     }
   }
+}
+- (void)setGroupInfo:(RCDGroupInfo *)groupInfo {
+    if (groupInfo) {
+        _groupInfo = groupInfo;
+        self.AnnouncementContent.text = groupInfo.gonggao;
+        if (![groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+            self.AnnouncementContent.editable = NO;
+            self.navigationItem.rightBarButtonItem = nil;
+            self.AnnouncementContent.myPlaceholder = @"暂无公告";
+        } else {
+            self.AnnouncementContent.editable = YES;
+            self.AnnouncementContent.myPlaceholder = @"请编辑群公告(200字以内)";
+        }
+    }
 }
 
 @end

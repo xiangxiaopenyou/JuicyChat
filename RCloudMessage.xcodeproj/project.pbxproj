@@ -103,6 +103,7 @@
 		3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DA1ED80B4300613FBD /* UpdateUrlRequest.m */; };
 		3DA417DF1ED8190300613FBD /* RCDPersonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417DE1ED8190300613FBD /* RCDPersonDetailViewController.m */; };
 		3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */; };
+		3DE07E1E1F2F04DA004B703D /* CWTransferSuccessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE07E1D1F2F04DA004B703D /* CWTransferSuccessView.m */; };
 		3DE932971ECD9D0D00C89762 /* ChangePayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */; };
 		3DE932A11ECEAC8E00C89762 /* FindPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A01ECEAC8E00C89762 /* FindPayPasswordRequest.m */; };
 		3DE932A41ECED03B00C89762 /* DeleteFriendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE932A31ECED03B00C89762 /* DeleteFriendRequest.m */; };
@@ -512,6 +513,8 @@
 		3DA417E11ED819F900613FBD /* RCDGroupSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDGroupSettingsTableViewController.m; sourceTree = SOURCE_ROOT; };
 		3DA8046F1EA5C4480087DF1F /* SealTalk.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = SealTalk.entitlements; sourceTree = "<group>"; };
 		3DA804711EA5D87D0087DF1F /* RCloudMessage.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = RCloudMessage.entitlements; path = RCloudMessage/RCloudMessage.entitlements; sourceTree = SOURCE_ROOT; };
+		3DE07E1C1F2F04DA004B703D /* CWTransferSuccessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTransferSuccessView.h; sourceTree = "<group>"; };
+		3DE07E1D1F2F04DA004B703D /* CWTransferSuccessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTransferSuccessView.m; sourceTree = "<group>"; };
 		3DE932951ECD9D0D00C89762 /* ChangePayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePayPasswordRequest.h; sourceTree = "<group>"; };
 		3DE932961ECD9D0D00C89762 /* ChangePayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePayPasswordRequest.m; sourceTree = "<group>"; };
 		3DE9329F1ECEAC8E00C89762 /* FindPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPayPasswordRequest.h; sourceTree = "<group>"; };
@@ -1181,6 +1184,8 @@
 				3D8E20401ED6B728008E6C29 /* RedPacketCell.m */,
 				3D8E20AB1ED7CCCE008E6C29 /* PersonalCardCell.h */,
 				3D8E20AC1ED7CCCE008E6C29 /* PersonalCardCell.m */,
+				3DE07E1C1F2F04DA004B703D /* CWTransferSuccessView.h */,
+				3DE07E1D1F2F04DA004B703D /* CWTransferSuccessView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2554,6 +2559,7 @@
 				E4E939631AD65A95001E0AC6 /* MKAnnotationView+WebCache.m in Sources */,
 				E4E939651AD65A95001E0AC6 /* SDImageCache.m in Sources */,
 				98D3C9D11D4C464D006FDF67 /* RCDMainTabBarViewController.m in Sources */,
+				3DE07E1E1F2F04DA004B703D /* CWTransferSuccessView.m in Sources */,
 				3DA417DB1ED80B4300613FBD /* UpdateUrlRequest.m in Sources */,
 				3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */,
 				E412BD271ADFA2A0000DCA7A /* RCDAddFriendViewController.m in Sources */,

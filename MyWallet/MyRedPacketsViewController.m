@@ -11,6 +11,7 @@
 #import "MyRedPacketsRequest.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUD.h"
+#import "RCDUtilities.h"
 
 #import <RongIMKit/RongIMKit.h>
 
@@ -89,17 +90,17 @@
 - (void)refreshInformations {
     RCUserInfo *userInfo = [RCIM sharedRCIM].currentUserInfo;
     [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri] placeholderImage:nil];
-    self.receivedCountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"receivecount"] integerValue])];
+    self.receivedCountLabel.text =  [NSString stringWithFormat:@"%@", @([self.informations[@"receivecount"] integerValue])];
     self.sendCountLabel.text = [NSString stringWithFormat:@"发出红包%@个", @([self.informations[@"sendcount"] integerValue])];
     self.bestLuckCountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"bestluckcount"] integerValue])];
     if (self.receivedButton.selected) {
         self.nameLabel.text = [NSString stringWithFormat:@"%@共收到", userInfo.name];
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"moneyreceive"] integerValue])];
+        self.amountLabel.text = [RCDUtilities amountStringFromNumber:@([self.informations[@"moneyreceive"] integerValue])];
         self.infoView.hidden = NO;
         self.sendCountLabel.hidden = YES;
     } else {
         self.nameLabel.text =[ NSString stringWithFormat:@"%@共发出", userInfo.name];
-        self.amountLabel.text = [NSString stringWithFormat:@"%@", @([self.informations[@"moneysend"] integerValue])];
+        self.amountLabel.text = [RCDUtilities amountStringFromNumber:@([self.informations[@"moneysend"] integerValue])];
         self.infoView.hidden = YES;
         self.sendCountLabel.hidden = NO;
     }

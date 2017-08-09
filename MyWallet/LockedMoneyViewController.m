@@ -10,6 +10,7 @@
 #import "LockedDetailTableViewController.h"
 
 #import "FetchInformationsRequest.h"
+#import "RCDUtilities.h"
 
 @interface LockedMoneyViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *amountLabel;
@@ -35,7 +36,7 @@
     } result:^(id object, NSString *msg) {
         if (object && object[@"lockmoney"]) {
             NSInteger money = [object[@"lockmoney"] integerValue];
-            self.amountLabel.text = [NSString stringWithFormat:@"%@", @(money)];
+            self.amountLabel.text = [RCDUtilities amountStringFromNumber:@(money)];
             if (money > 0) {
                 self.detailButton.hidden = NO;
             } else {

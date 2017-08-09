@@ -216,15 +216,20 @@
       continue;
     [infoDic setObject:tempArr forKey:key];
   }
-  if ([_tempOtherArr count])
-    [infoDic setObject:_tempOtherArr forKey:@"#"];
-  
+    if ([_tempOtherArr count]){
+        [infoDic setObject:_tempOtherArr forKey:@"#"];
+    }
+    [infoDic removeObjectForKey:@"#"];
   NSArray *keys = [[infoDic allKeys]
              sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
                
                return [obj1 compare:obj2 options:NSNumericSearch];
              }];
   NSMutableArray *allKeys = [[NSMutableArray alloc] initWithArray:keys];
+    if ([_tempOtherArr count]) {
+        [infoDic setObject:_tempOtherArr forKey:@"#"];
+        [allKeys addObject:@"#"];
+    }
   
   NSMutableDictionary *resultDic = [NSMutableDictionary new];
   [resultDic setObject:infoDic forKey:@"infoDic"];

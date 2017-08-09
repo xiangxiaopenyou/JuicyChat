@@ -196,13 +196,12 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
 }
 
 - (void)startLoad {
-  currentConversation =
-      [[RCIMClient sharedRCIMClient] getConversation:ConversationType_GROUP
+  currentConversation = [[RCIMClient sharedRCIMClient] getConversation:ConversationType_GROUP
                                             targetId:groupId];
-  if (currentConversation.targetId == nil) {
-    numberOfSections = 4;
-    [self.tableView reloadData];
-  } else {
+//  if (currentConversation.targetId == nil) {
+//    numberOfSections = 4;
+//    [self.tableView reloadData];
+//  } else {
     numberOfSections = 5;
     [[RCIMClient sharedRCIMClient]
         getConversationNotificationStatus:ConversationType_GROUP
@@ -219,7 +218,7 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
         error:^(RCErrorCode status){
 
         }];
-  }
+//  }
   NSMutableArray *groupMemberList = [[RCDataBaseManager shareInstance] getGroupMember:groupId];
   groupMemberList = [self moveCreator:groupMemberList];
   NSArray *resultList = [[RCDUserInfoManager shareInstance] getFriendInfoList:groupMemberList];
@@ -893,16 +892,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           }
         }break;
           case 2:{
-              if (isCreator == YES) {
+              //if (isCreator == YES) {
                   RCDGroupAnnouncementViewController *vc = [[RCDGroupAnnouncementViewController alloc] init];
                   vc.GroupId = _Group.groupId;
                   vc.groupInfo = _Group;
                   [self.navigationController pushViewController:vc animated:YES];
-              }
-              else
-              {
-                  [self showAlert:@"只有群主可以发布群公告"];
-              }
+//              }
+//              else
+//              {
+//                  [self showAlert:@"只有群主可以发布群公告"];
+//              }
           }
               break;
          
@@ -1211,14 +1210,16 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
       return;
     }
   } else {
-    if (indexPath.row == collectionViewResource.count - 1) {
-      NSLog(@"点加号");
-      contactSelectedVC.titleStr = @"选择联系人";
-      contactSelectedVC.addGroupMembers = membersId;
-      [self.navigationController pushViewController:contactSelectedVC
-                                           animated:YES];
-      return;
-    }
+      if (_Group.iscanadduser) {
+          if (indexPath.row == collectionViewResource.count - 1) {
+              NSLog(@"点加号");
+              contactSelectedVC.titleStr = @"选择联系人";
+              contactSelectedVC.addGroupMembers = membersId;
+              [self.navigationController pushViewController:contactSelectedVC
+                                                   animated:YES];
+              return;
+          }
+      }
   }
   RCUserInfo *selectedUser = [collectionViewResource objectAtIndex:indexPath.row];
   BOOL isFriend = NO;

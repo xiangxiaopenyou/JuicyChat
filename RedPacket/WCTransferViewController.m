@@ -14,8 +14,10 @@
 #import "FetchBalanceRequest.h"
 #import "CheckSetPayPasswordRequest.h"
 #import "EntryPasswordView.h"
+#import "CWTransferSuccessView.h"
 #import "MBProgressHUD.h"
 #import "UIColor+RCColor.h"
+#import "RCDUtilities.h"
 
 #define SCREEN_WIDTH CGRectGetWidth(UIScreen.mainScreen.bounds)
 #define SCREEN_HEIGHT CGRectGetHeight(UIScreen.mainScreen.bounds)
@@ -29,6 +31,7 @@
 
 @property (strong, nonatomic) MBProgressHUD *hud;
 @property (strong, nonatomic) EntryPasswordView *entryView;
+@property (strong, nonatomic) CWTransferSuccessView *successView;
 
 @end
 
@@ -122,14 +125,24 @@
             if (object) {
                 [_hud hide:YES];
                [self.entryView closeAction];
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                hud.labelText = @"转账成功";
-                hud.mode = MBProgressHUDModeText;
-                hud.removeFromSuperViewOnHide = YES;
-                [hud hide:YES afterDelay:0.5f];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                });
+                _successView = [[CWTransferSuccessView alloc] initWithFrame:[UIApplication sharedApplication].keyWindow.bounds];
+                NSString *nameString = [[NSUserDefaults standardUserDefaults] stringForKey:@"userNickName"];
+                NSString *userIdString = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+                _successView.senderLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", nameString, userIdString];
+                _successView.receiverLabel.text = [NSString stringWithFormat:@"%@（ID:%@）", self.userInfo.name, self.userInfo.userId];
+                _successView.amountLabel.text = [RCDUtilities amountStringFromNumber:@(self.textField.text.integerValue)];
+                NSDate *date = [NSDate date];
+                NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                _successView.timeLabel.text = [formatter stringFromDate:date];
+                __weak WCTransferViewController *weakSelf = self;
+                _successView.closeBlock = ^{
+                    __strong WCTransferViewController *strongSelf = weakSelf;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [strongSelf dismissViewControllerAnimated:YES completion:nil];
+                    });
+                };
+                [_successView show];
             } else {
                 [_hud hide:YES];
                 [self.entryView clearPassword];
