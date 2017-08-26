@@ -20,7 +20,7 @@
             !resultHandler ?: resultHandler(nil, responseObject[@"message"]);
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        !resultHandler ?: resultHandler(nil, error.description);
+        !resultHandler ?: resultHandler(nil, @"网络错误");
     }];
 }
 

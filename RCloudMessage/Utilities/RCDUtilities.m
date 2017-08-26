@@ -272,5 +272,15 @@
     }
     return mutableString;
 }
++ (NSString *)commonDateString:(NSString *)dateString {
+    NSString *dateDay = [dateString substringToIndex:10];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *dayDate = [formatter dateFromString:dateDay];
+    [formatter setDateFormat:@"MM月dd日"];
+    NSString *dayString = [formatter stringFromDate:dayDate];
+    NSString *timeString = [dateString substringWithRange:NSMakeRange(11, 5)];
+    return [NSString stringWithFormat:@"%@ %@", dayString, timeString];
+}
 
 @end

@@ -227,7 +227,7 @@
     case 2: {
       switch (indexPath.row) {
         case 0:{
-          [cell setCellWithImageName:@"sevre_inactive" labelName:@"申诉中心"];
+          [cell setCellWithImageName:@"sevre_inactive" labelName:@"投诉与建议"];
           return cell;
         }
           break;

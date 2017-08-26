@@ -30,4 +30,7 @@
 
 @property(nonatomic, strong) NSString *displayName;
 
+@property (nonatomic, copy) NSString *isvisible;
+
+
 @end

@@ -30,6 +30,7 @@
 #import "RCDCommonDefine.h"
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
+#import "WCRedPacketTipMessage.h"
 #import "RCDataBaseManager.h"
 #import "UpdateUrlRequest.h"
 #import "FetchInformationsRequest.h"
@@ -235,7 +236,6 @@
                 });
             }
         }
-        
     }
 }
 
@@ -346,7 +346,7 @@
           RCDAddressBookViewController * addressBookVC= [RCDAddressBookViewController addressBookViewController];
         [self.navigationController pushViewController:addressBookVC
                                              animated:YES];
-      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"] || [model.objectName isEqualToString:@"RCD:CardMsg"]) {
+      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"] || [model.objectName isEqualToString:@"RCD:CardMsg"] || [model.objectName isEqualToString:@"RC:RedPacketNtf"]) {
           RCDChatViewController *_conversationVC =
           [[RCDChatViewController alloc] init];
           _conversationVC.conversationType = model.conversationType;
@@ -532,6 +532,9 @@
       if ([model.lastestMessage isKindOfClass:[PersonalCardMessage class]]) {
           model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
       }
+      if ([model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
+          model.conversationModelType = RC_CONVERSATION_MODEL_TYPE_CUSTOMIZATION;
+      }
   }
   return dataSource;
 }
@@ -614,7 +617,7 @@
                         [weakSelf.conversationListTableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
                      }];
                 }
-            } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]] || [model.lastestMessage isKindOfClass:[PersonalCardMessage class]]) {
+            } else if ([model.lastestMessage isKindOfClass:[RCInformationNotificationMessage class]] || [model.lastestMessage isKindOfClass:[RedPacketMessage class]] || [model.lastestMessage isKindOfClass:[PersonalCardMessage class]] || [model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
                 RCDChatListCell *cell = [[RCDChatListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@""];
                 cell.lblName.text = nil;
                 cell.labelTime.text = [RCKitUtility ConvertMessageTime:model.sentTime/1000];
@@ -636,6 +639,33 @@
                     } else if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
                         RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
                         cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    } else if ([model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
+                        WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.lastestMessage;
+                        NSInteger userId = [[NSUserDefaults standardUserDefaults] integerForKey:@"userId"];
+                        if (userId == message.touserid.integerValue) {
+                            cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.message];
+                        } else {
+                            NSArray *messages = [[RCIMClient sharedRCIMClient] getLatestMessages:model.conversationType targetId:model.targetId count:100];
+                            for (NSInteger i = messages.count - 1; i >= 0; i --) {
+                                RCMessage *contentMessage = messages[i];
+                                if (![contentMessage.content isKindOfClass:[WCRedPacketTipMessage class]]) {
+                                    if ([contentMessage.content isKindOfClass:[RCInformationNotificationMessage class]]) {
+                                        RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)contentMessage.content;
+                                        cell.lblDetail.text = message.message;
+                                    } else if ([contentMessage.content isKindOfClass:[RedPacketMessage class]]) {
+                                        RedPacketMessage *message = (RedPacketMessage *)contentMessage.content;
+                                        cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                                    } else if ([contentMessage.content isKindOfClass:[PersonalCardMessage class]]) {
+                                        cell.lblDetail.text = @"[个人名片]";
+                                    } else if ([contentMessage.content isKindOfClass:[RCImageMessage class]]) {
+                                        cell.lblDetail.text = @"[图片]";
+                                    } else {
+                                        RCTextMessage *message = (RCTextMessage *)contentMessage.content;
+                                        cell.lblDetail.text = message.content;
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         //PersonalCardMessage *message = (PersonalCardMessage *)model.lastestMessage;
                         cell.lblDetail.text = @"[个人名片]";
@@ -681,6 +711,9 @@
                     } else if ([model.lastestMessage isKindOfClass:[RedPacketMessage class]]) {
                         RedPacketMessage *message = (RedPacketMessage *)model.lastestMessage;
                         cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.content];
+                    } else if ([model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
+                        WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.lastestMessage;
+                        cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.message];
                     } else {
                         cell.lblDetail.text = @"[个人名片]";
                     }
@@ -960,27 +993,42 @@ atIndexPath:(NSIndexPath *)indexPath
 {
   [RCDHTTPTOOL getVersioncomplete:^(NSDictionary *versionInfo) {
     if (versionInfo) {
-        NSString *recentVersion = versionInfo[@"ios_version"];
-      NSString *cuVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        if ([recentVersion compare:cuVersion options:NSNumericSearch] == NSOrderedDescending) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"有新版本更新" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新", nil];
-            [alert show];
+        NSInteger versionStatus = [versionInfo[@"updateState"] integerValue];
+        if (versionStatus == 1) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"发现新版本" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"以后再说" style:UIAlertActionStyleCancel handler:nil];
+            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"马上更新" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                NSString *urlString = versionInfo[@"updateUrl"];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+            }];
+            [alertController addAction:cancelAction];
+            [alertController addAction:sureAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        } else if (versionStatus == 2) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"发现新版本" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"马上更新" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+                NSString *urlString = versionInfo[@"updateUrl"];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+                exit(0);
+            }];
+            [alertController addAction:sureAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
     }
   }];
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [[UpdateUrlRequest new] request:^BOOL(id request) {
-            return YES;
-        } result:^(id object, NSString *msg) {
-            if (object) {
-                NSString *urlString = object[@"url"];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
-            }
-        }];
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if (buttonIndex == 1) {
+//        [[UpdateUrlRequest new] request:^BOOL(id request) {
+//            return YES;
+//        } result:^(id object, NSString *msg) {
+//            if (object) {
+//                NSString *urlString = object[@"url"];
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+//            }
+//        }];
+//    }
+//}
 
 - (void)pushToCreateDiscussion:(id)sender {
   RCDContactSelectedTableViewController * contactSelectedVC= [[RCDContactSelectedTableViewController alloc]init];

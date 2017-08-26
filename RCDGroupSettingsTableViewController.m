@@ -18,6 +18,7 @@
 #import "RCDHttpTool.h"
 //#import "RCDPersonDetailViewController.h"
 #import "WCUserDetailsViewController.h"
+#import "WCSpeakingManageViewController.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
 #import <RongIMLib/RongIMLib.h>
@@ -786,27 +787,23 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
  numberOfRowsInSection:(NSInteger)section {
   NSInteger rows = 0;
   switch (section) {
-  case 0:
-    rows = 1;
-    break;
-
-  case 1:
-    rows = 3;
-    break;
-    case 2:
-      rows = 3;
+      case 0:
+          rows = 1;
+          break;
+      case 1:
+          rows = 3;
+          break;
+      case 2:
+          rows = isCreator ? 4 : 3;
       break;
-
-  case 3:
-    rows = 1;
-    break;
-      
-  case 4:
-    rows = isCreator ? 4 : 3;
-    break;
-      
-  default:
-    break;
+      case 3:
+          rows = 1;
+          break;
+      case 4:
+          rows = isCreator ? 4 : 3;
+          break;
+      default:
+          break;
   }
   return rows;
 }
@@ -1036,7 +1033,7 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
                   [self showAlert:@"只有群主可以设置冻结金额"];
               }
 
-          } else {
+          } else if (indexPath.row == 2) {
               if (isCreator) {
                   RelieveLockViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RelieveLock"];
                   viewController.groupId = self.Group.groupId;
@@ -1044,6 +1041,10 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
               } else {
                   [self showAlert:@"只有群主可以解除冻结"];
               }
+          } else {
+              WCSpeakingManageViewController *speakingController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"SpeakingManage"];
+              speakingController.groupInfo = self.Group;
+              [self.navigationController pushViewController:speakingController animated:YES];
           }
       }
           break;

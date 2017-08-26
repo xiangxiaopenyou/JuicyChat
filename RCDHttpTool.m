@@ -465,6 +465,7 @@
                     stringWithFormat:@"%@", [userDic objectForKey:@"state"]];
                 userInfo.updatedAt = [NSString
                     stringWithFormat:@"%@", [userDic objectForKey:@"createtime"]];
+                  userInfo.isvisible = userDic[@"isvisible"];
                 [list addObject:userInfo];
                 [_allFriends addObject:userInfo];
 
@@ -672,6 +673,7 @@
        Details.name = [dic objectForKey:@"nickname"];
        Details.portraitUri = portraitUri;
        Details.displayName = dic[@"remark"];
+         Details.isvisible = dic[@"isvisible"];
        [[RCDataBaseManager shareInstance] insertFriendToDB:Details];
        if (success) {
          dispatch_async(dispatch_get_main_queue(), ^{
@@ -815,6 +817,7 @@
                                  } else {
                                      Details.displayName = dic[@"remark"];
                                  }
+                                 Details.isvisible = dic[@"isvisible"];
                                
                                [[RCDataBaseManager shareInstance] insertFriendToDB:Details];
                                if (success) {

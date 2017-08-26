@@ -54,7 +54,15 @@
             case 2:
                 [self setCellStyle:DefaultStyle_RightLabel];
                 self.leftLabel.text = @"群公告";
-                self.rightLabel.text = groupInfo.gonggao;
+                if (groupInfo.gonggao.length > 0) {
+                    if ([groupInfo.creatorId isEqualToString:[RCIM sharedRCIM].currentUserInfo.userId]) {
+                         self.rightLabel.text = @"点击修改";
+                    } else {
+                        self.rightLabel.text = @"点击查看";
+                    }
+                } else {
+                    self.rightLabel.text = @"暂无公告";
+                }
                 break;
             default:
                 break;
@@ -69,9 +77,13 @@
             [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"冻结金额";
             self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", @(groupInfo.lockLimit.integerValue)];
-        } else {
+        } else if (indexPath.row == 2) {
             [self setCellStyle:DefaultStyle];
             self.leftLabel.text = @"解除冻结";
+            self.rightArrow.hidden = NO;
+        } else {
+            [self setCellStyle:DefaultStyle];
+            self.leftLabel.text = @"禁言管理";
             self.rightArrow.hidden = NO;
         }
     } else if(indexPath.section == 3){

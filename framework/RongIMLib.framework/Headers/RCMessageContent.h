@@ -125,7 +125,7 @@
  */
 @property(nonatomic, strong) RCUserInfo *senderUserInfo;
 
-/*!
+/*
  消息中的@提醒信息
  */
 @property(nonatomic, strong) RCMentionedInfo *mentionedInfo;

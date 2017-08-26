@@ -11,6 +11,7 @@
 #import "SecuritySettingTableViewController.h"
 #import "MyRedPacketsViewController.h"
 #import "LockedMoneyViewController.h"
+#import "XJTransferRecordViewController.h"
 
 #import "CheckSetPayPasswordRequest.h"
 #import "FetchBalanceRequest.h"
@@ -59,7 +60,7 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 4;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.f;
@@ -70,6 +71,9 @@
         cell.imageView.image = [UIImage imageNamed:@"pic_packet"];
         cell.textLabel.text = @"我的红包";
     } else if (indexPath.row == 1) {
+        cell.imageView.image = [UIImage imageNamed:@"transaction-record"];
+        cell.textLabel.text = @"转账记录";
+    } else if (indexPath.row == 2) {
         cell.imageView.image = [UIImage imageNamed:@"lock_money"];
         cell.textLabel.text = @"冻结果币";
     } else {
@@ -96,6 +100,10 @@
         MyRedPacketsViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"MyRedPackets"];
         [self.navigationController pushViewController:viewController animated:YES];
     } else if (indexPath.row == 1) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        XJTransferRecordViewController *recordControll = [[UIStoryboard storyboardWithName:@"Transfer" bundle:nil] instantiateViewControllerWithIdentifier:@"TransferRecord"];
+        [self.navigationController pushViewController:recordControll animated:YES];
+    } else if (indexPath.row == 2) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         LockedMoneyViewController *viewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"LockedMoney"];
         [self.navigationController pushViewController:viewController animated:YES];

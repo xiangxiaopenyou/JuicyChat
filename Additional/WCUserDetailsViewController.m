@@ -10,6 +10,7 @@
 #import "RCDFrienfRemarksViewController.h"
 #import "JCBigAvatarViewController.h"
 #import "RCDChatViewController.h"
+#import "WCTransferViewController.h"
 #import "JCDetailsCell.h"
 #import "JCSignCell.h"
 
@@ -27,6 +28,7 @@
 @interface WCUserDetailsViewController ()<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *chatButton;
+@property (weak, nonatomic) IBOutlet UIButton *transferButton;
 @property (strong, nonatomic) RCDUserInfo *friendInfo;
 @property (assign, nonatomic) BOOL inBlackList;
 @property (copy, nonatomic) NSString *signString;
@@ -97,6 +99,12 @@
     chatViewController.displayUserNameInCell = NO;
     [self.navigationController pushViewController:chatViewController animated:YES];
 }
+- (IBAction)transferAction:(id)sender {
+    WCTransferViewController *transferController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"Transfer"];
+    transferController.userInfo = self.friendInfo;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:transferController];
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
 - (void)rightBarButtonItemClicked:(id)sender {
     NSString *blackString = self.inBlackList ? @"取消黑名单" : @"加入黑名单";
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除好友" otherButtonTitles:blackString, nil];
@@ -134,6 +142,7 @@
         } result:^(id object, NSString *msg) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             if (object) {
+                //需要设置显示
                 [[RCDataBaseManager shareInstance] deleteFriendFromDB:self.userId];
                 [[RCIMClient sharedRCIMClient] removeConversation:ConversationType_PRIVATE targetId:self.userId];
                 [[RCIMClient sharedRCIMClient] clearMessages:ConversationType_PRIVATE targetId:self.userId];

@@ -22,9 +22,11 @@
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
+#import "WCRedPacketTipMessage.h"
 #import "AddFriendMessage.h"
 #import "RCDTestMessageCell.h"
 #import "RedPacketCell.h"
+#import "WCRedPacketTipCell.h"
 #import "PersonalCardCell.h"
 #import "AddFriendMessageCell.h"
 #import "TakeApartPacketView.h"
@@ -86,7 +88,7 @@ NSMutableDictionary *userInputStatus;
     //self.defaultInputType = RCChatSessionInputBarInputExtention;
 
   [self refreshTitle];
-    [self.chatSessionInputBarControl updateStatus:self.chatSessionInputBarControl.currentBottomBarStatus animated:NO];
+    //[self.chatSessionInputBarControl updateStatus:self.chatSessionInputBarControl.currentBottomBarStatus animated:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -161,6 +163,7 @@ NSMutableDictionary *userInputStatus;
       forMessageClass:[RCDTestMessage class]];
     
     [self registerClass:[RedPacketCell class] forMessageClass:[RedPacketMessage class]];
+    [self registerClass:[WCRedPacketTipCell class] forMessageClass:[WCRedPacketTipMessage class]];
     [self registerClass:[PersonalCardCell class] forMessageClass:[PersonalCardMessage class]];
     [self registerClass:[AddFriendMessageCell class] forMessageClass:[AddFriendMessage class]];
 
@@ -1014,8 +1017,7 @@ NSMutableDictionary *userInputStatus;
                 }];
             }
         }
-    }
-    if ([model.content isKindOfClass:[PersonalCardMessage class]]) {
+    } else if ([model.content isKindOfClass:[PersonalCardMessage class]]) {
         PersonalCardMessage *message = (PersonalCardMessage *)model.content;
         BOOL isFriend = NO;
         NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
@@ -1038,6 +1040,60 @@ NSMutableDictionary *userInputStatus;
                  
                                                      animated:YES];
         }
+
+    } else if ([model.content isKindOfClass:[WCRedPacketTipMessage class]]) {
+        WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.content;
+        [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+        [[RedPacketRequest new] request:^BOOL(RedPacketRequest *request) {
+            request.redPacketId = [NSString stringWithFormat:@"%@", message.redpacketId];
+            return YES;
+        } result:^(id object, NSString *msg) {
+            if (object) {
+                NSDictionary *temp = [object copy];
+                [[RedPacketMembersRequest new] request:^BOOL(RedPacketMembersRequest *request) {
+                    request.redPacketId = [NSString stringWithFormat:@"%@", message.redpacketId];
+                    return YES;
+                } result:^(id object, NSString *msg) {
+                    if (object) {
+                        [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                        NSArray *tempArray = [(NSArray *)object copy];
+                        _tempMembersArray = [tempArray copy];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            RedPacketDetailViewController *packetDetailViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RedPacketDetail"];
+//                            packetDetailViewController.redPacketNumber = [takeTemp[@"money"] integerValue];
+                            packetDetailViewController.redPacketId = temp[@"id"];
+                            packetDetailViewController.nickname = temp[@"fromnickname"];
+                            packetDetailViewController.avatarUrl = temp[@"fromheadico"];
+                            packetDetailViewController.noteString = temp[@"note"];
+                            packetDetailViewController.informations = temp;
+                            packetDetailViewController.membersArray = _tempMembersArray;
+                            if (self.conversationType == ConversationType_PRIVATE) {
+                                packetDetailViewController.isPrivateChat = YES;
+                                packetDetailViewController.membersArray = nil;
+                            }
+                            NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+                            for (NSDictionary *temp in tempArray) {
+                                if ([temp[@"userid" ] integerValue] == userId. integerValue) {
+                                    packetDetailViewController.redPacketNumber = [temp[@"unpackmoney"] integerValue];
+                                }
+                            }
+                            [self.navigationController pushViewController:packetDetailViewController animated:YES];
+                            //[self.packetView dismiss];
+                        });
+                    } else {
+                        [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                        [alertView show];
+                    }
+                }];
+                
+            } else {
+                [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow  animated:YES];
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alertView show];
+            }
+        }];
 
     }
 }

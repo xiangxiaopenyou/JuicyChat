@@ -22,6 +22,7 @@
 #import "RCDNoFriendView.h"
 #import "RCDCommonDefine.h"
 #import "ModifyFriendInformationsRequest.h"
+#import "WCRemoveNewFriendInfoRequest.h"
 
 @interface RCDAddressBookViewController ()
 
@@ -94,6 +95,13 @@ MBProgressHUD *hud;
 - (void)getAllData {
   _friends = [NSMutableArray
       arrayWithArray:[[RCDataBaseManager shareInstance] getAllFriends]];
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (RCDUserInfo *tempInfo in _friends) {
+        if (tempInfo.isvisible.integerValue == 1) {
+            [tempArray addObject:tempInfo];
+        }
+    }
+    _friends = [tempArray mutableCopy];
   if (_friends.count > 0) {
     self.hideSectionHeader = YES;
     _friends = [self sortForFreindList:_friends];
@@ -186,6 +194,25 @@ MBProgressHUD *hud;
                                              animated:YES];
     }
   
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return @"删除";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        RCDUserInfo *user = _friends[indexPath.row];
+        [[WCRemoveNewFriendInfoRequest new] request:^BOOL(WCRemoveNewFriendInfoRequest *request) {
+            request.friendId = user.userId;
+            return YES;
+        } result:^(id object, NSString *msg) {
+            
+        }];
+        [_friends removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationTop];
+    }
 }
 
 - (void)doAccept:(UIButton *)sender {

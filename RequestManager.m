@@ -8,8 +8,8 @@
 
 #import "RequestManager.h"
 #import "AFHttpTool.h"
-#define DemoServer @"http://121.43.184.230:7654/API/"
-//#define DemoServer @"http://47.92.72.63:5689/API/"
+//#define DemoServer @"http://121.43.184.230:7654/API/"
+#define DemoServer @"http://47.92.72.63:5689/API/"
 
 @implementation RequestManager
 + (instancetype)sharedInstance {

@@ -21,5 +21,6 @@
 + (BOOL)isContains:(NSString *)firstString withString:(NSString *)secondString;
 + (UIImage*) getImageWithColor:(UIColor*)color andHeight:(CGFloat)height;
 + (NSString *)amountStringFromNumber:(NSNumber *)amount;
++ (NSString *)commonDateString:(NSString *)dateString;
 
 @end

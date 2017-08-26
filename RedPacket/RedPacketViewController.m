@@ -52,7 +52,7 @@
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     if (self.type == ConversationType_GROUP) {
         if (textField1.text.integerValue < textField2.text.integerValue) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少一个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少100个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
             return;
         }
@@ -76,7 +76,7 @@
                         [_hud hide:YES];
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self.entryView show];
-                            self.entryView.amount = textField1.text.integerValue;
+                            self.entryView.amount = textField1.text.integerValue * 100;
                             self.entryView.balance = [object[@"money"] integerValue];
                         });
                     } else {
@@ -127,7 +127,7 @@
                 request.note = textField1.text;
             }
             request.payPassword = passwordString;
-            request.amount = @(textField2.text.integerValue);
+            request.amount = @(textField2.text.integerValue * 100);
             return YES;
         } result:^(id object, NSString *msg) {
             [_hud hide:YES];
@@ -163,12 +163,15 @@
 - (void)textChanged:(UITextField *)textField {
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
+    UILabel *tipLabel = (UILabel *)[self.tableView viewWithTag:10000];
     if (self.type == ConversationType_PRIVATE) {
         if ([textField1.text integerValue] > 0) {
             self.submitButton.enabled = YES;
+            tipLabel.hidden = NO;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:216/255.0 green:78/255.0 blue:67/255.0 alpha:1]];
         } else {
             self.submitButton.enabled = NO;
+            tipLabel.hidden = YES;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:245/255.0 green:168/255.0 blue:171/255.0 alpha:1]];
         }
     } else {
@@ -179,10 +182,15 @@
             self.submitButton.enabled = NO;
             [self.submitButton setBackgroundColor:[UIColor colorWithRed:245/255.0 green:168/255.0 blue:171/255.0 alpha:1]];
         }
+        if ([textField1.text integerValue] > 0) {
+            tipLabel.hidden = NO;
+        } else {
+            tipLabel.hidden = YES;
+        }
     }
     if (textField == textField1) {
         self.amountLabel.text = [self amountStringFromNumber:@([textField1.text
-                                                                integerValue])];
+                                                                integerValue] * 100)];
     }
 }
 - (void)closeAction {
@@ -190,28 +198,7 @@
 }
 
 //- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-//    NSRange rangeItem = [textField.text rangeOfString:@"."];//判断字符串是否包含
-//    if (rangeItem.location != NSNotFound) {
-//        if ([string isEqualToString:@"."]) {
-//            return NO;
-//        } else {
-//            //rangeItem.location == 0   说明“.”在第一个位置
-//            if (range.location > rangeItem.location + 2) {
-//                return NO;
-//            }
-//        }
-//    } else {
-//        if ([string isEqualToString:@"."]) {
-//            if (textField.text.length < 1) {
-//                textField.text = @"0.";
-//                return NO;
-//            }
-//            return YES;
-//        }
-//        if (range.location>1) {
-//            return NO;
-//        }
-//    }
+//    
 //    return YES;
 //}
 
@@ -242,6 +229,7 @@
         }
         cell.rightLabel.text = @"果币";
         cell.textField.tag = 1000;
+        cell.tipLabel.tag = 10000;
         cell.textField.delegate = self;
         [cell.textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
         return cell;
@@ -259,6 +247,7 @@
             cell.leftLabel.text = @"红包个数";
             cell.rightLabel.text = @"个";
             cell.textField.tag = 1002;
+            cell.tipLabel.tag = 10002;
             [cell.textField addTarget:self action:@selector(textChanged:) forControlEvents:UIControlEventEditingChanged];
             return cell;
 

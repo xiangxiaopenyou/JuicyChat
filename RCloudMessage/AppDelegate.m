@@ -17,6 +17,7 @@
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
+#import "WCRedPacketTipMessage.h"
 #import "RCDataBaseManager.h"
 #import "RCWKNotifier.h"
 #import "RCWKRequestHandler.h"
@@ -33,9 +34,9 @@
 #import "FetchInformationsRequest.h"
 #import <OpenShareHeader.h>
 
-//#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
+#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
-#define RONGCLOUD_IM_APPKEY @"tdrvipkst7ox5" // online key
+//#define RONGCLOUD_IM_APPKEY @"tdrvipkst7ox5" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
 
@@ -143,6 +144,9 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
     
     //注册自定义名片消息
     [[RCIM sharedRCIM] registerMessageType:[PersonalCardMessage class]];
+    
+    //注册自定义红包提示消息
+    [[RCIM sharedRCIM] registerMessageType:[WCRedPacketTipMessage class]];
 
   //设置会话列表头像和会话页面头像
 
