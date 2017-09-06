@@ -346,7 +346,7 @@
           RCDAddressBookViewController * addressBookVC= [RCDAddressBookViewController addressBookViewController];
         [self.navigationController pushViewController:addressBookVC
                                              animated:YES];
-      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"] || [model.objectName isEqualToString:@"RCD:CardMsg"] || [model.objectName isEqualToString:@"RC:RedPacketNtf"]) {
+      } else if ([model.objectName isEqualToString:@"RC:InfoNtf"] || [model.objectName isEqualToString:@"JC:RedPacketMsg"] || [model.objectName isEqualToString:@"RCD:CardMsg"] || [model.objectName isEqualToString:@"JC:RedPacketNtf"]) {
           RCDChatViewController *_conversationVC =
           [[RCDChatViewController alloc] init];
           _conversationVC.conversationType = model.conversationType;
@@ -642,8 +642,19 @@
                     } else if ([model.lastestMessage isKindOfClass:[WCRedPacketTipMessage class]]) {
                         WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.lastestMessage;
                         NSInteger userId = [[NSUserDefaults standardUserDefaults] integerForKey:@"userId"];
+                        NSString *showIds = message.showuserids;
+                        NSArray *showArray = [showIds componentsSeparatedByString:@","];
                         if (userId == message.touserid.integerValue) {
                             cell.lblDetail.text = [NSString stringWithFormat:@"%@", message.message];
+                            if ([showArray containsObject:[NSString stringWithFormat:@"%@", message.touserid]]) {
+                                cell.lblDetail.text = message.tipmessage;
+                            }
+                        } else if ([showArray containsObject:[NSString stringWithFormat:@"%@", @(userId)]]) {
+                            if (message.islink.integerValue == 0) {
+                                cell.lblDetail.text = message.tipmessage;
+                            } else {
+                                cell.lblDetail.text = message.message;
+                            }
                         } else {
                             NSArray *messages = [[RCIMClient sharedRCIMClient] getLatestMessages:model.conversationType targetId:model.targetId count:100];
                             for (NSInteger i = messages.count - 1; i >= 0; i --) {
@@ -659,9 +670,19 @@
                                         cell.lblDetail.text = @"[个人名片]";
                                     } else if ([contentMessage.content isKindOfClass:[RCImageMessage class]]) {
                                         cell.lblDetail.text = @"[图片]";
-                                    } else {
+                                    } else if ([contentMessage.content isKindOfClass:[RCLocationMessage class]]) {
+                                        cell.lblDetail.text = @"[位置]";
+                                    } else if ([contentMessage.content isKindOfClass:[RCInformationNotificationMessage class]]) {
+                                        RCInformationNotificationMessage *message = (RCInformationNotificationMessage *)contentMessage.content;
+                                        cell.lblDetail.text = message.message;
+                                    } else if([contentMessage.content isKindOfClass:[RCGroupNotificationMessage class]]) {
+                                        RCGroupNotificationMessage *message = (RCGroupNotificationMessage *)contentMessage.content;
+                                        cell.lblDetail.text = message.message;
+                                    } else if ([contentMessage.content isKindOfClass:[RCTextMessage class]]) {
                                         RCTextMessage *message = (RCTextMessage *)contentMessage.content;
                                         cell.lblDetail.text = message.content;
+                                    } else {
+                                        cell.lblDetail.text = @"[表情]";
                                     }
                                 }
                             }

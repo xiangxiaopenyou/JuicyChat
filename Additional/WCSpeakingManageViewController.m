@@ -81,6 +81,7 @@
     //dispatch_async(dispatch_get_main_queue(), ^{
     _allMembersDictionary = resultDic[@"infoDic"];
     _allKeysArray = resultDic[@"allKeys"];
+    [_allKeysArray insertObject:@"" atIndex:0];
     [self speakingMembersRequest];
     //});
     
@@ -120,9 +121,13 @@
 
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSString *key = [_allKeysArray objectAtIndex:section];
-    NSArray *arr = [_allMembersDictionary objectForKey:key];
-    return [arr count];
+    if (section == 0) {
+        return 1;
+    } else {
+        NSString *key = [_allKeysArray objectAtIndex:section];
+        NSArray *arr = [_allMembersDictionary objectForKey:key];
+        return [arr count];
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 70.f;
@@ -133,15 +138,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"SpeakingMemberCell";
     WCSpeakingMemberCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
-    NSString *key = [_allKeysArray objectAtIndex:indexPath.section];
-    NSArray *arr = [_allMembersDictionary objectForKey:key];
-    RCDUserInfo *userInfo = arr[indexPath.row];
-    [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri] placeholderImage:nil];
-    cell.nameLabel.text = userInfo.name;
-    cell.selectImageView.image = [UIImage imageNamed:@"unselect"];
-    for (RCDUserInfo *tempInfo in _selectedMembersArray) {
-        if (userInfo.userId.integerValue == tempInfo.userId.integerValue) {
+    if (indexPath.section == 0) {
+        cell.avatarImageView.image = [UIImage imageNamed:@"icon_all"];
+        cell.nameLabel.text = @"全部成员";
+        if (_selectedMembersArray.count == _allMembersArray.count) {
             cell.selectImageView.image = [UIImage imageNamed:@"select"];
+        } else {
+            cell.selectImageView.image = [UIImage imageNamed:@"unselect"];
+        }
+        return cell;
+    } else {
+        NSString *key = [_allKeysArray objectAtIndex:indexPath.section];
+        NSArray *arr = [_allMembersDictionary objectForKey:key];
+        RCDUserInfo *userInfo = arr[indexPath.row];
+        [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.portraitUri] placeholderImage:nil];
+        cell.nameLabel.text = userInfo.name;
+        cell.selectImageView.image = [UIImage imageNamed:@"unselect"];
+        for (RCDUserInfo *tempInfo in _selectedMembersArray) {
+            if (userInfo.userId.integerValue == tempInfo.userId.integerValue) {
+                cell.selectImageView.image = [UIImage imageNamed:@"select"];
+            }
         }
     }
     return cell;
@@ -154,22 +170,30 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString *key = [_allKeysArray objectAtIndex:indexPath.section];
-    NSArray *arr = [_allMembersDictionary objectForKey:key];
-    RCDUserInfo *userInfo = arr[indexPath.row];
-    BOOL selected = NO;
-    NSInteger index = 0;
-    for (NSInteger i = 0; i < _selectedMembersArray.count; i ++) {
-        RCDUserInfo *tempInfo = _selectedMembersArray[i];
-        if (userInfo.userId.integerValue == tempInfo.userId.integerValue) {
-            selected = YES;
-            index = i;
+    if (indexPath.section == 0) {
+        if (_selectedMembersArray.count == _allMembersArray.count) {
+            [_selectedMembersArray removeAllObjects];
+        } else {
+            _selectedMembersArray = [_allMembersArray mutableCopy];
         }
-    }
-    if (selected) {
-        [_selectedMembersArray removeObjectAtIndex:index];
     } else {
-        [_selectedMembersArray addObject:userInfo];
+        NSString *key = [_allKeysArray objectAtIndex:indexPath.section];
+        NSArray *arr = [_allMembersDictionary objectForKey:key];
+        RCDUserInfo *userInfo = arr[indexPath.row];
+        BOOL selected = NO;
+        NSInteger index = 0;
+        for (NSInteger i = 0; i < _selectedMembersArray.count; i ++) {
+            RCDUserInfo *tempInfo = _selectedMembersArray[i];
+            if (userInfo.userId.integerValue == tempInfo.userId.integerValue) {
+                selected = YES;
+                index = i;
+            }
+        }
+        if (selected) {
+            [_selectedMembersArray removeObjectAtIndex:index];
+        } else {
+            [_selectedMembersArray addObject:userInfo];
+        }
     }
     [tableView reloadData];
     [self refreshItemTitle];

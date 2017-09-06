@@ -1614,7 +1614,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2WB-ac-EKT" id="xoQ-E4-S0X">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PPP-QQ-cYV">
@@ -1788,7 +1788,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B8W-S6-7bz">
-                                            <rect key="frame" x="337" y="11" width="23" height="14.5"/>
+                                            <rect key="frame" x="80" y="11" width="280" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1806,6 +1806,7 @@
                                         <constraint firstItem="NT4-Id-jQt" firstAttribute="top" secondItem="seL-yd-69t" secondAttribute="top" id="487-vZ-jb3"/>
                                         <constraint firstItem="B8W-S6-7bz" firstAttribute="centerY" secondItem="seL-yd-69t" secondAttribute="centerY" id="5Bg-Ic-4yJ"/>
                                         <constraint firstAttribute="trailing" secondItem="NT4-Id-jQt" secondAttribute="trailing" constant="15" id="8O7-rQ-s8L"/>
+                                        <constraint firstItem="B8W-S6-7bz" firstAttribute="leading" secondItem="seL-yd-69t" secondAttribute="leading" constant="80" id="SFk-y5-XLu"/>
                                         <constraint firstAttribute="trailing" secondItem="B8W-S6-7bz" secondAttribute="trailing" constant="15" id="awY-LK-yFS"/>
                                         <constraint firstItem="SZ2-jB-KTi" firstAttribute="leading" secondItem="seL-yd-69t" secondAttribute="leading" constant="15" id="fdS-tO-shn"/>
                                         <constraint firstItem="SZ2-jB-KTi" firstAttribute="centerY" secondItem="seL-yd-69t" secondAttribute="centerY" id="wFl-3z-sL6"/>

@@ -51,8 +51,8 @@
     UITextField *textField1 = (UITextField *)[self.tableView viewWithTag:1000];
     UITextField *textField2 = (UITextField *)[self.tableView viewWithTag:1002];
     if (self.type == ConversationType_GROUP) {
-        if (textField1.text.integerValue < textField2.text.integerValue) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少100个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        if (textField1.text.integerValue * 100 / textField2.text.integerValue < 1) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"每个红包至少1个果币哦~" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
             return;
         }

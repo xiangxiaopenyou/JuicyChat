@@ -236,8 +236,8 @@
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eot-Bt-X9C">
-                                            <rect key="frame" x="337" y="11" width="23" height="14.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="----" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eot-Bt-X9C">
+                                            <rect key="frame" x="80" y="11" width="280" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -257,6 +257,7 @@
                                         <constraint firstItem="wcc-nv-cpG" firstAttribute="leading" secondItem="zg6-vO-urJ" secondAttribute="leading" constant="15" id="9T6-Ea-Ln1"/>
                                         <constraint firstAttribute="trailing" secondItem="eot-Bt-X9C" secondAttribute="trailing" constant="15" id="PSZ-qv-xpH"/>
                                         <constraint firstItem="O1e-6P-ahJ" firstAttribute="top" secondItem="zg6-vO-urJ" secondAttribute="top" id="U4p-kL-zaS"/>
+                                        <constraint firstItem="eot-Bt-X9C" firstAttribute="leading" secondItem="zg6-vO-urJ" secondAttribute="leading" constant="80" id="YB8-9f-HTT"/>
                                         <constraint firstAttribute="bottom" secondItem="O1e-6P-ahJ" secondAttribute="bottom" id="ZaV-2W-pp2"/>
                                         <constraint firstItem="eot-Bt-X9C" firstAttribute="centerY" secondItem="zg6-vO-urJ" secondAttribute="centerY" id="vUA-mH-eKN"/>
                                     </constraints>

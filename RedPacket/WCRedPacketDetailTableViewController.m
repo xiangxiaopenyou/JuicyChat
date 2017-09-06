@@ -7,12 +7,17 @@
 //
 
 #import "WCRedPacketDetailTableViewController.h"
+#import "RedPacketDetailViewController.h"
 #import "WCTransferMoneyCell.h"
 #import "WCTransferInformationCell.h"
+
+#import "RedPacketRequest.h"
+#import "RedPacketMembersRequest.h"
 
 #import "WCRedpacketModel.h"
 #import "RCDUtilities.h"
 #import "UIImageView+WebCache.h"
+#import "MBProgressHUD+Add.h"
 
 @interface WCRedPacketDetailTableViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImageView;
@@ -37,6 +42,62 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)detailsAction {
+    [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    [[RedPacketRequest new] request:^BOOL(RedPacketRequest *request) {
+        request.redPacketId = [NSString stringWithFormat:@"%@", self.model.id];
+        return YES;
+    } result:^(id object, NSString *msg) {
+        if (object) {
+            NSDictionary *temp = [object copy];
+            [[RedPacketMembersRequest new] request:^BOOL(RedPacketMembersRequest *request) {
+                request.redPacketId = [NSString stringWithFormat:@"%@", self.model.id];
+                return YES;
+            } result:^(id object, NSString *msg) {
+                if (object) {
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                    NSArray *tempArray = [(NSArray *)object copy];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        RedPacketDetailViewController *packetDetailViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RedPacketDetail"];
+                        //                            packetDetailViewController.redPacketNumber = [takeTemp[@"money"] integerValue];
+                        packetDetailViewController.redPacketId = temp[@"id"];
+                        packetDetailViewController.nickname = temp[@"fromnickname"];
+                        packetDetailViewController.avatarUrl = temp[@"fromheadico"];
+                        packetDetailViewController.noteString = temp[@"note"];
+                        packetDetailViewController.informations = temp;
+                        packetDetailViewController.membersArray = tempArray;
+                        if (self.model.type.integerValue == 1) {
+                            packetDetailViewController.isPrivateChat = YES;
+                            //packetDetailViewController.membersArray = nil;
+                        }
+                        NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+                        for (NSDictionary *temp in tempArray) {
+                            if ([temp[@"userid" ] integerValue] == userId. integerValue) {
+                                packetDetailViewController.redPacketNumber = [temp[@"unpackmoney"] integerValue];
+                                if (self.model.type.integerValue == 1) {
+                                    packetDetailViewController.membersArray = nil;
+                                }
+                            }
+                        }
+                        [self.navigationController pushViewController:packetDetailViewController animated:YES];
+                        //[self.packetView dismiss];
+                    });
+                } else {
+                    [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
+                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alertView show];
+                }
+            }];
+            
+        } else {
+            [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow  animated:YES];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:@"网络错误" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alertView show];
+        }
+    }];
+
 }
 
 #pragma mark - Table view data source
@@ -81,6 +142,7 @@
             case 2:{
                 cell.headLabel.text = @"红包详情";
                 cell.checkButton.hidden = NO;
+                [cell.checkButton addTarget:self action:@selector(detailsAction) forControlEvents:UIControlEventTouchUpInside];
                 cell.rightLabel.text = nil;
             }
                 break;

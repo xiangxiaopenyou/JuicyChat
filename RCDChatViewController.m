@@ -184,6 +184,8 @@ NSMutableDictionary *userInputStatus;
     if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
+    } else if (self.conversationType == ConversationType_CHATROOM) {
+        [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
     }
   //    self.chatSessionInputBarControl.hidden = YES;
   //    CGRect intputTextRect = self.conversationMessageCollectionView.frame;
@@ -581,8 +583,9 @@ NSMutableDictionary *userInputStatus;
           }
           redPacket.successBlock = ^(NSString *packetId, NSString *note) {
               if (packetId && note) {
+                  NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                   dispatch_async(dispatch_get_main_queue(), ^{
-                      [self sendRedPacketMessage:packetId note:note];
+                      [self sendRedPacketMessage:packetId note:note userId:userId toUserId:self.targetId];
                   });
               }
           };
@@ -604,8 +607,8 @@ NSMutableDictionary *userInputStatus;
     break;
   }
 }
-- (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note {
-    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId];
+- (void)sendRedPacketMessage:(NSString *)packetId note:(NSString *)note userId:(NSString *)fromUserId toUserId:(NSString *)toUserId {
+    RedPacketMessage *message = [RedPacketMessage messageWithContent:[NSString stringWithFormat:@"[红包]%@", note] redPacketId:packetId fromuserid:fromUserId tomemberid:toUserId];
     [self sendMessage:message pushContent:note];
 }
 - (void)sendPersonalCardMessage:(RCDUserInfo *)userInfo {
@@ -615,6 +618,10 @@ NSMutableDictionary *userInputStatus;
                                      @"portrait" : currentUser.portraitUri};
     PersonalCardMessage *message = [PersonalCardMessage messageWithUserId:userInfo.userId name:userInfo.name portraitUrl:userInfo.portraitUri user:myInformations];
     [self sendMessage:message pushContent:@"[个人名片]"];
+}
+- (void)sendRedPacketTipMessage:(NSString *)redPacketId message:(NSString *)message iosMessage:(NSString *)iosMessage tipMessage:(NSString *)tipmessage userId:(NSString *)userId showIds:(NSString *)ids isLink:(NSNumber *)isLink {
+    WCRedPacketTipMessage *tipMessage = [WCRedPacketTipMessage messageWithContent:message iosMessage:iosMessage tipMessage:(NSString *)tipmessage redPacketId:redPacketId userId:userId showUserIds:ids islink:isLink];
+    [self sendMessage:tipMessage pushContent:nil];
 }
 - (RealTimeLocationStatusView *)realTimeLocationStatusView {
   if (!_realTimeLocationStatusView) {
@@ -668,7 +675,6 @@ NSMutableDictionary *userInputStatus;
                                 [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
                                 NSArray *tempArray = [(NSArray *)object copy];
                                 _tempMembersArray = [tempArray copy];
-                                
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     RedPacketDetailViewController *packetDetailViewController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"RedPacketDetail"];
                                     packetDetailViewController.redPacketNumber = [takeTemp[@"money"] integerValue];
@@ -684,6 +690,19 @@ NSMutableDictionary *userInputStatus;
                                     }
                                     [self.navigationController pushViewController:packetDetailViewController animated:YES];
                                     [self.packetView dismiss];
+                                    NSString *nickname = [[NSUserDefaults standardUserDefaults] stringForKey:@"userNickName"];
+                                    NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+                                    NSString *tipMessage = [NSString stringWithFormat:@"%@领取了您的红包", nickname];
+                                    if (tipMessage.length > 25) {
+                                        NSMutableString *tempString = [[NSMutableString alloc] initWithString:tipMessage];
+                                        [tempString insertString:@"\n" atIndex:24];
+                                        tipMessage = tempString;
+                                    }
+                                    NSString *tempMessage = [NSString stringWithFormat:@"您领取了%@的红包", _redPacketInformations[@"fromnickname"]];
+                                    if (userId.integerValue == [_redPacketInformations[@"fromuserid"] integerValue]) {
+                                        tempMessage = @"您领取了自己的红包";
+                                    }
+                                    [self sendRedPacketTipMessage:takeTemp[@"redpacketId"] message:tipMessage iosMessage:tipMessage tipMessage:(NSString *)tempMessage userId:_redPacketInformations[@"fromuserid"] showIds:userId isLink:@0];
                                 });
                             } else {
                                 [MBProgressHUD hideHUDForView:[UIApplication sharedApplication].keyWindow animated:YES];
@@ -1070,7 +1089,7 @@ NSMutableDictionary *userInputStatus;
                             packetDetailViewController.membersArray = _tempMembersArray;
                             if (self.conversationType == ConversationType_PRIVATE) {
                                 packetDetailViewController.isPrivateChat = YES;
-                                packetDetailViewController.membersArray = nil;
+                                //packetDetailViewController.membersArray = nil;
                             }
                             NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                             for (NSDictionary *temp in tempArray) {
@@ -1125,7 +1144,7 @@ NSMutableDictionary *userInputStatus;
 
 - (void)didTapCellPortrait:(NSString *)userId {
   if (self.conversationType == ConversationType_GROUP ||
-      self.conversationType == ConversationType_DISCUSSION) {
+      self.conversationType == ConversationType_DISCUSSION || self.conversationType == ConversationType_CHATROOM) {
       BOOL isFriend = NO;
       NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
       for (RCDUserInfo *friend in friendList) {
@@ -1525,7 +1544,7 @@ NSMutableDictionary *userInputStatus;
 
 - (void)refreshTitle{
 //    for (RCMessageModel *model in self.conversationDataRepository) {
-        
+//
 //    }
   if (self.userName == nil) {
     return;

@@ -53,6 +53,11 @@
 		3D4F32B41F2B07B6005D9015 /* WCTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D4F32B31F2B07B6005D9015 /* WCTransferViewController.m */; };
 		3D67A5B01F47CBFA003B1607 /* Transfer.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D67A5AF1F47CBFA003B1607 /* Transfer.storyboard */; };
 		3D67A5B31F47CCC1003B1607 /* XJTransferRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D67A5B21F47CCC1003B1607 /* XJTransferRecordViewController.m */; };
+		3D71682D1F516CF400B0166D /* ChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D71682C1F516CF400B0166D /* ChatRoom.storyboard */; };
+		3D7168301F516D0E00B0166D /* WCChatRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71682F1F516D0E00B0166D /* WCChatRoomViewController.m */; };
+		3D7168341F516EFD00B0166D /* WCChatRoomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7168331F516EFD00B0166D /* WCChatRoomListCell.m */; };
+		3D7168381F516FDE00B0166D /* WCChatRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7168371F516FDE00B0166D /* WCChatRoomModel.m */; };
+		3D71683B1F5170C500B0166D /* WCChatRoomListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */; };
 		3D85B42A1EB85D4000E72D3F /* ModifyFriendInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */; };
 		3D85EEF11EC0423C00CD7ED2 /* libPods-SealTalk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6599D0A49FB653D89550C3FF /* libPods-SealTalk.a */; };
 		3D85EEF31EC0424000CD7ED2 /* libOpenShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D85EEF21EC0424000CD7ED2 /* libOpenShare.a */; };
@@ -466,6 +471,15 @@
 		3D67A5AF1F47CBFA003B1607 /* Transfer.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Transfer.storyboard; sourceTree = "<group>"; };
 		3D67A5B11F47CCC1003B1607 /* XJTransferRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XJTransferRecordViewController.h; sourceTree = "<group>"; };
 		3D67A5B21F47CCC1003B1607 /* XJTransferRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XJTransferRecordViewController.m; sourceTree = "<group>"; };
+		3D71682C1F516CF400B0166D /* ChatRoom.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ChatRoom.storyboard; sourceTree = SOURCE_ROOT; };
+		3D71682E1F516D0E00B0166D /* WCChatRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCChatRoomViewController.h; sourceTree = SOURCE_ROOT; };
+		3D71682F1F516D0E00B0166D /* WCChatRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomViewController.m; sourceTree = SOURCE_ROOT; };
+		3D7168321F516EFD00B0166D /* WCChatRoomListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCChatRoomListCell.h; sourceTree = "<group>"; };
+		3D7168331F516EFD00B0166D /* WCChatRoomListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomListCell.m; sourceTree = "<group>"; };
+		3D7168361F516FDE00B0166D /* WCChatRoomModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCChatRoomModel.h; sourceTree = "<group>"; };
+		3D7168371F516FDE00B0166D /* WCChatRoomModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomModel.m; sourceTree = "<group>"; };
+		3D7168391F5170C500B0166D /* WCChatRoomListRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCChatRoomListRequest.h; sourceTree = "<group>"; };
+		3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WCChatRoomListRequest.m; sourceTree = "<group>"; };
 		3D85B4281EB85D4000E72D3F /* ModifyFriendInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyFriendInformationsRequest.h; sourceTree = "<group>"; };
 		3D85B4291EB85D4000E72D3F /* ModifyFriendInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyFriendInformationsRequest.m; sourceTree = "<group>"; };
 		3D85EEEF1EC01CBA00CD7ED2 /* libPods-SealTalk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SealTalk.a"; path = "Pods/../build/Debug-iphoneos/libPods-SealTalk.a"; sourceTree = SOURCE_ROOT; };
@@ -1301,6 +1315,8 @@
 				3DCD39061F4C0DFB003EEC87 /* WCSentRedPacketRecordRequest.m */,
 				3DCD392D1F4D7551003EEC87 /* WCRemoveNewFriendInfoRequest.h */,
 				3DCD392E1F4D7551003EEC87 /* WCRemoveNewFriendInfoRequest.m */,
+				3D7168391F5170C500B0166D /* WCChatRoomListRequest.h */,
+				3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */,
 			);
 			path = Request;
 			sourceTree = SOURCE_ROOT;
@@ -1372,6 +1388,24 @@
 				3DCD38FA1F4BCFF3003EEC87 /* WCTransferDetailTableViewController.m */,
 			);
 			path = Transfer;
+			sourceTree = SOURCE_ROOT;
+		};
+		3D7168311F516EE500B0166D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3D7168321F516EFD00B0166D /* WCChatRoomListCell.h */,
+				3D7168331F516EFD00B0166D /* WCChatRoomListCell.m */,
+			);
+			path = Views;
+			sourceTree = SOURCE_ROOT;
+		};
+		3D7168351F516FCA00B0166D /* ChatRoomModel */ = {
+			isa = PBXGroup;
+			children = (
+				3D7168361F516FDE00B0166D /* WCChatRoomModel.h */,
+				3D7168371F516FDE00B0166D /* WCChatRoomModel.m */,
+			);
+			path = ChatRoomModel;
 			sourceTree = SOURCE_ROOT;
 		};
 		3D8E20A41ED6D07E008E6C29 /* MyFriendsList */ = {
@@ -1971,6 +2005,7 @@
 		E4C331471A10554E00E31B9A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3D7168351F516FCA00B0166D /* ChatRoomModel */,
 				3DCD38801F4AA4E5003EEC87 /* TransferRecordModel */,
 				3DCD387B1F4AA434003EEC87 /* BaseModel */,
 				E4E939771AD65AEB001E0AC6 /* RCDChatRoomInfo.h */,
@@ -2092,10 +2127,14 @@
 		E4C4E7D01A09FD3E00140067 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
+				3D7168311F516EE500B0166D /* Views */,
+				3D71682C1F516CF400B0166D /* ChatRoom.storyboard */,
 				E4BFAE6C1A121A22007165B1 /* RCDChatRoomViewController.h */,
 				E4BFAE6D1A121A22007165B1 /* RCDChatRoomViewController.m */,
 				E4E939B91AD65D18001E0AC6 /* RCDChatRoomTableViewCell.h */,
 				E4E939BA1AD65D18001E0AC6 /* RCDChatRoomTableViewCell.m */,
+				3D71682E1F516D0E00B0166D /* WCChatRoomViewController.h */,
+				3D71682F1F516D0E00B0166D /* WCChatRoomViewController.m */,
 			);
 			name = ChatRoom;
 			sourceTree = "<group>";
@@ -2659,6 +2698,7 @@
 				8C55EB511B2A8CE5004285F4 /* Emoji.plist in Resources */,
 				E42A2E5A1AAEE76800F4C3AB /* Main.storyboard in Resources */,
 				5111B07D1AE6A11A00317E71 /* RongCloud.bundle in Resources */,
+				3D71682D1F516CF400B0166D /* ChatRoom.storyboard in Resources */,
 				3DCD38C11F4AB551003EEC87 /* MJRefresh.bundle in Resources */,
 				3DFFB8D51EFA5B13003A2ABF /* Additional.storyboard in Resources */,
 				3D8E203B1ED6B569008E6C29 /* Images.xcassets in Resources */,
@@ -2755,6 +2795,7 @@
 			files = (
 				3D4F32B41F2B07B6005D9015 /* WCTransferViewController.m in Sources */,
 				98BC0E0B1D9CEA990017D4F2 /* RCDReceiptDetailsTableViewCell.m in Sources */,
+				3D7168381F516FDE00B0166D /* WCChatRoomModel.m in Sources */,
 				3DF1D47D1ECD7FA4005B494D /* MyRedPacketsRequest.m in Sources */,
 				3D8E20871ED6B955008E6C29 /* MyWalletViewController.m in Sources */,
 				17F7A8461DAE187200E27D25 /* RCDLabel.m in Sources */,
@@ -2788,6 +2829,7 @@
 				3D8E20331ED6B448008E6C29 /* AddFriendMessage.m in Sources */,
 				3DCD38C01F4AB551003EEC87 /* MJRefreshStateHeader.m in Sources */,
 				4666842D1B5DEC25000B7504 /* RCDConversationSettingTableViewCell.m in Sources */,
+				3D71683B1F5170C500B0166D /* WCChatRoomListRequest.m in Sources */,
 				E4E939461AD65A95001E0AC6 /* AFSecurityPolicy.m in Sources */,
 				17F7A8741DAFBFF100E27D25 /* RCDSearchHistoryMessageController.m in Sources */,
 				3DCD38B71F4AB551003EEC87 /* MJRefreshHeader.m in Sources */,
@@ -2936,6 +2978,7 @@
 				A677D6991B81EBB9007D5D90 /* HeadCollectionView.m in Sources */,
 				466684241B5DEA10000B7504 /* RCDSettingBaseViewController.m in Sources */,
 				3DCD39071F4C0DFB003EEC87 /* WCSentRedPacketRecordRequest.m in Sources */,
+				3D7168301F516D0E00B0166D /* WCChatRoomViewController.m in Sources */,
 				9891E8E31D82AB3100E874AB /* RCDLogoTableViewCell.m in Sources */,
 				9B447DE91CF82926005D3ED5 /* RCDContactTableViewCell.m in Sources */,
 				17244C181B56553B000EFF79 /* RCDMessageNoDisturbSettingController.m in Sources */,
@@ -3036,6 +3079,7 @@
 				A677D69F1B81EBB9007D5D90 /* RealTimeLocationStartCell.m in Sources */,
 				A616478B1BE9D97D00E90813 /* RCDEditUserNameViewController.m in Sources */,
 				3D67A5B31F47CCC1003B1607 /* XJTransferRecordViewController.m in Sources */,
+				3D7168341F516EFD00B0166D /* WCChatRoomListCell.m in Sources */,
 				3D8E20841ED6B955008E6C29 /* LockedDetailTableViewController.m in Sources */,
 				3DCD39321F4E627D003EEC87 /* WCRedPacketTipMessage.m in Sources */,
 				98F973D51D66B8ED007F1483 /* RCDUserInfoManager.m in Sources */,

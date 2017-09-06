@@ -231,6 +231,12 @@
             self.openButton.hidden = YES;
             self.tipLabel.hidden = YES;
             self.noteLabel.text = @"手慢了，红包派完了";
+            self.goDetailButton.hidden = NO;
+        } else if ([informations[@"state"] integerValue] == 3) {
+            self.openButton.hidden = YES;
+            self.tipLabel.hidden = YES;
+            self.noteLabel.text = @"来晚了，红包已经过期了";
+            self.goDetailButton.hidden = NO;
         } else {
             self.openButton.hidden = NO;
             self.tipLabel.hidden = NO;
@@ -261,10 +267,12 @@
         self.openButton.hidden = YES;
         self.tipLabel.hidden = YES;
         self.noteLabel.text = @"手慢了，红包派完了";
+        self.goDetailButton.hidden = NO;
     } else if (resultState == 66102) {
         self.openButton.hidden = YES;
         self.tipLabel.hidden = YES;
         self.noteLabel.text = @"红包已经过期了";
+        self.goDetailButton.hidden = NO;
     } else if (resultState == 66103) {
         self.openButton.hidden = YES;
         self.tipLabel.hidden = YES;

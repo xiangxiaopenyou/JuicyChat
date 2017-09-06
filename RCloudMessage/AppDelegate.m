@@ -34,9 +34,9 @@
 #import "FetchInformationsRequest.h"
 #import <OpenShareHeader.h>
 
-#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
+//#define RONGCLOUD_IM_APPKEY @"k51hidwqkexcb" //offline key
 //#define RONGCLOUD_IM_APPKEY @"c9kqb3rdkbb8j" // pre key
-//#define RONGCLOUD_IM_APPKEY @"tdrvipkst7ox5" // online key
+#define RONGCLOUD_IM_APPKEY @"tdrvipkst7ox5" // online key
 
 #define UMENG_APPKEY @"563755cbe0f55a5cb300139c"
 
@@ -717,7 +717,7 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
 -(BOOL)onRCIMCustomLocalNotification:(RCMessage*)message
                       withSenderName:(NSString *)senderName{
     //群组通知不弹本地通知
-    if ([message.content isKindOfClass:[RCGroupNotificationMessage class]]) {
+    if ([message.content isKindOfClass:[RCGroupNotificationMessage class]] || [message.content isKindOfClass:[WCRedPacketTipMessage class]]) {
         return YES;
     }
     return NO;

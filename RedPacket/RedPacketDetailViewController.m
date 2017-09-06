@@ -189,7 +189,7 @@
 //    cell.amountLabel.text = [NSString stringWithFormat:@"%@", temp[@"unpackmoney"]];
     NSNumber *tempAmount = @([temp[@"unpackmoney"] integerValue]);
     cell.amountLabel.text = [RCDUtilities amountStringFromNumber:tempAmount];
-    if ([temp[@"userid"] integerValue] == [self.informations[@"bestluckuserid"] integerValue]) {
+    if ([temp[@"userid"] integerValue] == [self.informations[@"bestluckuserid"] integerValue] && !self.isPrivateChat) {
         cell.bestLuckLabel.hidden = NO;
     } else {
         cell.bestLuckLabel.hidden = YES;

@@ -43,11 +43,28 @@
     self.navigationItem.title = @"详细资料";
     if ([self isMyself]) {
         self.chatButton.hidden = YES;
+        self.transferButton.hidden = YES;
     } else {
         self.chatButton.hidden = NO;
+        self.transferButton.hidden = NO;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"config"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked:)];
         [self fetchInformations];
     }
+    //self.friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.userId];
+    [[RCIMClient sharedRCIMClient] getBlacklistStatus:self.userId success:^(int bizStatus) {
+        if (bizStatus == 0) {
+            self.inBlackList = YES;
+        } else {
+            self.inBlackList = NO;
+        }
+    } error:^(RCErrorCode status) {
+        NSArray *array = [[RCDataBaseManager shareInstance] getBlackList];
+        for (RCUserInfo *blackInfo in array) {
+            if ([blackInfo.userId isEqualToString:self.userId]) {
+                self.inBlackList = YES;
+            }
+        }
+    }];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

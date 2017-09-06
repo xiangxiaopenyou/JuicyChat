@@ -9,11 +9,13 @@
 #import "RedPacketMessage.h"
 
 @implementation RedPacketMessage
-+ (instancetype)messageWithContent:(NSString *)content redPacketId:(NSString *)redpacketId {
++ (instancetype)messageWithContent:(NSString *)content redPacketId:(NSString *)redpacketId fromuserid:(NSString *)fromuserid tomemberid:(NSString *)tomemberid {
     RedPacketMessage *message = [[RedPacketMessage alloc] init];
     if (message) {
         message.content = content;
         message.redpacketId = redpacketId;
+        message.fromuserid = fromuserid;
+        message.tomemberid = tomemberid;
     }
     return message;
 }
@@ -25,12 +27,16 @@
     if (self) {
         self.content = [aDecoder decodeObjectForKey:@"content"];
         self.redpacketId = [aDecoder decodeObjectForKey:@"redpacketId"];
+        self.fromuserid = [aDecoder decodeObjectForKey:@"fromuserid"];
+        self.tomemberid = [aDecoder decodeObjectForKey:@"tomemberid"];
     }
     return self;
 }
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.content forKey:@"content"];
     [aCoder encodeObject:self.redpacketId forKey:@"redpacketId"];
+    [aCoder encodeObject:self.fromuserid forKey:@"fromuserid"];
+    [aCoder encodeObject:self.tomemberid forKey:@"tomemberid"];
 }
 ///将消息内容编码成json
 - (NSData *)encode {
@@ -39,7 +45,12 @@
     if (self.redpacketId) {
         [dataDict setObject:self.redpacketId forKey:@"redpacketId"];
     }
-    
+    if (self.fromuserid) {
+        [dataDict setObject:self.fromuserid forKey:@"fromuserid"];
+    }
+    if (self.tomemberid) {
+        [dataDict setObject:self.tomemberid forKey:@"tomemberid"];
+    }
     if (self.senderUserInfo) {
         NSMutableDictionary *userInfoDic = [[NSMutableDictionary alloc] init];
         if (self.senderUserInfo.name) {
@@ -75,7 +86,8 @@
         if (dictionary) {
             self.content = dictionary[@"content"];
             self.redpacketId = dictionary[@"redpacketId"];
-            
+            self.fromuserid = dictionary[@"fromuserid"];
+            self.tomemberid = dictionary[@"tomemberid"];
             NSDictionary *userinfoDic = dictionary[@"user"];
             [self decodeUserInfo:userinfoDic];
         }

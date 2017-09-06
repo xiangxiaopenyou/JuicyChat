@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="oKr-KB-so9">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="lAF-pb-JH8">
+            <objects>
+                <navigationController id="oKr-KB-so9" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oSI-rc-4Jr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="7SS-6N-dNZ" kind="relationship" relationship="rootViewController" id="KM8-le-UjB"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nF8-dm-eUc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-356" y="187"/>
+        </scene>
+        <!--聊天室-->
+        <scene sceneID="tdG-Ic-lvm">
+            <objects>
+                <viewController storyboardIdentifier="ChatRoom" automaticallyAdjustsScrollViewInsets="NO" id="7SS-6N-dNZ" customClass="WCChatRoomViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TkU-e7-ZYf"/>
+                        <viewControllerLayoutGuide type="bottom" id="cXd-MP-w6N"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MO5-PX-BFc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gS4-lF-3fn">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.81568627450980391" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChatRoomListCell" rowHeight="70" id="wmS-sX-WyR" customClass="WCChatRoomListCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wmS-sX-WyR" id="0ic-ki-f5m">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nfU-mh-xfJ">
+                                                    <rect key="frame" x="15" y="10" width="50" height="50"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="50" id="VAk-zZ-wpl"/>
+                                                        <constraint firstAttribute="width" constant="50" id="Xdn-Ky-Kbc"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                            <integer key="value" value="25"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Fl-l4-wPu">
+                                                    <rect key="frame" x="75" y="25.5" width="22" height="19.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="nfU-mh-xfJ" firstAttribute="leading" secondItem="0ic-ki-f5m" secondAttribute="leading" constant="15" id="4LQ-tc-Y2X"/>
+                                                <constraint firstItem="0Fl-l4-wPu" firstAttribute="centerY" secondItem="0ic-ki-f5m" secondAttribute="centerY" id="JBH-WC-Cba"/>
+                                                <constraint firstItem="0Fl-l4-wPu" firstAttribute="leading" secondItem="nfU-mh-xfJ" secondAttribute="trailing" constant="10" id="bJO-Xk-kvF"/>
+                                                <constraint firstItem="nfU-mh-xfJ" firstAttribute="centerY" secondItem="0ic-ki-f5m" secondAttribute="centerY" id="ihu-31-WPn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="iconImageView" destination="nfU-mh-xfJ" id="tkT-RX-uMf"/>
+                                            <outlet property="nameLabel" destination="0Fl-l4-wPu" id="coT-KC-vEW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="7SS-6N-dNZ" id="o8C-Im-fne"/>
+                                    <outlet property="delegate" destination="7SS-6N-dNZ" id="fhw-mJ-HqD"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="cXd-MP-w6N" firstAttribute="top" secondItem="gS4-lF-3fn" secondAttribute="bottom" id="Nwo-c9-6QR"/>
+                            <constraint firstItem="gS4-lF-3fn" firstAttribute="top" secondItem="TkU-e7-ZYf" secondAttribute="bottom" id="Pt0-we-lbU"/>
+                            <constraint firstItem="gS4-lF-3fn" firstAttribute="leading" secondItem="MO5-PX-BFc" secondAttribute="leading" id="WuR-tt-ez5"/>
+                            <constraint firstAttribute="trailing" secondItem="gS4-lF-3fn" secondAttribute="trailing" id="ceP-bb-RGC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="聊天室" id="tgc-rp-6FJ"/>
+                    <connections>
+                        <outlet property="tableView" destination="gS4-lF-3fn" id="RvU-lr-V8G"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GnL-1x-Dmh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="477.60000000000002" y="128.18590704647679"/>
+        </scene>
+    </scenes>
+</document>

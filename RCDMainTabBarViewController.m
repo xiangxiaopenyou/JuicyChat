@@ -12,6 +12,7 @@
 #import "RCDChatListViewController.h"
 #import "RCDContactViewController.h"
 #import "RCDMeTableViewController.h"
+#import "WCChatRoomViewController.h"
 
 @interface RCDMainTabBarViewController ()
 
@@ -52,11 +53,13 @@
   
   RCDContactViewController *contactVC = [[RCDContactViewController alloc] init];
   
-  RCDSquareTableViewController *discoveryVC = [[RCDSquareTableViewController alloc] init];
+  //RCDSquareTableViewController *discoveryVC = [[RCDSquareTableViewController alloc] init];
    
   RCDMeTableViewController *meVC = [[RCDMeTableViewController alloc] init];
+    
+    WCChatRoomViewController *chatRoomController = [[UIStoryboard storyboardWithName:@"ChatRoom" bundle:nil] instantiateViewControllerWithIdentifier:@"ChatRoom"];
   
-  self.viewControllers = @[chatVC, contactVC, discoveryVC, meVC];
+  self.viewControllers = @[chatVC, contactVC, chatRoomController,/*discoveryVC,*/ meVC];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -83,14 +86,20 @@
                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
       obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"contact_icon_hover"]
                                       imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    }
-    else if ([obj isKindOfClass:[RCDSquareTableViewController class]]) {
-      obj.tabBarItem.title = @"发现";
+    } else if ([obj isKindOfClass:[WCChatRoomViewController class]]) {
+      obj.tabBarItem.title = @"聊天室";
       obj.tabBarItem.image = [[UIImage imageNamed:@"square"]
                               imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
       obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"square_hover"]
                                       imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
+//    else if ([obj isKindOfClass:[RCDSquareTableViewController class]]) {
+//      obj.tabBarItem.title = @"发现";
+//      obj.tabBarItem.image = [[UIImage imageNamed:@"square"]
+//                              imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//      obj.tabBarItem.selectedImage = [[UIImage imageNamed:@"square_hover"]
+//                                      imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    }
     else if ([obj isKindOfClass:[RCDMeTableViewController class]]){
       obj.tabBarItem.title = @"我";
       obj.tabBarItem.image = [[UIImage imageNamed:@"icon_me"]

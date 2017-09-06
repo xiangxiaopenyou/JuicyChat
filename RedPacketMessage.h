@@ -12,7 +12,9 @@ static NSString *const RedPacketMessageTypeIdentifier = @"JC:RedPacketMsg";
 @interface RedPacketMessage : RCMessageContent<NSCoding>
 @property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *redpacketId;
+@property (copy, nonatomic) NSString *fromuserid;
+@property (copy, nonatomic) NSString *tomemberid;
 
-+ (instancetype)messageWithContent:(NSString *)content redPacketId:(NSString *)redpacketId;
++ (instancetype)messageWithContent:(NSString *)content redPacketId:(NSString *)redpacketId fromuserid:(NSString *)fromuserid tomemberid:(NSString *)tomemberid;
 
 @end

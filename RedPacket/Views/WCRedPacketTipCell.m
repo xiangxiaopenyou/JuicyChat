@@ -15,10 +15,32 @@
 + (CGSize)sizeForMessageModel:(RCMessageModel *)model withCollectionViewWidth:(CGFloat)collectionViewWidth referenceExtraHeight:(CGFloat)extraHeight {
     WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.content;
     NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+    NSString *showIds = message.showuserids;
+    NSArray *showArray = [showIds componentsSeparatedByString:@","];
     if (userId.integerValue == message.touserid.integerValue) {
-        NSString *contentString = message.message;
+        NSString *contentString = message.iosmessage;
+        if ([showArray containsObject:[NSString stringWithFormat:@"%@", message.touserid]]) {
+            contentString = message.tipmessage;
+        }
         NSArray *tempArray = [contentString componentsSeparatedByString:@"\n"];
-        return CGSizeMake(collectionViewWidth, 14.f * tempArray.count + extraHeight + 23);
+        if (message.islink.integerValue == 0) {
+            return CGSizeMake(collectionViewWidth, 14.f * tempArray.count + extraHeight + 14);
+        } else {
+            return CGSizeMake(collectionViewWidth, 14.f * tempArray.count + extraHeight + 38);
+        }
+    } else if ([showArray containsObject:userId]) {
+        NSString *contentString = @"";
+        if (message.islink.integerValue == 0) {
+            contentString = message.tipmessage;
+        } else {
+            contentString = message.iosmessage;
+        }
+        NSArray *tempArray = [contentString componentsSeparatedByString:@"\n"];
+        if (message.islink.integerValue == 0) {
+            return CGSizeMake(collectionViewWidth, 14.f * tempArray.count + extraHeight + 14);
+        } else {
+            return CGSizeMake(collectionViewWidth, 14.f * tempArray.count + extraHeight + 38);
+        }
     } else {
         return CGSizeMake(collectionViewWidth, 0.1);
     }
@@ -43,6 +65,7 @@
     self.viewOfContent.backgroundColor = [UIColor colorWithRed:189/255.0 green:189/255.0 blue:189/255.0 alpha:1];
     self.viewOfContent.layer.masksToBounds = YES;
     self.viewOfContent.layer.cornerRadius = 5.f;
+    self.viewOfContent.clipsToBounds = YES;
     [self.baseContentView addSubview:self.viewOfContent];
     
     self.textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -68,7 +91,9 @@
 - (void)setDataModel:(RCMessageModel *)model {
     WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)model.content;
     NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
-    if (userId.integerValue == message.touserid.integerValue) {
+    NSString *showIds = message.showuserids;
+    NSArray *showArray = [showIds componentsSeparatedByString:@","];
+    if (userId.integerValue == message.touserid.integerValue || [showArray containsObject:userId]) {
         [super setDataModel:model];
         [self setAutoLayout];
     } else {
@@ -76,10 +101,15 @@
     }
 }
 - (void)setAutoLayout {
+    self.clipsToBounds = YES;
     WCRedPacketTipMessage *message = (WCRedPacketTipMessage *)self.model.content;
-    self.textLabel.text = message.message;
-    //CGRect baseContentRect = self.baseContentView.frame;
-    NSString *contentString = message.message;
+    NSString *contentString = message.iosmessage;
+    NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+    NSString *showIds = message.showuserids;
+    NSArray *showArray = [showIds componentsSeparatedByString:@","];
+    if ([showArray containsObject:userId] && message.islink.integerValue == 0) {
+        contentString = message.tipmessage;
+    }
     self.textLabel.text = contentString;
     NSArray *tempArray = [contentString componentsSeparatedByString:@"\n"];
     CGFloat textWidth = [tempArray[0] sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}].width;
@@ -88,23 +118,21 @@
             textWidth = [tempString sizeWithAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12]}].width;
         }
     }
-    [self.viewOfContent mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.baseContentView.mas_top).with.mas_offset(10);
-        make.bottom.equalTo(self.baseContentView.mas_bottom).with.mas_offset(- 10);
-        make.centerX.equalTo(self.baseContentView);
-        make.width.mas_offset(textWidth + 20);
-    }];
+    self.viewOfContent.frame = CGRectMake(CGRectGetWidth(self.baseContentView.frame) / 2.0 - (textWidth + 25) / 2.0, 10, textWidth + 25, CGRectGetHeight(self.baseContentView.frame) - 20);
+    CGFloat bottom = message.islink.integerValue == 0 ? - 5 : -25;
     [self.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.viewOfContent.mas_top).with.mas_offset(5);
         make.leading.equalTo(self.viewOfContent.mas_leading).with.mas_offset(10);
         make.trailing.equalTo(self.viewOfContent.mas_trailing).with.mas_offset(- 10);
-        make.bottom.equalTo(self.viewOfContent.mas_bottom).with.mas_offset(- 25);
+        make.bottom.equalTo(self.viewOfContent.mas_bottom).with.mas_offset(bottom);
     }];
-    [self.detailButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.viewOfContent.mas_bottom);
-        make.leading.equalTo(self.viewOfContent.mas_leading).with.mas_offset(10);
-        make.height.mas_offset(25);
-    }];
+    if (message.islink.integerValue != 0) {
+        [self.detailButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.viewOfContent.mas_bottom);
+            make.leading.equalTo(self.viewOfContent.mas_leading).with.mas_offset(10);
+            make.height.mas_offset(25);
+        }];
+    }
 }
 
 /*
