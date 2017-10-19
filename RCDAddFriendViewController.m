@@ -10,12 +10,13 @@
 #import "DefaultPortraitView.h"
 #import "RCDChatViewController.h"
 #import "WCTransferViewController.h"
+#import "AppealCenterViewController.h"
 #import "RCDHttpTool.h"
 #import "RCDataBaseManager.h"
 #import "UIImageView+WebCache.h"
 #import "UIColor+RCColor.h"
 
-@interface RCDAddFriendViewController ()
+@interface RCDAddFriendViewController ()<UIActionSheetDelegate>
 
 @end
 
@@ -28,6 +29,8 @@
     self.tableView.backgroundColor = HEXCOLOR(0xf0f0f6);
     self.tableView.separatorColor = HEXCOLOR(0xdfdfdf);
     self.navigationItem.title = @"添加好友";
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"config"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked:)];
     
     [self setHeaderView];
     [self setFooterView];
@@ -195,6 +198,10 @@
   [super didReceiveMemoryWarning];
   // Dispose of any resources that can be recreated.
 }
+- (void)rightBarButtonItemClicked:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"举报" otherButtonTitles:nil, nil];
+    [actionSheet showInView:self.view];
+}
 - (void)actionAddFriend:(id)sender {
     if (_targetUserInfo) {
       RCDUserInfo *friend = [[RCDataBaseManager shareInstance] getFriendInfo:_targetUserInfo.userId];
@@ -246,6 +253,15 @@
 //  conversationVC.title = self.targetUserInfo.name;
 //  conversationVC.displayUserNameInCell = NO;
 //  [self.navigationController pushViewController:conversationVC animated:YES];
+}
+
+#pragma mark - UIActionSheet Delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        AppealCenterViewController *appealCenterController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"AppealCenter"];
+        appealCenterController.navigationItem.title = @"投诉";
+        [self.navigationController pushViewController:appealCenterController animated:YES];
+    }
 }
 
 @end

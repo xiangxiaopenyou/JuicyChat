@@ -39,6 +39,13 @@
     self.view.backgroundColor = [UIColor colorWithRed:242/255.0 green:242/255.0 blue:242/255.0 alpha:1];
     self.tableView.separatorInset = UIEdgeInsetsZero;
     self.tableView.separatorColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

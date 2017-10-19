@@ -358,6 +358,9 @@
     heightForHeaderInSection:(NSInteger)section {
     return 15.f;
 }
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [UIView new];
+}
 
 - (void)setUserPortrait:(NSNotification *)notifycation {
   userPortrait = [notifycation object];

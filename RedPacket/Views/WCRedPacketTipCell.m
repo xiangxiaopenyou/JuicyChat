@@ -127,11 +127,14 @@
         make.bottom.equalTo(self.viewOfContent.mas_bottom).with.mas_offset(bottom);
     }];
     if (message.islink.integerValue != 0) {
+        self.detailButton.hidden = NO;
         [self.detailButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.viewOfContent.mas_bottom);
             make.leading.equalTo(self.viewOfContent.mas_leading).with.mas_offset(10);
             make.height.mas_offset(25);
         }];
+    } else {
+        self.detailButton.hidden = YES;
     }
 }
 

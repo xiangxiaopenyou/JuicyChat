@@ -30,7 +30,14 @@
   self.tableView.tableFooterView = [UIView new];
   self.tableView.backgroundColor = [UIColor colorWithHexString:@"f0f0f6"
                                                          alpha:1.f];
-  
+    
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
   self.navigationItem.title = @"帐号设置";
   RCDUIBarButtonItem *leftBtn =
   [[RCDUIBarButtonItem alloc] initContainImage:[UIImage imageNamed:@"navigator_btn_back"]
@@ -209,6 +216,9 @@
 - (CGFloat)tableView:(UITableView *)tableView
     heightForHeaderInSection:(NSInteger)section {
     return 15.f;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [UIView new];
 }
 
 #pragma mark - UIAlertView Delegate

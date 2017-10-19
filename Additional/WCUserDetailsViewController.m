@@ -11,6 +11,7 @@
 #import "JCBigAvatarViewController.h"
 #import "RCDChatViewController.h"
 #import "WCTransferViewController.h"
+#import "AppealCenterViewController.h"
 #import "JCDetailsCell.h"
 #import "JCSignCell.h"
 
@@ -124,7 +125,7 @@
 }
 - (void)rightBarButtonItemClicked:(id)sender {
     NSString *blackString = self.inBlackList ? @"取消黑名单" : @"加入黑名单";
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除好友" otherButtonTitles:blackString, nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除好友" otherButtonTitles:blackString, @"举报", nil];
     [actionSheet showInView:self.view];
 }
 - (void)avatarAction {
@@ -218,6 +219,10 @@
                  weakSelf.inBlackList = YES;
              }];
         }
+    } else if (buttonIndex == 2) {
+        AppealCenterViewController *appealCenterController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"AppealCenter"];
+        appealCenterController.navigationItem.title = @"投诉";
+        [self.navigationController pushViewController:appealCenterController animated:YES];
     }
 }
 

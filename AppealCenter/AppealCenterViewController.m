@@ -11,6 +11,7 @@
 #import "AppealRequest.h"
 #import "MBProgressHUD.h"
 #import "RCDHttpTool.h"
+#import "MBProgressHUD+Add.h"
 #import <RongIMKit/RongIMKit.h>
 
 @interface AppealCenterViewController ()<UITextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -80,7 +81,7 @@
 }
 - (IBAction)submitAction:(id)sender {
     if (self.textView.text.length <= 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"先输入投诉原因" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"先输入原因" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         return;
     }
@@ -101,6 +102,7 @@
                     } result:^(id object, NSString *msg) {
                         [MBProgressHUD hideHUDForView:self.view animated:YES];
                         if (object) {
+                            [MBProgressHUD showSuccess:@"提交成功" toView:[UIApplication sharedApplication].keyWindow];
                             [self.navigationController popViewControllerAnimated:YES];
                         } else {
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"失败" message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];

@@ -50,7 +50,13 @@
       [UIColor whiteColor];
   self.tableView.backgroundColor = [UIColor colorWithHexString:@"f0f0f6" alpha:1.f];
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-  
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
   self.navigationItem.title = @"个人信息";
   
   RCDUIBarButtonItem *leftBtn =
