@@ -10,6 +10,7 @@
 #import "WCTransferDetailTableViewController.h"
 #import "WCTransferRecordCell.h"
 #import "WCMonthPickerView.h"
+#import "WCBillTypesView.h"
 
 #import "TransferRecordModel.h"
 
@@ -24,9 +25,14 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableview;
 @property (strong, nonatomic) UILabel *footerLabel;
 @property (strong, nonatomic) WCMonthPickerView *pickerView;
+@property (strong, nonatomic) WCBillTypesView *typesView;
+@property (strong, nonatomic) UIButton *monthSelectButton;
+@property (strong, nonatomic) UIButton *typeSelectButton;
 @property (strong, nonatomic) NSMutableArray *dataArray;
 @property (copy, nonatomic) NSString *selectedDate;
 @property (nonatomic) NSInteger index;
+@property (strong, nonatomic) NSMutableArray *billTypesArray;
+@property (copy, nonatomic) NSString *selectedType;
 @end
 
 @implementation XJTransferRecordViewController
@@ -51,6 +57,20 @@
         }
         [strongSelf recordRequest];
     };
+    [[UIApplication sharedApplication].keyWindow addSubview:self.typesView];
+    self.typesView.selectBlock = ^(NSInteger index) {
+        __strong typeof(self) strongSelf = weakSelf;
+        if (index == 0) {
+            strongSelf.selectedType = @"0";
+            [strongSelf.typeSelectButton setTitle:@"全部分类" forState:UIControlStateNormal];
+        } else {
+            NSDictionary *tempDictionary = strongSelf.billTypesArray[index];
+            strongSelf.selectedType = [NSString stringWithFormat:@"%@", tempDictionary[@"typeid"]];
+            [strongSelf.typeSelectButton setTitle:[NSString stringWithFormat:@"%@", tempDictionary[@"typename"]] forState:UIControlStateNormal];
+        }
+        _index = 1;
+        [strongSelf recordRequest];
+    };
     
     self.tableview.tableFooterView = [UIView new];
     [self.tableview setMj_header:[MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -62,8 +82,11 @@
     }]];
     self.tableview.mj_footer.hidden = YES;
     _index = 1;
+    _selectedType = @"0";
     [self recordRequest];
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    [self fetchBillTypes];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,9 +94,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Private methods
+- (void)createRightItem {
+    UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(72, 16.5, 6.5, 5.5)];
+    arrowImageView.image = [UIImage imageNamed:@"arrow"];
+    [self.typeSelectButton addSubview:arrowImageView];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.typeSelectButton];
+    [self.typesView setupContent:_billTypesArray];
+}
+
 #pragma mark - Requests
 - (void)recordRequest {
-    [TransferRecordModel transferRecord:_selectedDate index:@(_index) handler:^(id object, NSString *msg) {
+    [TransferRecordModel transferRecord:_selectedDate index:@(_index) type:_selectedType handler:^(id object, NSString *msg) {
         [self.tableview.mj_header endRefreshing];
         [self.tableview.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -108,9 +140,28 @@
         }
     }];
 }
+//获取账单种类
+- (void)fetchBillTypes {
+    [TransferRecordModel billTypes:^(id object, NSString *msg) {
+        if (object) {
+            _billTypesArray = [object mutableCopy];
+            NSDictionary *temp = @{@"typeid" : @"",
+                                   @"typename" : @"全部分类"
+                                   };
+            [_billTypesArray insertObject:temp atIndex:0];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self createRightItem];
+            });
+        }
+    }];
+}
 
-- (IBAction)rightItemAction:(id)sender {
+#pragma mark - Action
+- (void)monthSelectAction {
     [self.pickerView show];
+}
+- (void)typeSelectAction {
+    [self.typesView show];
 }
 
 #pragma mark - Table view data source
@@ -126,16 +177,16 @@
     NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
     if ([tempModel.fromuserid isEqualToString:userId]) {
         [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.touserheadico] placeholderImage:nil];
-        cell.contentLabel.text = [NSString stringWithFormat:@"转账-转给%@", tempModel.touser];
+        cell.contentLabel.text = [NSString stringWithFormat:@"%@-转给%@", tempModel.option, tempModel.touser];
         cell.moneyLabel.textColor = [UIColor colorWithHexString:@"333333" alpha:1];
         cell.moneyLabel.text = [NSString stringWithFormat:@"-%@ 果币", [RCDUtilities amountStringFromNumber:tempModel.money]];
     } else {
         [cell.avatarImageView sd_setImageWithURL:[NSURL URLWithString:tempModel.fromuserheadico] placeholderImage:nil];
-        cell.contentLabel.text = [NSString stringWithFormat:@"转账-来自%@", tempModel.fromuser];
+        cell.contentLabel.text = [NSString stringWithFormat:@"%@-来自%@", tempModel.option, tempModel.fromuser];
         cell.moneyLabel.textColor = [UIColor colorWithHexString:@"ffc000" alpha:1];
         cell.moneyLabel.text = [NSString stringWithFormat:@"+%@ 果币", [RCDUtilities amountStringFromNumber:tempModel.money]];
     }
-    cell.timeLabel.text = [RCDUtilities commonDateString:tempModel.createtime];
+    cell.timeLabel.text = [RCDUtilities commonDateString:tempModel.time];
     return cell;
 }
 
@@ -149,24 +200,25 @@
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return self.selectedDate ? 28.f : 0;
+    return 35.f;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), 28)];
+    headerView.backgroundColor = [UIColor colorWithHexString:@"f2f2f2" alpha:1];
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 35)];
+    headerLabel.font = [UIFont systemFontOfSize:13];
+    headerLabel.textColor = [UIColor colorWithHexString:@"333333" alpha:1];
+    [headerView addSubview:headerLabel];
     if (self.selectedDate) {
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), 28)];
-        headerView.backgroundColor = [UIColor colorWithHexString:@"f2f2f2" alpha:1];
-        UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 150, 28)];
-        headerLabel.font = [UIFont systemFontOfSize:13];
-        headerLabel.textColor = [UIColor colorWithHexString:@"333333" alpha:1];
         NSString *tempYear = [self.selectedDate substringToIndex:4];
         NSString *tempMonth = [self.selectedDate substringWithRange:NSMakeRange(4, 2)];
         NSInteger tempMonthInt = tempMonth.integerValue;
         headerLabel.text = [NSString stringWithFormat:@"%@年%@月", tempYear, @(tempMonthInt)];
-        [headerView addSubview:headerLabel];
-        return headerView;
     } else {
-        return nil;
+        headerLabel.text = @"全部";
     }
+    [headerView addSubview:self.monthSelectButton];
+    return headerView;
 }
 
 #pragma mark - Getters
@@ -191,6 +243,32 @@
         _pickerView = [[WCMonthPickerView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     }
     return _pickerView;
+}
+- (WCBillTypesView *)typesView {
+    if (!_typesView) {
+        _typesView = [[WCBillTypesView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+    return _typesView;
+}
+- (UIButton *)monthSelectButton {
+    if (!_monthSelectButton) {
+        _monthSelectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _monthSelectButton.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) - 50, 0, 50, 35);
+        [_monthSelectButton setImage:[UIImage imageNamed:@"record_calendar"] forState:UIControlStateNormal];
+        [_monthSelectButton addTarget:self action:@selector(monthSelectAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _monthSelectButton;
+}
+- (UIButton *)typeSelectButton {
+    if (!_typeSelectButton) {
+        _typeSelectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _typeSelectButton.frame = CGRectMake(0, 0, 80, 40);
+        _typeSelectButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_typeSelectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_typeSelectButton setTitle:@"全部分类" forState:UIControlStateNormal];
+        [_typeSelectButton addTarget:self action:@selector(typeSelectAction) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _typeSelectButton;
 }
 
 /*

@@ -28,6 +28,13 @@
     
     self.tableView.backgroundColor = HEXCOLOR(0xf0f0f6);
     self.tableView.separatorColor = HEXCOLOR(0xdfdfdf);
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
     self.navigationItem.title = @"添加好友";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"config"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemClicked:)];

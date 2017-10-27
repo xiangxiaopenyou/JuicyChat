@@ -107,14 +107,14 @@
                 break;
             case 5:{
                 cell.headLabel.text = @"转账时间";
-                NSString *timeString = [self.model.createtime substringToIndex:19];
+                NSString *timeString = [self.model.time substringToIndex:19];
                 timeString = [timeString stringByReplacingOccurrencesOfString:@"T" withString:@" "];
                 cell.rightLabel.text = timeString;
             }
                 break;
             case 6:{
                 cell.headLabel.text = @"支付方式";
-                cell.rightLabel.text = @"转账";
+                cell.rightLabel.text = self.model.option;
             }
                 break;
             default:

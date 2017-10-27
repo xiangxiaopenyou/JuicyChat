@@ -46,6 +46,13 @@ UISearchControllerDelegate>
     [self.navigationController.view setBackgroundColor:color];
     self.tableView.tableHeaderView = self.searchBar;
     self.tableView.tableFooterView = [UIView new];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
     self.searchDisplayController =
     [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
     [self setSearchDisplayController:self.searchDisplayController];

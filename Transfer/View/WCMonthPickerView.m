@@ -114,7 +114,7 @@
 - (void)dismiss {
     [UIView animateWithDuration:0.2 animations:^{
         [self.contentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_bottom).with.mas_offset(285);
+            make.bottom.equalTo(self.mas_bottom).with.mas_offset(250);
         }];
         [self layoutIfNeeded];
     } completion:^(BOOL finished) {

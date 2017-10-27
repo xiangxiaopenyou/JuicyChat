@@ -28,10 +28,11 @@
 #import "MyInformationsCell.h"
 #import "MyWalletViewController.h"
 #import "AppealCenterViewController.h"
-#import <OpenShareHeader.h>
-#import "ShareRewardRequest.h"
+#import "WCShareWebViewController.h"
 #import "FetchSharePictureRequest.h"
 #import "MBProgressHUD.h"
+
+#import <OpenShareHeader.h>
 
 /* RedPacket_FTR */
 //#import <JrmfWalletKit/JrmfWalletKit.h>
@@ -50,10 +51,6 @@
 
 @property (strong, nonatomic) UIImageView *avatarImageView;
 @property (strong, nonatomic) UILabel *nicknameLabel;
-@property (strong, nonatomic) UIView *shareView;
-@property (strong, nonatomic) UIView *contentView;
-@property (strong, nonatomic) UIButton *wechatButton;
-@property (strong, nonatomic) UIButton *circleButton;
 
 @end
 
@@ -81,27 +78,6 @@
                                              object:nil];
 
   isSyncCurrentUserInfo = NO;
-    
-    [[UIApplication sharedApplication].keyWindow addSubview:self.shareView];
-    [self.shareView addSubview:self.contentView];
-    [self.contentView addSubview:self.wechatButton];
-    [self.contentView addSubview:self.circleButton];
-    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeButton.frame = CGRectMake(0, 101, CGRectGetWidth([UIScreen mainScreen].bounds), 49);
-//    closeButton.backgroundColor = [UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1];
-    [closeButton setTitle:@"取消" forState:UIControlStateNormal];
-    [closeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [closeButton addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:closeButton];
-    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, CGRectGetWidth([UIScreen mainScreen].bounds), 0.5)];
-    line.backgroundColor = [UIColor colorWithRed:229/255.0 green:229/255.0 blue:229/255.0 alpha:1];
-    [self.contentView addSubview:line];
-    UIButton *backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backgroundButton.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds) - 150);
-    backgroundButton.backgroundColor = [UIColor clearColor];
-    [backgroundButton addTarget:self action:@selector(closeAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.shareView addSubview:backgroundButton];
-    self.shareView.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -307,10 +283,12 @@
               break;
           case 2:{
               [tableView deselectRowAtIndexPath:indexPath animated:YES];
-              self.shareView.hidden = NO;
-              [UIView animateWithDuration:0.2 animations:^{
-                  self.contentView.frame = CGRectMake(0, CGRectGetHeight([UIScreen mainScreen].bounds) - 150, CGRectGetWidth([UIScreen mainScreen].bounds), 150);
-              }];
+//              self.shareView.hidden = NO;
+//              [UIView animateWithDuration:0.2 animations:^{
+//                  self.contentView.frame = CGRectMake(0, CGRectGetHeight([UIScreen mainScreen].bounds) - 150, CGRectGetWidth([UIScreen mainScreen].bounds), 150);
+//              }];
+              WCShareWebViewController *shareController = [[UIStoryboard storyboardWithName:@"Additional" bundle:nil] instantiateViewControllerWithIdentifier:@"ShareWeb"];
+              [self.navigationController pushViewController:shareController animated:YES];
           }
               break;
           
@@ -411,117 +389,6 @@
   chatService.title = @"客服";
 
   [self.navigationController pushViewController:chatService animated:YES];
-}
-
-- (void)shareAction:(UIButton *)button {
-    [self closeAction];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [[FetchSharePictureRequest new] request:^BOOL(id request) {
-        return YES;
-    } result:^(id object, NSString *msg) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if (object) {
-            NSString *urlString = object[@"url"];
-            OSMessage *message = [[OSMessage alloc] init];
-            message.title = @"果聊";
-            message.desc = @"果聊";
-            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:urlString]];
-            //message.image = UIImageJPEGRepresentation(image, 1);
-            message.image = imageData;
-            //message.thumbnail = UIImageJPEGRepresentation(image, 0.1);
-            message.thumbnail = imageData;
-            
-            if (button == self.wechatButton) {
-                [OpenShare shareToWeixinSession:message Success:^(OSMessage *message) {
-                    //[self fetchShareReward];
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                } Fail:^(OSMessage *message, NSError *error) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                }];
-            } else {
-                [OpenShare shareToWeixinTimeline:message Success:^(OSMessage *message) {
-                    [self fetchShareReward];
-                } Fail:^(OSMessage *message, NSError *error) {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                    [alert show];
-                }];
-            }
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享失败，请检查网络" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-    }];
-}
-- (void)fetchShareReward {
-    [[ShareRewardRequest new] request:^BOOL(id request) {
-        return YES;
-    } result:^(id object, NSString *msg) {
-        if (object) {
-            NSInteger money = [object[@"money"] integerValue];
-            if (money > 0) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"分享成功，奖励%@果币", @(money)] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
-            } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"分享成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-                [alert show];
-            }
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alert show];
-        }
-    }];
-}
-- (void)closeAction {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.contentView.frame = CGRectMake(0, CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds), 150);
-    } completion:^(BOOL finished) {
-        self.shareView.hidden = YES;
-    }];
-}
-
-- (UIView *)shareView {
-    if (!_shareView) {
-        _shareView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds))];
-        _shareView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.3];
-    }
-    return _shareView;
-}
-- (UIView *)contentView {
-    if (!_contentView) {
-        _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight([UIScreen mainScreen].bounds), CGRectGetWidth([UIScreen mainScreen].bounds), 150)];
-        _contentView.backgroundColor = [UIColor whiteColor];
-    }
-    return _contentView;
-}
-- (UIButton *)wechatButton {
-    if (!_wechatButton) {
-        _wechatButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _wechatButton.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) / 2.0 - 100, 0, 100, 100);
-        [_wechatButton setImage:[UIImage imageNamed:@"wechat"] forState:UIControlStateNormal];
-        [_wechatButton setTitle:@"微信好友" forState:UIControlStateNormal];
-        [_wechatButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _wechatButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_wechatButton setContentEdgeInsets:UIEdgeInsetsMake(0, - 60, - 60, 0)];
-        [_wechatButton setImageEdgeInsets:UIEdgeInsetsMake(- 80, 0, 0, - 110)];
-        [_wechatButton addTarget:self action:@selector(shareAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _wechatButton;
-}
-- (UIButton *)circleButton {
-    if (!_circleButton) {
-        _circleButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _circleButton.frame = CGRectMake(CGRectGetWidth([UIScreen mainScreen].bounds) / 2.0, 0, 100, 100);
-        [_circleButton setImage:[UIImage imageNamed:@"wechat_circle"] forState:UIControlStateNormal];
-        [_circleButton setTitle:@"朋友圈" forState:UIControlStateNormal];
-        [_circleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        _circleButton.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_circleButton setContentEdgeInsets:UIEdgeInsetsMake(0, - 60, - 60, 0)];
-        [_circleButton setImageEdgeInsets:UIEdgeInsetsMake(- 80, 0, 0, - 90)];
-        [_circleButton addTarget:self action:@selector(shareAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _circleButton;
 }
 
 

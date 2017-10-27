@@ -72,7 +72,7 @@
         cell.textLabel.text = @"我的红包";
     } else if (indexPath.row == 1) {
         cell.imageView.image = [UIImage imageNamed:@"transaction-record"];
-        cell.textLabel.text = @"转账记录";
+        cell.textLabel.text = @"我的账单";
     } else if (indexPath.row == 2) {
         cell.imageView.image = [UIImage imageNamed:@"lock_money"];
         cell.textLabel.text = @"冻结果币";

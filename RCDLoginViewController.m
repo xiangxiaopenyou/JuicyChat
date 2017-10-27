@@ -176,6 +176,8 @@ MBProgressHUD *hud;
   userNameTextField.backgroundColor = [UIColor clearColor];
   userNameTextField.tag = UserTextFieldTag;
   userNameTextField.delegate = self;
+    //userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
+    userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
   //_account.placeholder=[NSString stringWithFormat:@"Email"];
   UIColor *color = [UIColor whiteColor];
   userNameTextField.attributedPlaceholder = [[NSAttributedString alloc]
@@ -184,7 +186,6 @@ MBProgressHUD *hud;
   userNameTextField.textColor = [UIColor whiteColor];
   userNameTextField.text = [self getDefaultUserName];
   userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
   userNameTextField.adjustsFontSizeToFitWidth = YES;
 
   [_inputBackground addSubview:userNameTextField];

@@ -1,26 +1,19 @@
 //
-//  WCTransferRecordRequest.m
-//  RCloudMessage
+//  WCFetchBillTypesRequest.m
+//  SealTalk
 //
-//  Created by 项小盆友 on 2017/8/21.
+//  Created by 项小盆友 on 2017/10/19.
 //  Copyright © 2017年 RongCloud. All rights reserved.
 //
 
-#import "WCTransferRecordRequest.h"
+#import "WCFetchBillTypesRequest.h"
 
-@implementation WCTransferRecordRequest
+@implementation WCFetchBillTypesRequest
 - (void)request:(ParamsBlock)paramsBlock result:(RequestResultHandler)resultHandler {
     if (!paramsBlock(self)) {
         return;
     }
-    [self.params setObject:self.index forKey:@"index"];
-    if (self.date) {
-        [self.params setObject:self.date forKey:@"month"];
-    }
-    if (self.type) {
-        [self.params setObject:self.type forKey:@"type"];
-    }
-    [[RequestManager sharedInstance] POST:@"GetUserBills.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
+    [[RequestManager sharedInstance] POST:@"GetBillTypes.aspx" parameters:self.params success:^(NSURLSessionDataTask *task, id responseObject) {
         if ([responseObject[@"code"] integerValue] == 200) {
             !resultHandler ?: resultHandler(responseObject[@"data"], nil);
         } else {
@@ -30,5 +23,4 @@
         !resultHandler ?: resultHandler(nil, @"网络错误");
     }];
 }
-
 @end

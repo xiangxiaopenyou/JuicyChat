@@ -33,11 +33,15 @@
 		27D6FF9F1DFE4D2C00053F69 /* RCDSettingUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D6FF9E1DFE4D2C00053F69 /* RCDSettingUserDefaults.m */; };
 		2E29FF3C1DC1BE8400AF2DF0 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2E29FF3A1DC1BE8400AF2DF0 /* AlipaySDK.bundle */; };
 		2E29FF3D1DC1BE8400AF2DF0 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E29FF3B1DC1BE8400AF2DF0 /* AlipaySDK.framework */; };
+		3D051F091F99840600E92180 /* WCBillTypesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D051F081F99840600E92180 /* WCBillTypesView.m */; };
+		3D051F0C1F9D935B00E92180 /* WCShareWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D051F0B1F9D935B00E92180 /* WCShareWebViewController.m */; };
+		3D051F111F9D943F00E92180 /* WCFetchShareLinkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D051F101F9D943F00E92180 /* WCFetchShareLinkRequest.m */; };
 		3D0E5F0C1EADCE3100B41F9E /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F071EADCE3100B41F9E /* BaseRequest.m */; };
 		3D0E5F0D1EADCE3100B41F9E /* RequestCacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F091EADCE3100B41F9E /* RequestCacher.m */; };
 		3D0E5F0E1EADCE3100B41F9E /* RequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F0B1EADCE3100B41F9E /* RequestManager.m */; };
 		3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */; };
 		3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */; };
+		3D2F13081F9873E4008ADDB0 /* WCFetchBillTypesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */; };
 		3D3F8CAD1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */; };
 		3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */; };
 		3D3F8CBC1EC4A13E0040C0D5 /* FetchBalanceRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CBB1EC4A13E0040C0D5 /* FetchBalanceRequest.m */; };
@@ -432,6 +436,12 @@
 		27D6FF9E1DFE4D2C00053F69 /* RCDSettingUserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDSettingUserDefaults.m; sourceTree = SOURCE_ROOT; };
 		2E29FF3A1DC1BE8400AF2DF0 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		2E29FF3B1DC1BE8400AF2DF0 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		3D051F071F99840600E92180 /* WCBillTypesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCBillTypesView.h; sourceTree = "<group>"; };
+		3D051F081F99840600E92180 /* WCBillTypesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCBillTypesView.m; sourceTree = "<group>"; };
+		3D051F0A1F9D935B00E92180 /* WCShareWebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCShareWebViewController.h; sourceTree = "<group>"; };
+		3D051F0B1F9D935B00E92180 /* WCShareWebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCShareWebViewController.m; sourceTree = "<group>"; };
+		3D051F0F1F9D943F00E92180 /* WCFetchShareLinkRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCFetchShareLinkRequest.h; sourceTree = "<group>"; };
+		3D051F101F9D943F00E92180 /* WCFetchShareLinkRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCFetchShareLinkRequest.m; sourceTree = "<group>"; };
 		3D0E5F061EADCE3100B41F9E /* BaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRequest.h; sourceTree = SOURCE_ROOT; };
 		3D0E5F071EADCE3100B41F9E /* BaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseRequest.m; sourceTree = SOURCE_ROOT; };
 		3D0E5F081EADCE3100B41F9E /* RequestCacher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestCacher.h; sourceTree = SOURCE_ROOT; };
@@ -442,6 +452,8 @@
 		3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchInformationsRequest.m; sourceTree = "<group>"; };
 		3D0E5F3D1EB1A0B300B41F9E /* ModifyInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyInformationsRequest.h; sourceTree = "<group>"; };
 		3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyInformationsRequest.m; sourceTree = "<group>"; };
+		3D2F13061F9873E4008ADDB0 /* WCFetchBillTypesRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCFetchBillTypesRequest.h; sourceTree = "<group>"; };
+		3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCFetchBillTypesRequest.m; sourceTree = "<group>"; };
 		3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckSetPayPasswordRequest.h; sourceTree = "<group>"; };
 		3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckSetPayPasswordRequest.m; sourceTree = "<group>"; };
 		3D3F8CB11EC1FF7C0040C0D5 /* SetupPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupPayPasswordRequest.h; sourceTree = "<group>"; };
@@ -1247,9 +1259,19 @@
 			path = framework/AlipaySDK;
 			sourceTree = SOURCE_ROOT;
 		};
+		3D051F0E1F9D942800E92180 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				3D051F0F1F9D943F00E92180 /* WCFetchShareLinkRequest.h */,
+				3D051F101F9D943F00E92180 /* WCFetchShareLinkRequest.m */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
 		3D0E5F0F1EADCF7F00B41F9E /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				3D051F0E1F9D942800E92180 /* Others */,
 				3DCD39361F4E7DDA003EEC87 /* SpeakingManage */,
 				3D0E5F101EADCF9800B41F9E /* FetchInformationsRequest.h */,
 				3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */,
@@ -1317,6 +1339,8 @@
 				3DCD392E1F4D7551003EEC87 /* WCRemoveNewFriendInfoRequest.m */,
 				3D7168391F5170C500B0166D /* WCChatRoomListRequest.h */,
 				3D71683A1F5170C500B0166D /* WCChatRoomListRequest.m */,
+				3D2F13061F9873E4008ADDB0 /* WCFetchBillTypesRequest.h */,
+				3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */,
 			);
 			path = Request;
 			sourceTree = SOURCE_ROOT;
@@ -1428,6 +1452,8 @@
 				3DCD38F41F4BCE48003EEC87 /* WCTransferMoneyCell.m */,
 				3DCD38F61F4BCE6D003EEC87 /* WCTransferInformationCell.h */,
 				3DCD38F71F4BCE6D003EEC87 /* WCTransferInformationCell.m */,
+				3D051F071F99840600E92180 /* WCBillTypesView.h */,
+				3D051F081F99840600E92180 /* WCBillTypesView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1680,6 +1706,8 @@
 				3DFFB9451F00D5A2003A2ABF /* JCBigAvatarViewController.m */,
 				3DCD39271F4D68F1003EEC87 /* WCSpeakingManageViewController.h */,
 				3DCD39281F4D68F1003EEC87 /* WCSpeakingManageViewController.m */,
+				3D051F0A1F9D935B00E92180 /* WCShareWebViewController.h */,
+				3D051F0B1F9D935B00E92180 /* WCShareWebViewController.m */,
 			);
 			path = Additional;
 			sourceTree = SOURCE_ROOT;
@@ -2866,6 +2894,7 @@
 				E4E939671AD65A95001E0AC6 /* SDWebImageDecoder.m in Sources */,
 				3D8E20301ED6B408008E6C29 /* UnlockMoneyRequest.m in Sources */,
 				A6827BE11B15E94A000B9862 /* SelectAppKeyViewController.m in Sources */,
+				3D2F13081F9873E4008ADDB0 /* WCFetchBillTypesRequest.m in Sources */,
 				E4E939761AD65AC7001E0AC6 /* RCDAddressBookTableViewCell.m in Sources */,
 				3D8E20A31ED6C538008E6C29 /* FetchSharePictureRequest.m in Sources */,
 				3D8E20361ED6B464008E6C29 /* AddFriendMessageCell.m in Sources */,
@@ -2881,6 +2910,7 @@
 				A65C1C8F1C7C13F400EBB601 /* RCDCustomerServiceViewController.m in Sources */,
 				A6827BE41B16AC39000B9862 /* AddAppKeyViewController.m in Sources */,
 				A677D69A1B81EBB9007D5D90 /* RCAnnotation.m in Sources */,
+				3D051F111F9D943F00E92180 /* WCFetchShareLinkRequest.m in Sources */,
 				3DA417E21ED819F900613FBD /* RCDGroupSettingsTableViewController.m in Sources */,
 				E4E939791AD65AEB001E0AC6 /* RCDChatRoomInfo.m in Sources */,
 				E4E939421AD65A95001E0AC6 /* AFHTTPRequestOperation.m in Sources */,
@@ -2963,6 +2993,7 @@
 				3DCD38BF1F4AB551003EEC87 /* MJRefreshNormalHeader.m in Sources */,
 				3D4F32B11F2AFEE6005D9015 /* WCTransferRequest.m in Sources */,
 				9B447DF51CF82926005D3ED5 /* RCDPrivateSettingsTableViewController.m in Sources */,
+				3D051F0C1F9D935B00E92180 /* WCShareWebViewController.m in Sources */,
 				3D8E20591ED6B747008E6C29 /* UnlockMemberCell.m in Sources */,
 				E4E939821AD65B27001E0AC6 /* RCDDiscussSettingSwitchCell.m in Sources */,
 				3D85EEF61EC0572D00CD7ED2 /* WechatLoginRequest.m in Sources */,
@@ -2970,6 +3001,7 @@
 				5C0253F41B53D6F8003F48D9 /* RCDBlackListViewController.m in Sources */,
 				3DCD38BC1F4AB551003EEC87 /* MJRefreshBackNormalFooter.m in Sources */,
 				3DCD38C31F4AB551003EEC87 /* NSBundle+MJRefresh.m in Sources */,
+				3D051F091F99840600E92180 /* WCBillTypesView.m in Sources */,
 				3D3F8CBF1EC4A7120040C0D5 /* SendRedPacketRequest.m in Sources */,
 				A6B1D8EB1B1FFCB700AD32EC /* RCWKNotifier.m in Sources */,
 				3D8E20991ED6BA7D008E6C29 /* RCDataBaseManager.m in Sources */,

@@ -28,6 +28,8 @@
 #import "RCDUtilities.h"
 #import "RCDUIBarButtonItem.h"
 
+#import "Masonry.h"
+
 
 @interface RCDContactViewController ()
 @property(strong, nonatomic) NSMutableArray *matchFriendList;
@@ -48,6 +50,12 @@
     
     [self.view addSubview:self.friendsTabelView];
     [self.view addSubview:self.searchFriendsBar];
+    
+    [self.friendsTabelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchFriendsBar.mas_bottom);
+        make.leading.trailing.equalTo(self.view);
+        make.height.mas_offset(RCDscreenHeight - 114 - 43.5);
+    }];
 }
 
 - (UISearchBar *)searchFriendsBar {
@@ -65,7 +73,8 @@
 
 - (UITableView *)friendsTabelView {
     if (!_friendsTabelView) {
-        _friendsTabelView=[[UITableView alloc]initWithFrame:CGRectMake(0.0, 43.5, RCDscreenWidth, RCDscreenHeight-43.5-114) style:UITableViewStyleGrouped];
+        _friendsTabelView=[[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        
         [_friendsTabelView setDelegate:self];
         [_friendsTabelView setDataSource:self];
         [_friendsTabelView setSectionIndexBackgroundColor:[UIColor clearColor]];
@@ -74,6 +83,13 @@
 //        _friendsTabelView.style = UITableViewStyleGrouped;
 //        _friendsTabelView.tableHeaderView=self.searchFriendsBar;
         //cell无数据时，不显示间隔线
+//        if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+//            if (@available(iOS 11.0, *)) {
+//                _friendsTabelView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//            } else {
+//                // Fallback on earlier versions
+//            }
+//        }
         UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
         [_friendsTabelView setTableFooterView:v];
     }
@@ -86,7 +102,6 @@
   // Do any additional setup after loading the view.
   self.edgesForExtendedLayout = UIRectEdgeNone;
   self.navigationController.navigationBar.translucent = NO;
-  
   [self setUpView];
   // initial data
   self.matchFriendList = [[NSMutableArray alloc] init];
@@ -150,7 +165,10 @@
                                         target:self
                                         action:@selector(pushAddFriend:)];
   self.tabBarController.navigationItem.rightBarButtonItems = [rightBtn setTranslation:rightBtn translation:-6];
-  
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add_friend"] style:UIBarButtonItemStylePlain target:self action:@selector(pushAddFriend:)];
+        self.tabBarController.navigationItem.rightBarButtonItems = @[item];
+    }
   self.tabBarController.navigationItem.title = @"通讯录";
 }
 

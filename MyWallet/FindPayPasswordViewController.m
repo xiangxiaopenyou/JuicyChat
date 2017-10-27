@@ -40,8 +40,8 @@
 }
 - (IBAction)sendCodeAction:(id)sender {
     NSString *accountString = self.accountTextField.text;
-    if (accountString.length != 11 && ![self isValidateEmail:accountString]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"手机号或邮箱有误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    if (accountString.length != 11) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"手机号有误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         return;
     }

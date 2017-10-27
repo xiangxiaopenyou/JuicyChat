@@ -157,14 +157,14 @@
   //_account.placeholder=[NSString stringWithFormat:@"Email"];
   UIColor *color = [UIColor whiteColor];
   userNameTextField.attributedPlaceholder = [[NSAttributedString alloc]
-      initWithString:@"手机号或邮箱"
+      initWithString:@"手机号"
           attributes:@{NSForegroundColorAttributeName : color}];
   userNameTextField.textColor = [UIColor whiteColor];
   self.view.translatesAutoresizingMaskIntoConstraints = YES;
   userNameTextField.translatesAutoresizingMaskIntoConstraints = NO;
   userNameTextField.adjustsFontSizeToFitWidth = YES;
   userNameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    userNameTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    userNameTextField.keyboardType = UIKeyboardTypeNumberPad;
   [_inputBackground addSubview:userNameTextField];
   if (userNameTextField.text.length > 0) {
     [userNameTextField setFont:[UIFont fontWithName:@"Heiti SC" size:18.0]];
@@ -174,7 +174,7 @@
                         action:@selector(textFieldDidChange:)
               forControlEvents:UIControlEventEditingChanged];
   UILabel *userNameMsgLb = [[UILabel alloc] initWithFrame:CGRectZero];
-  userNameMsgLb.text = @"手机号或邮箱";
+  userNameMsgLb.text = @"手机号";
 
   userNameMsgLb.font = [UIFont fontWithName:@"Heiti SC" size:10.0];
   userNameMsgLb.translatesAutoresizingMaskIntoConstraints = NO;
@@ -759,7 +759,7 @@
           }];
   } else {
     [hud hide:YES];
-    _errorMsgLb.text = @"手机号或邮箱输入有误";
+    _errorMsgLb.text = @"手机号输入有误";
   }
 }
 
@@ -927,7 +927,7 @@
 //      [(UITextField *)[self.view viewWithTag:RePassWordFieldTag] text];
 
   if (userName.length == 0) {
-    _errorMsgLb.text = @"手机号或邮箱不能为空!";
+    _errorMsgLb.text = @"手机号不能为空!";
     return NO;
   }
   if (userPwd.length > 20) {

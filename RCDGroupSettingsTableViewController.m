@@ -98,6 +98,13 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
   self.tableView.backgroundColor = HEXCOLOR(0xf0f0f6);
   self.tableView.separatorColor = HEXCOLOR(0xdfdfdf);
   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        if (@available(iOS 11.0, *)) {
+            self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+    }
 
   // Uncomment the following line to preserve selection between presentations.
   // self.clearsSelectionOnViewWillAppear = NO;
@@ -794,7 +801,8 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
           rows = 3;
           break;
       case 2:
-          rows = isCreator ? 4 : 3;
+          //rows = isCreator ? 4 : 3;
+          rows = 3;
       break;
       case 3:
           rows = 1;
@@ -841,6 +849,9 @@ didFinishPickingMediaWithInfo:(NSDictionary *)info {
     return 0;
   }
   return 14.f;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [UIView new];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

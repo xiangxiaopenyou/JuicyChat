@@ -210,7 +210,11 @@
                                         target:self
                                         action:@selector(showMenu:)];
   self.tabBarController.navigationItem.rightBarButtonItems = [rightBtn setTranslation:rightBtn translation:-6];
-  
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu:)];
+        self.tabBarController.navigationItem.rightBarButtonItems = @[item];
+    }
+    
   self.tabBarController.navigationItem.title = @"果聊";
 
 //  [self notifyUpdateUnreadMessageCount];
@@ -403,9 +407,13 @@
 #endif
   ];
 
-  UIBarButtonItem *rightBarButton = self.tabBarController.navigationItem.rightBarButtonItems[1];
+  UIBarButtonItem *rightBarButton = self.tabBarController.navigationItem.rightBarButtonItems[0];
   CGRect targetFrame = rightBarButton.customView.frame;
-  targetFrame.origin.y = targetFrame.origin.y + 15;
+  targetFrame.origin.y = targetFrame.origin.y + 10;
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        targetFrame.origin.y = 44;
+        targetFrame.origin.x = RCDscreenWidth - 75;
+    }
   [KxMenu setTintColor:HEXCOLOR(0x000000)];
   [KxMenu setTitleFont:[UIFont systemFontOfSize:17]];
   [KxMenu showMenuInView:self.tabBarController.navigationController

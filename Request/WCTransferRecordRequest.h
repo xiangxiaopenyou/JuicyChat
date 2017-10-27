@@ -11,5 +11,6 @@
 @interface WCTransferRecordRequest : BaseRequest
 @property (copy, nonatomic) NSString *date;
 @property (strong, nonatomic) NSNumber *index;
+@property (copy, nonatomic) NSString *type;
 
 @end
