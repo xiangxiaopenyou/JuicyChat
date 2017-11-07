@@ -19,6 +19,7 @@
 #import "RCDPrivateSettingsTableViewController.h"
 #import "RCDRCIMDataSource.h"
 #import "RCDRoomSettingViewController.h"
+#import "WCTransferViewController.h"
 #import "RCDTestMessage.h"
 #import "RedPacketMessage.h"
 #import "PersonalCardMessage.h"
@@ -102,6 +103,11 @@ NSMutableDictionary *userInputStatus;
 }
 - (void)viewDidLoad {
   [super viewDidLoad];
+    if (@available(iOS 11.0, *)) {
+        self.conversationMessageCollectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
   self.enableSaveNewPhotoToLocalSystem = YES;
   [UIApplication sharedApplication].statusBarStyle =
       UIStatusBarStyleLightContent;
@@ -184,6 +190,9 @@ NSMutableDictionary *userInputStatus;
     if (self.conversationType == ConversationType_PRIVATE || self.conversationType == ConversationType_GROUP) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_red_packet"] title:@"红包" tag:PLUGIN_BOARD_ITEM_REDPACKET_TAG];
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
+        if (self.conversationType == ConversationType_PRIVATE) {
+            [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"icon_transfer"] title:@"转账" tag:PLUGIN_BOARD_ITEM_TRANSFER_TAG];
+        }
     } else if (self.conversationType == ConversationType_CHATROOM) {
         [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"actionbar_card_icon"] title:@"个人名片" tag:PLUGIN_BOARD_ITEM_CARD_TAG];
     }
@@ -521,10 +530,10 @@ NSMutableDictionary *userInputStatus;
     backBtn.frame = CGRectMake(0, 6, 87, 23);
     UIImageView *backImg = [[UIImageView alloc]
         initWithImage:[UIImage imageNamed:@"navigator_btn_back"]];
-    backImg.frame = CGRectMake(-6, 4, 10, 17);
+    backImg.frame = CGRectMake(-6, 8, 10, 17);
     [backBtn addSubview:backImg];
     UILabel *backText =
-        [[UILabel alloc] initWithFrame:CGRectMake(9, 4, 85, 17)];
+        [[UILabel alloc] initWithFrame:CGRectMake(9, 8, 85, 17)];
     backText.text = backString; // NSLocalizedStringFromTable(@"Back",
                                 // @"RongCloudKit", nil);
     //   backText.font = [UIFont systemFontOfSize:17];
@@ -600,6 +609,14 @@ NSMutableDictionary *userInputStatus;
           };
           UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:listViewController];
           [self presentViewController:navigation animated:YES completion:nil];
+      }
+          break;
+      case PLUGIN_BOARD_ITEM_TRANSFER_TAG: {
+          WCTransferViewController *transferController = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil] instantiateViewControllerWithIdentifier:@"Transfer"];
+          RCDUserInfo *friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.targetId];
+          transferController.userInfo = friendInfo;
+          UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:transferController];
+          [self presentViewController:navigationController animated:YES completion:nil];
       }
           break;
   default:
@@ -1191,6 +1208,9 @@ NSMutableDictionary *userInputStatus;
   }
 }
 
+- (void)willDisplayMessageCell:(RCMessageBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    cell.isDisplayReadStatus = NO;
+}
 - (void)gotoNextPage:(RCUserInfo *)user {
   NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
   BOOL isGotoDetailView = NO;
