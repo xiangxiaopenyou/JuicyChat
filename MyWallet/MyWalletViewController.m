@@ -17,6 +17,7 @@
 #import "FetchBalanceRequest.h"
 #import "MBProgressHUD.h"
 #import "RCDUtilities.h"
+#import "MJRefresh.h"
 
 @interface MyWalletViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *pocketMoneyLabel;
@@ -31,6 +32,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tableView.tableFooterView = [UIView new];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self fetchBalance];
+    }];
     
     [self fetchBalance];
 }
@@ -47,6 +51,7 @@
     [[FetchBalanceRequest new] request:^BOOL(id request) {
         return YES;
     } result:^(id object, NSString *msg) {
+        [self.tableView.mj_header endRefreshing];
         if (object) {
             self.pocketMoneyLabel.text = [RCDUtilities amountStringFromNumber:@([object[@"money"] integerValue])];
             self.tipLabel.text = [self countingString:[object[@"money"] integerValue]];

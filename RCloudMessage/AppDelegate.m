@@ -171,7 +171,7 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
   [RCIM sharedRCIM].enableTypingStatus = YES;
   
   //开启发送已读回执
-  [RCIM sharedRCIM].enabledReadReceiptConversationTypeList = @[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP)];
+  //[RCIM sharedRCIM].enabledReadReceiptConversationTypeList = @[/*@(ConversationType_PRIVATE),*/@(ConversationType_DISCUSSION)/*,@(ConversationType_GROUP)*/];
   
   //开启多端未读状态同步
   [RCIM sharedRCIM].enableSyncReadStatus = YES;
@@ -599,9 +599,11 @@ static NSString *const WECHATAPPID = @"wx0da4cc3e5489d38e";
       @(ConversationType_APPSERVICE),
       @(ConversationType_PUBLICSERVICE),
       @(ConversationType_GROUP)
-    ]];
-    [UIApplication sharedApplication].applicationIconBadgeNumber =
-        unreadMsgCount;
+      ]];
+      dispatch_async(dispatch_get_main_queue(), ^{
+          [UIApplication sharedApplication].applicationIconBadgeNumber =
+          unreadMsgCount;
+      });
   }
 }
 

@@ -82,6 +82,11 @@ static NSString *CellIdentifier = @"RCDBaseSettingTableViewCell";
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = HEXCOLOR(0xf0f0f6);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
     
 }
 

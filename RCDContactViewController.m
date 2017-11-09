@@ -225,7 +225,24 @@
 //如果没有该方法，tableView会默认显示footerView，其高度与headerView等高
 //另外如果return 0或者0.0f是没有效果的
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1f;
+    
+    return section == [self.resultDic[@"allKeys"] count] ? 50.f : 0.1f;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == [self.resultDic[@"allKeys"] count]) {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+        footerView.backgroundColor = [UIColor clearColor];
+        UILabel *countLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+        countLabel.textColor = [UIColor grayColor];
+        countLabel.font = [UIFont systemFontOfSize:16];
+        countLabel.textAlignment = NSTextAlignmentCenter;
+        NSArray *tempArray = [self getAllFriendList];
+        countLabel.text = tempArray.count > 0 ? [NSString stringWithFormat:@"%@位联系人", @(tempArray.count)] : nil;
+        [footerView addSubview:countLabel];
+        return footerView;
+    } else {
+        return nil;
+    }
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

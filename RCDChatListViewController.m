@@ -1114,6 +1114,14 @@ atIndexPath:(NSIndexPath *)indexPath
   [self refreshConversationTableViewIfNeeded];
 }
 
+#pragma mark - ConversationListView delegate
+- (void)willDisplayConversationTableCell:(RCConversationBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    if ([cell isKindOfClass:[RCConversationCell class]]) {
+        RCConversationCell *conversationCell = (RCConversationCell *)cell;
+        conversationCell.lastSendMessageStatusView.hidden = YES;
+    }
+}
+
 #pragma mark - UISearchBarDelegate
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
   [self.navigationController setNavigationBarHidden:YES animated:YES];

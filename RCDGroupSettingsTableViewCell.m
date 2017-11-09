@@ -9,6 +9,7 @@
 #import "RCDGroupSettingsTableViewCell.h"
 #import "RCDGroupInfo.h"
 #import "RCDUtilities.h"
+#import "WCUtils.h"
 #import <RongIMKit/RongIMKit.h>
 
 @implementation RCDGroupSettingsTableViewCell
@@ -72,11 +73,11 @@
         if (indexPath.row == 0) {
             [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"红包下限";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", @(groupInfo.redPacketLimit.integerValue)];
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", [WCUtils amountStringFromNumber:@(groupInfo.redPacketLimit.integerValue)]];
         } else if (indexPath.row == 1) {
             [self setCellStyle:DefaultStyle_RightLabel];
             self.leftLabel.text = @"冻结金额";
-            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", @(groupInfo.lockLimit.integerValue)];
+            self.rightLabel.text = [NSString stringWithFormat:@"%@ 果币", [WCUtils amountStringFromNumber:@(groupInfo.lockLimit.integerValue)]];
         } else if (indexPath.row == 2) {
             [self setCellStyle:DefaultStyle];
             self.leftLabel.text = @"解除冻结";
