@@ -10,6 +10,7 @@
 #import "LockDetailCell.h"
 #import "LockMoneyDetailRequest.h"
 #import "UIImageView+WebCache.h"
+#import "WCUtils.h"
 
 @interface LockedDetailTableViewController ()
 @property (copy, nonatomic) NSArray *detailArray;
@@ -74,7 +75,7 @@
     cell.nameLabel.text = [NSString stringWithFormat:@"%@", temp[@"groupname"]];
     NSString *timeString = [self timeStringFromDate:temp[@"locktime"]];
     cell.timeLabel.text = timeString;
-    cell.amountLabel.text = [NSString stringWithFormat:@"- %@", @([temp[@"lockmoney"] integerValue])];
+    cell.amountLabel.text = [NSString stringWithFormat:@"- %@", [WCUtils amountStringFromNumber:@([temp[@"lockmoney"] integerValue])]];
     return cell;
 }
 

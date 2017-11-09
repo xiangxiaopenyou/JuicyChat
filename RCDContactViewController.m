@@ -237,7 +237,7 @@
         countLabel.font = [UIFont systemFontOfSize:16];
         countLabel.textAlignment = NSTextAlignmentCenter;
         NSArray *tempArray = [self getAllFriendList];
-        countLabel.text = tempArray.count > 0 ? [NSString stringWithFormat:@"共%@位联系人", @(tempArray.count)] : nil;
+        countLabel.text = tempArray.count > 0 ? [NSString stringWithFormat:@"%@位联系人", @(tempArray.count)] : nil;
         [footerView addSubview:countLabel];
         return footerView;
     } else {

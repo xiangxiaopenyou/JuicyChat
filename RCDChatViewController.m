@@ -52,6 +52,7 @@
 #import "TakeApartRequest.h"
 #import "RedPacketMembersRequest.h"
 #import "MBProgressHUD.h"
+#import "MBProgressHUD+Add.h"
 #import "MyFriendsListTableViewController.h"
 
 @interface RCDChatViewController () <
@@ -582,33 +583,82 @@ NSMutableDictionary *userInputStatus;
 
   } break;
       case PLUGIN_BOARD_ITEM_REDPACKET_TAG: {
-          RedPacketViewController *redPacket = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil]  instantiateViewControllerWithIdentifier:@"RedPacketView"];
-          redPacket.type = self.conversationType;
-          if (self.conversationType == ConversationType_GROUP) {
-              RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
-              redPacket.groupInfo = info;
-          } else if (self.conversationType == ConversationType_PRIVATE) {
-              redPacket.toId = self.targetId;
-          }
-          redPacket.successBlock = ^(NSString *packetId, NSString *note) {
-              if (packetId && note) {
-                  NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
-                  dispatch_async(dispatch_get_main_queue(), ^{
-                      [self sendRedPacketMessage:packetId note:note userId:userId toUserId:self.targetId];
-                  });
+          BOOL canSendRedPacket = YES;
+          if (self.conversationType == ConversationType_PRIVATE) {
+              RCDUserInfo *friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.targetId];
+              if (friendInfo.status.integerValue != 1) {
+                  canSendRedPacket = NO;
               }
-          };
-          UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:redPacket];
-          [self presentViewController:navigation animated:YES completion:nil];
+          } else if (self.conversationType == ConversationType_GROUP) {
+              RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
+              if (!info) {
+                  canSendRedPacket = NO;
+              }
+          } else {
+              canSendRedPacket = NO;
+          }
+          if (canSendRedPacket) {
+              RedPacketViewController *redPacket = [[UIStoryboard storyboardWithName:@"RedPacket" bundle:nil]  instantiateViewControllerWithIdentifier:@"RedPacketView"];
+              redPacket.type = self.conversationType;
+              if (self.conversationType == ConversationType_GROUP) {
+                  RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
+                  redPacket.groupInfo = info;
+              } else if (self.conversationType == ConversationType_PRIVATE) {
+                  redPacket.toId = self.targetId;
+              }
+              redPacket.successBlock = ^(NSString *packetId, NSString *note) {
+                  if (packetId && note) {
+                      NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          [self sendRedPacketMessage:packetId note:note userId:userId toUserId:self.targetId];
+                      });
+                  }
+              };
+              UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:redPacket];
+              [self presentViewController:navigation animated:YES completion:nil];
+          } else {
+              NSString *tipString = nil;
+              if (self.conversationType == ConversationType_GROUP) {
+                  tipString = @"群组已经解散或不存在";
+              } else if (self.conversationType == ConversationType_PRIVATE) {
+                  tipString = @"好友不存在";
+              }
+              [MBProgressHUD showError:tipString toView:self.view];
+          }
       }
           break;
       case PLUGIN_BOARD_ITEM_CARD_TAG: {
-          MyFriendsListTableViewController *listViewController = [[MyFriendsListTableViewController alloc] init];
-          listViewController.selectBlock = ^(RCDUserInfo *userInfo) {
-              [self sendPersonalCardMessage:userInfo];
-          };
-          UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:listViewController];
-          [self presentViewController:navigation animated:YES completion:nil];
+          BOOL canSendRedPacket = YES;
+          if (self.conversationType == ConversationType_PRIVATE) {
+              RCDUserInfo *friendInfo = [[RCDataBaseManager shareInstance] getFriendInfo:self.targetId];
+              if (friendInfo.status.integerValue != 1) {
+                  canSendRedPacket = NO;
+              }
+          } else if (self.conversationType == ConversationType_GROUP) {
+              RCDGroupInfo *info = [[RCDataBaseManager shareInstance] getGroupByGroupId:self.targetId];
+              if (!info) {
+                  canSendRedPacket = NO;
+              }
+          } else {
+              canSendRedPacket = NO;
+          }
+          if (canSendRedPacket) {
+              MyFriendsListTableViewController *listViewController = [[MyFriendsListTableViewController alloc] init];
+              listViewController.selectBlock = ^(RCDUserInfo *userInfo) {
+                  [self sendPersonalCardMessage:userInfo];
+              };
+              UINavigationController *navigation = [[UINavigationController alloc] initWithRootViewController:listViewController];
+              [self presentViewController:navigation animated:YES completion:nil];
+          } else {
+              NSString *tipString = nil;
+              if (self.conversationType == ConversationType_GROUP) {
+                  tipString = @"群组已经解散或不存在";
+              } else if (self.conversationType == ConversationType_PRIVATE) {
+                  tipString = @"好友不存在";
+              }
+              [MBProgressHUD showError:tipString toView:self.view];
+          }
+          
       }
           break;
       case PLUGIN_BOARD_ITEM_TRANSFER_TAG: {
@@ -1208,9 +1258,9 @@ NSMutableDictionary *userInputStatus;
   }
 }
 
-- (void)willDisplayMessageCell:(RCMessageBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    cell.isDisplayReadStatus = NO;
-}
+//- (void)willDisplayMessageCell:(RCMessageBaseCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+//    cell.isDisplayReadStatus = NO;
+//}
 - (void)gotoNextPage:(RCUserInfo *)user {
   NSArray *friendList = [[RCDataBaseManager shareInstance] getAllFriends];
   BOOL isGotoDetailView = NO;

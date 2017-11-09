@@ -44,8 +44,14 @@
   self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
   self.tableView.tableFooterView = [UIView new];
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        // Fallback on earlier versions
+    }
   
   self.title = @"黑名单";
+    
 }
 
 #pragma mark - private

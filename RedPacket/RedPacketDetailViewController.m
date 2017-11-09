@@ -80,7 +80,7 @@
                     if (self.isPrivateChat) {
                         NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                         if (userId.integerValue == [temp[@"fromuserid"] integerValue]) {
-                            self.detailLabel.text = [NSString stringWithFormat:@"红包金额%@果币，等待对方领取", temp[@"money"]];
+                            self.detailLabel.text = [NSString stringWithFormat:@"红包金额%@果币，等待对方领取", [RCDUtilities amountStringFromNumber:@([temp[@"money"] integerValue])]];
                         } else {
                             self.detailLabel.text = nil;
                         }
@@ -92,21 +92,21 @@
                         } else {
                             unpacksummoney = [temp[@"unpacksummoney"] integerValue];
                         }
-                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@果币", @([temp[@"unpackcount"] integerValue]), temp[@"count"], @(unpacksummoney), @([temp[@"money"] integerValue])];
+                        self.detailLabel.text = [NSString stringWithFormat:@"已领取%@/%@个, 共%@/%@果币", @([temp[@"unpackcount"] integerValue]), temp[@"count"], [RCDUtilities amountStringFromNumber:@(unpacksummoney)], [RCDUtilities amountStringFromNumber:@([temp[@"money"] integerValue])]];
                     }
                     
                 } else {
                     if (self.isPrivateChat) {
                         NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:@"userId"];
                         if (userId.integerValue == [temp[@"fromuserid"] integerValue]) {
-                            self.detailLabel.text = [NSString stringWithFormat:@"1个红包共%@果币", temp[@"money"]];
+                            self.detailLabel.text = [NSString stringWithFormat:@"1个红包共%@果币", [RCDUtilities amountStringFromNumber:@([temp[@"money"] integerValue])]];
                         } else {
                             self.detailLabel.text = nil;
                         }
                     } else {
                         NSInteger second = [temp[@"duration"] integerValue];
                         NSString *timeString = [self timeString:second];
-                        self.detailLabel.text = [NSString stringWithFormat:@"%@个红包共%@果币，%@被抢光", temp[@"count"], temp[@"money"], timeString];
+                        self.detailLabel.text = [NSString stringWithFormat:@"%@个红包共%@果币，%@被抢光", temp[@"count"], [RCDUtilities amountStringFromNumber:@([temp[@"money"] integerValue])], timeString];
                     }
                     
                 }

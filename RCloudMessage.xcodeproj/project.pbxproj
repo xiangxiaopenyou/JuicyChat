@@ -41,6 +41,7 @@
 		3D0E5F0E1EADCE3100B41F9E /* RequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F0B1EADCE3100B41F9E /* RequestManager.m */; };
 		3D0E5F121EADCF9800B41F9E /* FetchInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */; };
 		3D0E5F3F1EB1A0B300B41F9E /* ModifyInformationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */; };
+		3D22AECD1FB18F570052992C /* WCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D22AECC1FB18F570052992C /* WCUtils.m */; };
 		3D2F13081F9873E4008ADDB0 /* WCFetchBillTypesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */; };
 		3D3F8CAD1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CAC1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.m */; };
 		3D3F8CB31EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D3F8CB21EC1FF7C0040C0D5 /* SetupPayPasswordRequest.m */; };
@@ -452,6 +453,8 @@
 		3D0E5F111EADCF9800B41F9E /* FetchInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchInformationsRequest.m; sourceTree = "<group>"; };
 		3D0E5F3D1EB1A0B300B41F9E /* ModifyInformationsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyInformationsRequest.h; sourceTree = "<group>"; };
 		3D0E5F3E1EB1A0B300B41F9E /* ModifyInformationsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyInformationsRequest.m; sourceTree = "<group>"; };
+		3D22AECB1FB18F570052992C /* WCUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCUtils.h; sourceTree = SOURCE_ROOT; };
+		3D22AECC1FB18F570052992C /* WCUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCUtils.m; sourceTree = SOURCE_ROOT; };
 		3D2F13061F9873E4008ADDB0 /* WCFetchBillTypesRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WCFetchBillTypesRequest.h; sourceTree = "<group>"; };
 		3D2F13071F9873E4008ADDB0 /* WCFetchBillTypesRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WCFetchBillTypesRequest.m; sourceTree = "<group>"; };
 		3D3F8CAB1EC1F7530040C0D5 /* CheckSetPayPasswordRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckSetPayPasswordRequest.h; sourceTree = "<group>"; };
@@ -2026,6 +2029,8 @@
 				3D8E20961ED6BA7D008E6C29 /* RCDataBaseManager.m */,
 				3D8E20971ED6BA7D008E6C29 /* RCDHttpTool.h */,
 				3D8E20981ED6BA7D008E6C29 /* RCDHttpTool.m */,
+				3D22AECB1FB18F570052992C /* WCUtils.h */,
+				3D22AECC1FB18F570052992C /* WCUtils.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -3104,6 +3109,7 @@
 				A61647881BE9BF7C00E90813 /* RCDMeInfoTableViewController.m in Sources */,
 				466684271B5DEA5B000B7504 /* RCDConversationSettingBaseViewController.m in Sources */,
 				3DFF527D1EBC828F00CDF351 /* MASCompositeConstraint.m in Sources */,
+				3D22AECD1FB18F570052992C /* WCUtils.m in Sources */,
 				9B447DE81CF82926005D3ED5 /* RCDContactSelectedTableViewController.m in Sources */,
 				174151F51CBE516A00A4B23B /* RCDPublicServiceListViewController.m in Sources */,
 				A6447A3F1B1DC12500EA2CEE /* RCWKSharedUserDefault.m in Sources */,
